@@ -1214,45 +1214,15 @@ public class Generator
 
 	}
 
-	bool ArmNeedStret(MethodInfo mi)
-	{
-		Type t = mi.ReturnType;
-
-		if (!t.IsValueType || t.IsEnum || t.Assembly == typeof(object).Assembly)
-			return false;
-
-		return true;
-	}
-
-	bool X86NeedStret(MethodInfo mi)
-	{
-		Type t = mi.ReturnType;
-
-		if (!t.IsValueType || t.IsEnum || t.Assembly == typeof(object).Assembly)
-			return false;
-
-#if MAC64
-		return Marshal.SizeOf(t) > 16;
-#else
-		return Marshal.SizeOf (t) > 8;
-#endif
-	}
-
-	bool NeedStret(MethodInfo mi)
-	{
-		return ArmNeedStret(mi) || X86NeedStret(mi);
-	}
-
-
 	void DeclareInvoker(MethodInfo mi)
 	{
-		bool arm_stret = ArmNeedStret(mi);
+		bool arm_stret = Stret.ArmNeedStret(mi.ReturnType, this);
 		try
 		{
 			RegisterMethod(arm_stret, mi, MakeSig(mi, arm_stret));
 			RegisterMethod(arm_stret, mi, MakeSuperSig(mi, arm_stret));
 
-			bool x86_stret = X86NeedStret(mi);
+			bool x86_stret = Stret.X86NeedStret(mi.ReturnType, this);
 			if (x86_stret != arm_stret)
 			{
 				RegisterMethod(x86_stret, mi, MakeSig(mi, x86_stret));
@@ -2157,7 +2127,7 @@ public class Generator
 		print(w, from ns in implicit_ns select "using " + ns + ";");
 		print(w, "");
 	}
-
+	
 	void GenerateInvoke(bool stret, bool supercall, MethodInfo mi, string selector, string args, bool assign_to_temp, bool is_static, Type category_type)
 	{
 		string target_name = category_type == null ? "this" : "This";
@@ -2283,14 +2253,29 @@ public class Generator
 
 	void GenerateInvoke(bool supercall, MethodInfo mi, string selector, string args, bool assign_to_temp, bool is_static, Type category_type)
 	{
-		bool arm_stret = ArmNeedStret(mi);
-		bool x86_stret = X86NeedStret(mi);
+		var returnType = mi.ReturnType;
+		bool x64_stret = Stret.X86_64NeedStret (returnType, this);
 
-		if (OnlyX86)
-		{
-			GenerateInvoke(x86_stret, supercall, mi, selector, args, assign_to_temp, is_static, category_type);
+		// if (CurrentPlatform == PlatformName.MacOSX || CurrentPlatform == PlatformName.MacCatalyst) {
+		if (OnlyX86) {
+			if (x64_stret) {
+				print ("if (global::MonoMac.ObjCRuntime.Runtime.IsARM64CallingConvention) {");
+				indent++;
+				GenerateInvoke (false, supercall, mi, selector, args, assign_to_temp, is_static, category_type);
+				indent--;
+				print ("} else {");
+				indent++;
+				GenerateInvoke (x64_stret, supercall, mi, selector, args, assign_to_temp, is_static, category_type);
+				indent--;
+				print ("}");
+			} else {
+				GenerateInvoke (false, supercall, mi, selector, args, assign_to_temp, is_static, category_type);
+			}
 			return;
 		}
+
+		bool arm_stret = Stret.ArmNeedStret(returnType, this);
+		bool x86_stret = Stret.X86NeedStret(returnType, this);
 
 		bool need_two_paths = arm_stret != x86_stret;
 		if (need_two_paths)
@@ -2643,7 +2628,7 @@ public class Generator
 		bool release_return = HasAttribute(mi.ReturnTypeCustomAttributes, typeof(ReleaseAttribute));
 		bool use_temp_return =
 			release_return ||
-			(mi.Name != "Constructor" && (NeedStret(mi) || disposes.Length > 0 || postget != null) && mi.ReturnType != typeof(void)) ||
+			(mi.Name != "Constructor" && (Stret.NeedStret(mi.ReturnType, this) || disposes.Length > 0 || postget != null) && mi.ReturnType != typeof(void)) ||
 			(HasAttribute(mi, typeof(FactoryAttribute))) ||
 			((body_options & BodyOption.NeedsTempReturn) == BodyOption.NeedsTempReturn) ||
 			(mi.ReturnType.IsSubclassOf(typeof(Delegate))) ||

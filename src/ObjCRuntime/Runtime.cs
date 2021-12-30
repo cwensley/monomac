@@ -51,6 +51,8 @@ namespace MonoMac.ObjCRuntime
 		{
 			get; set;
 		}
+		
+		public static readonly bool IsARM64CallingConvention;
 
 		static Runtime()
 		{
@@ -76,10 +78,47 @@ namespace MonoMac.ObjCRuntime
 
 			ResourcesPath = Path.Combine(basePath, "Resources");
 			FrameworksPath = Path.Combine(basePath, "Frameworks");
+			IsARM64CallingConvention = GetIsARM64CallingConvention();
 
 			IntPtrEqualityComparer = new IntPtrEqualityComparer ();
 			TypeEqualityComparer = new TypeEqualityComparer ();
 		}
+		
+		
+		private enum NXByteOrder
+		{
+			Unknown,
+			LittleEndian,
+			BigEndian
+		}		
+
+		private struct NXArchInfo
+		{
+			private IntPtr name;
+
+			public int CpuType;
+
+			public int CpuSubType;
+
+			public NXByteOrder ByteOrder;
+
+			private IntPtr description;
+
+			public string Name => Marshal.PtrToStringAuto(name);
+
+			public string Description => Marshal.PtrToStringAuto(description);
+		}		
+
+		[DllImport("/usr/lib/libSystem.dylib")]
+		private unsafe static extern NXArchInfo* NXGetLocalArchInfo();		
+		private unsafe static bool GetIsARM64CallingConvention()
+		{
+			if (IntPtr.Size != 8)
+			{
+				return false;
+			}
+			return NXGetLocalArchInfo()->Name.StartsWith("arm64");
+		}		
 
 		public static void RegisterAssembly(Assembly a)
 		{

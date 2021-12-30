@@ -118,7 +118,7 @@ namespace MonoMac.ObjCRuntime {
 		}
 
 		private Type ConvertReturnType (Type type) {
-			if (type.IsValueType && !type.IsEnum && type.Assembly != typeof (object).Assembly && Marshal.SizeOf (type) > IntPtr.Size * 2) {
+			if (!Runtime.IsARM64CallingConvention && type.IsValueType && !type.IsEnum && type.Assembly != typeof (object).Assembly && Marshal.SizeOf (type) > IntPtr.Size * 2) {
 				isstret = true;
 				return typeof (void);
 			}
