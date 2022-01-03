@@ -92,6 +92,7 @@ namespace MonoMac.ObjCRuntime
 			BigEndian
 		}		
 
+#pragma warning disable 0649
 		private struct NXArchInfo
 		{
 			private IntPtr name;
@@ -108,6 +109,7 @@ namespace MonoMac.ObjCRuntime
 
 			public string Description => Marshal.PtrToStringAuto(description);
 		}		
+#pragma warning restore 0649
 
 		[DllImport("/usr/lib/libSystem.dylib")]
 		private unsafe static extern NXArchInfo* NXGetLocalArchInfo();		
