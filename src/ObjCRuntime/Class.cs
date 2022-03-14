@@ -45,6 +45,11 @@ namespace MonoMac.ObjCRuntime {
 
 		internal IntPtr handle;
 
+#if DEBUG
+		static bool? enableLogging;
+		static bool EnableLogging => enableLogging ?? (enableLogging = string.Equals(Environment.GetEnvironmentVariable("MONOMAC_LOGGING"), "1")) ?? false;
+#endif
+
 		public Class (string name) {
 			this.handle = objc_getClass (name);
 
@@ -222,7 +227,8 @@ namespace MonoMac.ObjCRuntime {
 					class_addMethod (handle, builder.Selector, builder.Delegate, builder.Signature);
 					method_wrappers.Add (builder.Delegate);
 #if DEBUG
-					Console.WriteLine ("[CTOR] Registering {0}[0x{1:x}|{2}] on {3} -> ({4})", "init", builder.Selector, builder.Signature, type, default_ctor);
+					if (EnableLogging)
+						Console.WriteLine ("[CTOR] Registering {0}[0x{1:x}|{2}] on {3} -> ({4})", "init", builder.Selector, builder.Signature, type, default_ctor);
 #endif
 				}
 
@@ -235,7 +241,8 @@ namespace MonoMac.ObjCRuntime {
 					class_addMethod (handle, builder.Selector, builder.Delegate, builder.Signature);
 					method_wrappers.Add (builder.Delegate);
 #if DEBUG
-					Console.WriteLine ("[CTOR] Registering {0}[0x{1:x}|{2}] on {3} -> ({4})", ea.Selector, builder.Selector, builder.Signature, type, cinfo);
+					if (EnableLogging)
+						Console.WriteLine ("[CTOR] Registering {0}[0x{1:x}|{2}] on {3} -> ({4})", ea.Selector, builder.Selector, builder.Signature, type, cinfo);
 #endif
 				}
 
@@ -462,7 +469,8 @@ retl    $0x4                   */  0xc2, 0x04, 0x00,                            
 			lock (lock_obj)
 				method_wrappers.Add (builder.Delegate);
 #if DEBUG
-			Console.WriteLine ("[METHOD] Registering {0}[0x{1:x}|{2}] on {3} -> ({4})", ea.Selector, builder.Selector, builder.Signature, type, minfo);
+			if (EnableLogging)
+				Console.WriteLine ("[METHOD] Registering {0}[0x{1:x}|{2}] on {3} -> ({4})", ea.Selector, builder.Selector, builder.Signature, type, minfo);
 #endif
 		}
 
