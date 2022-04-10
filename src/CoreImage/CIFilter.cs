@@ -371,7 +371,7 @@ namespace MonoMac.CoreImage {
 		protected CIAffineFilter (string name) : base (CreateFilter (name)) {}
 		protected CIAffineFilter (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -449,7 +449,7 @@ namespace MonoMac.CoreImage {
 		public CIColorControls () : base (CreateFilter ("CIColorControls")) {}
 		public CIColorControls (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -491,7 +491,7 @@ namespace MonoMac.CoreImage {
 		public CIColorCube () : base (CreateFilter ("CIColorCube")) {}
 		public CIColorCube (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -524,7 +524,7 @@ namespace MonoMac.CoreImage {
 		public CIColorInvert () : base (CreateFilter ("CIColorInvert")) {}
 		public CIColorInvert (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -539,7 +539,7 @@ namespace MonoMac.CoreImage {
 		public CIColorMatrix () : base (CreateFilter ("CIColorMatrix")) {}
 		public CIColorMatrix (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -599,7 +599,7 @@ namespace MonoMac.CoreImage {
 		public CIColorMonochrome () : base (CreateFilter ("CIColorMonochrome")) {}
 		public CIColorMonochrome (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -647,7 +647,7 @@ namespace MonoMac.CoreImage {
 		public CICrop () : base (CreateFilter ("CICrop")) {}
 		public CICrop (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -671,7 +671,7 @@ namespace MonoMac.CoreImage {
 		public CIExposureAdjust () : base (CreateFilter ("CIExposureAdjust")) {}
 		public CIExposureAdjust (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -695,7 +695,7 @@ namespace MonoMac.CoreImage {
 		public CIFalseColor () : base (CreateFilter ("CIFalseColor")) {}
 		public CIFalseColor (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -728,7 +728,7 @@ namespace MonoMac.CoreImage {
 		public CIGammaAdjust () : base (CreateFilter ("CIGammaAdjust")) {}
 		public CIGammaAdjust (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -794,7 +794,7 @@ namespace MonoMac.CoreImage {
 		public CIHighlightShadowAdjust () : base (CreateFilter ("CIHighlightShadowAdjust")) {}
 		public CIHighlightShadowAdjust (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -827,7 +827,7 @@ namespace MonoMac.CoreImage {
 		public CIHueAdjust () : base (CreateFilter ("CIHueAdjust")) {}
 		public CIHueAdjust (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -943,7 +943,7 @@ namespace MonoMac.CoreImage {
 		protected CICompositingFilter (string name) : base (name) {}
 		protected CICompositingFilter (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -1060,7 +1060,7 @@ namespace MonoMac.CoreImage {
 		protected CIBlendFilter (string name) : base (name) {}
 		protected CIBlendFilter (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -1495,7 +1495,7 @@ namespace MonoMac.CoreImage {
 		protected CITransitionFilter (string name) : base (CreateFilter (name)) {}
 		protected CITransitionFilter (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -1581,7 +1581,7 @@ namespace MonoMac.CoreImage {
 		public CISepiaTone () : base (CreateFilter ("CISepiaTone")) {}
 		public CISepiaTone (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -1605,7 +1605,7 @@ namespace MonoMac.CoreImage {
 		public CIStraightenFilter () : base (CreateFilter ("CIStraightenFilter")) {}
 		public CIStraightenFilter (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -1680,7 +1680,7 @@ namespace MonoMac.CoreImage {
 		public CITemperatureAndTint () : base (CreateFilter ("CITemperatureAndTint")) {}
 		public CITemperatureAndTint (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -1712,7 +1712,7 @@ namespace MonoMac.CoreImage {
 		public CIToneCurve () : base (CreateFilter ("CIToneCurve")) {}
 		public CIToneCurve (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -1771,7 +1771,7 @@ namespace MonoMac.CoreImage {
 		public CIVibrance () : base (CreateFilter ("CIVibrance")) {}
 		public CIVibrance (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -1795,7 +1795,7 @@ namespace MonoMac.CoreImage {
 		public CIVignette () : base (CreateFilter ("CIVignette")) {}
 		public CIVignette (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -1828,7 +1828,7 @@ namespace MonoMac.CoreImage {
 		public CIWhitePointAdjust () : base (CreateFilter ("CIWhitePointAdjust")) {}
 		public CIWhitePointAdjust (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -1852,7 +1852,7 @@ namespace MonoMac.CoreImage {
 		public CIBloom () : base ("CIBloom") {}
 		public CIBloom (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -1937,7 +1937,7 @@ namespace MonoMac.CoreImage {
 		protected CIScreenFilter (string name) : base (name) {}
 		protected CIScreenFilter (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -1981,7 +1981,7 @@ namespace MonoMac.CoreImage {
 		public CIColorMap () : base ("CIColorMap") {}
 		public CIColorMap (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2005,7 +2005,7 @@ namespace MonoMac.CoreImage {
 		public CIColorPosterize () : base ("CIColorPosterize") {}
 		public CIColorPosterize (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2030,7 +2030,7 @@ namespace MonoMac.CoreImage {
 		public CIDepthOfField () : base ("CIDepthOfField") {}
 		public CIDepthOfField (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2168,7 +2168,7 @@ namespace MonoMac.CoreImage {
 		protected CITileFilter (string name) : base (name) {}
 		protected CITileFilter (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2212,7 +2212,7 @@ namespace MonoMac.CoreImage {
 		public CIGaussianBlur () : base ("CIGaussianBlur") {}
 		public CIGaussianBlur (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2236,7 +2236,7 @@ namespace MonoMac.CoreImage {
 		public CIGloom () : base ("CIGloom") {}
 		public CIGloom (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2317,7 +2317,7 @@ namespace MonoMac.CoreImage {
 		protected CIDistortionFilter (string name) : base (name) {}
 		protected CIDistortionFilter (IntPtr handle) : base (handle) {}
 	
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2352,7 +2352,7 @@ namespace MonoMac.CoreImage {
 		public CILanczosScaleTransform () : base ("CILanczosScaleTransform") {}
 		public CILanczosScaleTransform (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2386,7 +2386,7 @@ namespace MonoMac.CoreImage {
 		public CILightTunnel () : base ("CILightTunnel") {}
 		public CILightTunnel (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2429,7 +2429,7 @@ namespace MonoMac.CoreImage {
 		public CIMaskToAlpha () : base ("CIMaskToAlpha") {}
 		public CIMaskToAlpha (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2444,7 +2444,7 @@ namespace MonoMac.CoreImage {
 		public CIMaximumComponent () : base ("CIMaximumComponent") {}
 		public CIMaximumComponent (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2459,7 +2459,7 @@ namespace MonoMac.CoreImage {
 		public CIMinimumComponent () : base ("CIMinimumComponent") {}
 		public CIMinimumComponent (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2474,7 +2474,7 @@ namespace MonoMac.CoreImage {
 		public CIPerspectiveTile () : base ("CIPerspectiveTile") {}
 		public CIPerspectiveTile (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2525,7 +2525,7 @@ namespace MonoMac.CoreImage {
 		public CIPerspectiveTransform () : base ("CIPerspectiveTransform") {}
 		public CIPerspectiveTransform (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2576,7 +2576,7 @@ namespace MonoMac.CoreImage {
 		public CIPixellate () : base ("CIPixellate") {}
 		public CIPixellate (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2615,7 +2615,7 @@ namespace MonoMac.CoreImage {
 		public CISharpenLuminance () : base ("CISharpenLuminance") {}
 		public CISharpenLuminance (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2639,7 +2639,7 @@ namespace MonoMac.CoreImage {
 		public CIStarShineGenerator () : base ("CIStarShineGenerator") {}
 		public CIStarShineGenerator (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2718,7 +2718,7 @@ namespace MonoMac.CoreImage {
 		public CITriangleKaleidoscope () : base ("CITriangleKaleidoscope") {}
 		public CITriangleKaleidoscope (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}
@@ -2770,7 +2770,7 @@ namespace MonoMac.CoreImage {
 		public CIUnsharpMask () : base ("CIUnsharpMask") {}
 		public CIUnsharpMask (IntPtr handle) : base (handle) {}
 
-		public CIImage Image {
+		public CIImage InputImage {
 			get {
 				return GetInputImage ();
 			}

@@ -44,14 +44,6 @@ using CGRect = System.Drawing.RectangleF;
 namespace MonoMac.Foundation {
 
 	public partial class NSMutableDictionary : IDictionary, IDictionary<NSObject, NSObject> {
-		
-		// some API, like SecItemCopyMatching, returns a retained NSMutableDictionary
-		internal NSMutableDictionary (IntPtr handle, bool owns)
-			: base (handle)
-		{
-			if (!owns)
-				Release ();
-		}
 
 		public static NSMutableDictionary FromObjectsAndKeys (NSObject [] objects, NSObject [] keys)
 		{

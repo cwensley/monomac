@@ -2924,17 +2924,17 @@ namespace MonoMac.AppKit {
 		[Mac (10, 14, onlyOn64: true)]
 		[Static]
 		[Export ("separatorColor", ArgumentSemantic.Strong)]
-		NSColor SeparatorColor { get; }
+		NSColor Separator { get; }
 
 		[Mac (10, 14, onlyOn64: true)]
 		[Static]
 		[Export ("selectedContentBackgroundColor", ArgumentSemantic.Strong)]
-		NSColor SelectedContentBackgroundColor { get; }
+		NSColor SelectedContentBackground { get; }
 
 		[Mac (10, 14, onlyOn64: true)]
 		[Static]
 		[Export ("unemphasizedSelectedContentBackgroundColor", ArgumentSemantic.Strong)]
-		NSColor UnemphasizedSelectedContentBackgroundColor { get; }
+		NSColor UnemphasizedSelectedContentBackground { get; }
 
 		[Mac (10, 14, onlyOn64: true)]
 		[Static]
@@ -2944,17 +2944,17 @@ namespace MonoMac.AppKit {
 		[Mac (10, 14, onlyOn64: true)]
 		[Static]
 		[Export ("unemphasizedSelectedTextBackgroundColor", ArgumentSemantic.Strong)]
-		NSColor UnemphasizedSelectedTextBackgroundColor { get; }
+		NSColor UnemphasizedSelectedTextBackground { get; }
 
 		[Mac (10, 14, onlyOn64: true)]
 		[Static]
 		[Export ("unemphasizedSelectedTextColor", ArgumentSemantic.Strong)]
-		NSColor UnemphasizedSelectedTextColor { get; }
+		NSColor UnemphasizedSelectedText { get; }
 
 		[Mac (10, 14, onlyOn64: true)]
 		[Static]
 		[Export ("controlAccentColor", ArgumentSemantic.Strong)]
-		NSColor ControlAccentColor { get; }
+		NSColor ControlAccent { get; }
 
 		[Mac (10,14, onlyOn64: true)]
 		[Export ("colorWithSystemEffect:")]
@@ -2963,15 +2963,15 @@ namespace MonoMac.AppKit {
 		[Mac (10, 13)]
 		[Static]
 		[Export ("findHighlightColor", ArgumentSemantic.Strong)]
-		NSColor FindHighlightColor { get; }
+		NSColor FindHighlight { get; }
 
 		[Mac (10, 10)]
 		[Static]
 		[Export ("placeholderTextColor", ArgumentSemantic.Strong)]
-		NSColor PlaceholderTextColor { get; }
+		NSColor PlaceholderText { get; }
 
         [Static, Export ("underPageBackgroundColor")]
-        NSColor UnderPageBackgroundColor { get; }
+        NSColor UnderPageBackground { get; }
 
         [Static, Export ("colorWithCGColor:")]
         NSColor FromCGColor (CGColor cgColor);

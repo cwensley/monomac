@@ -52,13 +52,6 @@ using CGRect = System.Drawing.RectangleF;
 namespace MonoMac.Foundation {
 	public partial class NSData : IEnumerable, IEnumerable<byte> {
 		
-		// some API, like SecItemCopyMatching, returns a retained NSData
-		internal NSData (IntPtr handle, bool owns)
-			: base (handle)
-		{
-			if (!owns)
-				Release ();
-		}
 
 		IEnumerator IEnumerable.GetEnumerator ()
 		{

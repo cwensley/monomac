@@ -3586,6 +3586,14 @@ public class Generator
 						sw.WriteLine("\t\t\t{0}", init_binding_type);
 					sw.WriteLine("\t\t}");
 					sw.WriteLine();
+					GeneratedCode(sw, 2);
+					sw.WriteLine("\t\t[EditorBrowsable (EditorBrowsableState.Advanced)]");
+					sw.WriteLine("\t\tpublic {0} (IntPtr handle, bool owns) : base (handle, owns)", TypeName);
+					sw.WriteLine("\t\t{");
+					if (BindThirdPartyLibrary)
+						sw.WriteLine("\t\t\t{0}", init_binding_type);
+					sw.WriteLine("\t\t}");
+					sw.WriteLine();
 				}
 			}
 

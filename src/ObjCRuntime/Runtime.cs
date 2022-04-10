@@ -36,6 +36,7 @@ namespace MonoMac.ObjCRuntime
 		static List<Assembly> assemblies;
 		static Dictionary<IntPtrTypeValueTuple,Delegate> block_to_delegate_cache;
 		static Dictionary<IntPtr, WeakReference> object_map = new Dictionary<IntPtr, WeakReference>(IntPtrEqualityComparer);
+		static Dictionary<Type, ConstructorInfo> intptr_bool_ctor_cache = new Dictionary<Type, ConstructorInfo>();
 		static object lock_obj = new object();
 		internal static IntPtr selClass = Selector.GetHandle("class");
 		internal static readonly IntPtr selDescriptionHandle = Selector.GetHandle ("description");
@@ -226,12 +227,18 @@ namespace MonoMac.ObjCRuntime
 		}
 
 		public static T GetINativeObject<T>(IntPtr ptr)
+					where T: INativeObject
+		{
+		 	return GetINativeObject<T>(ptr, false);
+		}
+
+		public static T GetINativeObject<T>(IntPtr ptr, bool owns)
 			where T: INativeObject
 		{
 			if (TryGetNSObject(ptr) is T nsobj)
 				return nsobj;
 
-			var obj = InternalGetNSObject<T>(ptr);
+			var obj = InternalGetNSObject<T>(ptr, owns);
 			if (obj == null && ptr != IntPtr.Zero)
 			{
 				// native object is dead as we are passed a known handle but it is a different type
@@ -243,7 +250,7 @@ namespace MonoMac.ObjCRuntime
 				NativeObjectHasDied(ptr);
 
 				// re-wrap native handle in a new .NET object of the correct type
-				obj = InternalGetNSObject<T>(ptr);
+				obj = InternalGetNSObject<T>(ptr, owns);
 			}
 			return obj;
 		}
@@ -251,7 +258,13 @@ namespace MonoMac.ObjCRuntime
 		public static T GetNSObject<T>(IntPtr ptr)
 			where T : NSObject
 		{
-			var obj = TryGetNSObject(ptr) ?? InternalGetNSObject<T>(ptr);
+			return GetNSObject<T>(ptr, false);
+		}
+
+		public static T GetNSObject<T>(IntPtr ptr, bool owns)
+			where T : NSObject
+		{
+			var obj = TryGetNSObject(ptr) ?? InternalGetNSObject<T>(ptr, owns);
 			var result = obj as T;
 			if (result == null && ptr != IntPtr.Zero)
 			{
@@ -264,7 +277,7 @@ namespace MonoMac.ObjCRuntime
 				NativeObjectHasDied(ptr);
 
 				// re-wrap native handle in a new .NET object of the correct type
-				result = InternalGetNSObject<T>(ptr);
+				result = InternalGetNSObject<T>(ptr, owns);
 			}
 			return result;
 		}
@@ -281,14 +294,17 @@ namespace MonoMac.ObjCRuntime
 			return null;
 		}
 
-		public static NSObject GetNSObject(IntPtr ptr)
+		public static NSObject GetNSObject(IntPtr ptr) => GetNSObject(ptr, false);
+
+		public static NSObject GetNSObject(IntPtr ptr, bool owns)
 		{
-			return TryGetNSObject(ptr) ?? InternalGetNSObject<NSObject>(ptr);
+			return TryGetNSObject(ptr) ?? InternalGetNSObject<NSObject>(ptr, owns);
 		}
 
 		static readonly Type[] s_IntPtrTypes = new [] { typeof(IntPtr) };
+		static readonly Type[] s_IntPtrBoolTypes = new [] { typeof(IntPtr), typeof(bool) };
 
-		static T InternalGetNSObject<T>(IntPtr ptr)
+		static T InternalGetNSObject<T>(IntPtr ptr, bool owns)
 		{
 			Type type;
 
@@ -325,10 +341,64 @@ namespace MonoMac.ObjCRuntime
 
 			if (type == null)
 				type = typeof(T);
+				
+			var ctr = GetIntPtr_BoolConstructor(type);
+			if (ctr != null)
+			{
+				return (T)ctr.Invoke(new object[] { ptr, owns });
+			}
 
 			return (T)Activator.CreateInstance(type, new object[] { ptr });
 		}
 
+
+		static ConstructorInfo GetIntPtr_BoolConstructor (Type type)
+		{
+			lock (intptr_bool_ctor_cache) {
+				if (intptr_bool_ctor_cache.TryGetValue (type, out var rv))
+					return rv;
+			}
+			var ctors = type.GetConstructors (BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+			ConstructorInfo backupConstructor = null;
+			for (int i = 0; i < ctors.Length; ++i) {
+				var param = ctors[i].GetParameters ();
+				if (param.Length != 2)
+					continue;
+
+				if (param [1].ParameterType != typeof (bool))
+					continue;
+#if NET
+				if (param [0].ParameterType == typeof (IntPtr)) {
+					backupConstructor = ctors [i];
+					continue;
+				}
+
+				if (param [0].ParameterType != typeof (NativeHandle))
+#else
+				if (param [0].ParameterType != typeof (IntPtr))
+#endif
+					continue;
+
+				lock (intptr_bool_ctor_cache)
+					intptr_bool_ctor_cache [type] = ctors [i];
+				return ctors [i];
+			}
+
+#if NET
+			if (!(backupConstructor is null)) {
+				const string p1 = "two (ObjCRuntime.NativeHandle, bool) arguments";
+				const string p2 = "two (System.IntPtr, bool) parameters";
+				const string p3 = "(System.IntPtr, bool)";
+				const string p4 = "(ObjCRuntime.NativeHandle, bool)";
+				Console.WriteLine ($"The type {type.FullName} does not have a constructor that takes {p1} but a constructor that takes {p2} was found (and will be used instead). It's highly recommended to change the signature of the {p3} constructor to be {p4}.");
+				lock (intptr_bool_ctor_cache)
+					intptr_bool_ctor_cache [type] = backupConstructor;
+				return backupConstructor;
+			}
+#endif
+
+			return null;
+		}
 
 		public static void ConnectMethod(MethodInfo method, Selector selector)
 		{
