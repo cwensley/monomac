@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net5.0</TargetFrameworks>
+    <TargetFrameworks>net6.0</TargetFrameworks>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <EnableDefaultItems>False</EnableDefaultItems>
     <BaseNamespace Condition="$(BaseNamespace) == ''">MonoMac.ObjCRuntime</BaseNamespace>
@@ -60,7 +60,7 @@
       
     </PropertyGroup>
     <MakeDir Directories="$(IntermediateOutputPath)\generate_temp" />
-    <Exec Command='dotnet "$(TargetPath)" $(GeneratorParameters)' />
+    <Exec Command="dotnet &quot;$(TargetPath)&quot; $(GeneratorParameters)" />
   </Target>
   
   <Target Name="CleanGeneratedSource" BeforeTargets="AfterClean">

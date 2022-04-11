@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="generator.csproj" SetTargetFramework="TargetFramework=net5.0" Private="False">
+    <ProjectReference Include="generator.csproj" SetTargetFramework="TargetFramework=net6.0" Private="False">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
     </ProjectReference>

@@ -350,7 +350,7 @@ public class BindingTouch
 
 		proj.AppendLine("<PropertyGroup>");
 		proj.AppendLine($"  <AssemblyName>{Path.GetFileNameWithoutExtension(destination)}</AssemblyName>");
-		proj.AppendLine($"  <TargetFramework>net5.0</TargetFramework>");
+		proj.AppendLine($"  <TargetFramework>net6.0</TargetFramework>");
 		proj.AppendLine($"  <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>");
 		proj.AppendLine($"  <EnableDefaultItems>false</EnableDefaultItems>");
 		proj.AppendLine($"  <SelfContained>false</SelfContained>");
