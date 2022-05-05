@@ -1586,7 +1586,7 @@ namespace MonoMac.Foundation
 		void Replace (NSRange range, NSAttributedString value);
 		
 		[Export ("insertAttributedString:atIndex:")]
-		void Insert (NSAttributedString attrString, nuint location);
+		void Insert (NSAttributedString attrString, nint location);
 
 		[Export ("appendAttributedString:")]
 		void Append (NSAttributedString attrString);
@@ -5013,7 +5013,7 @@ namespace MonoMac.Foundation
 	[BaseType (typeof (NSObject))]
 	public interface NSIndexSet {
 		[Static, Export ("indexSetWithIndex:")]
-		NSIndexSet FromIndex (nuint idx);
+		NSIndexSet FromIndex (nint idx);
 
 		[Static, Export ("indexSetWithIndexesInRange:")]
 		NSIndexSet FromNSRange (NSRange indexRange);
@@ -5025,7 +5025,7 @@ namespace MonoMac.Foundation
 		IntPtr Constructor (NSIndexSet other);
 
 		[Export ("count")]
-		nuint Count { get; }
+		nint Count { get; }
 
 		[Export ("isEqualToIndexSet:")]
 		bool IsEqual (NSIndexSet other);
@@ -5913,16 +5913,16 @@ namespace MonoMac.Foundation
 		NSNumber RoundingIncrement { get; set; }
 
 		[Export ("minimumIntegerDigits")]
-		nuint MinimumIntegerDigits { get; set; }
+		nint MinimumIntegerDigits { get; set; }
 
 		[Export ("maximumIntegerDigits")]
-		nuint MaximumIntegerDigits { get; set; }
+		nint MaximumIntegerDigits { get; set; }
 
 		[Export ("minimumFractionDigits")]
-		nuint MinimumFractionDigits { get; set; }
+		nint MinimumFractionDigits { get; set; }
 
 		[Export ("maximumFractionDigits")]
-		nuint MaximumFractionDigits { get; set; }
+		nint MaximumFractionDigits { get; set; }
 
 		[Export ("minimum")]
 		NSNumber Minimum { get; set; }

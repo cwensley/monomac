@@ -57,12 +57,12 @@ namespace MonoMac.AppKit {
 			}
 		}
 
-		public void SelectRow (nuint row, bool byExtendingSelection)
+		public void SelectRow (nint row, bool byExtendingSelection)
 		{
 			SelectRows (NSIndexSet.FromIndex (row), byExtendingSelection);
 		}
 
-		public void SelectColumn (nuint column, bool byExtendingSelection)
+		public void SelectColumn (nint column, bool byExtendingSelection)
 		{
 			SelectColumns (NSIndexSet.FromIndex (column), byExtendingSelection);
 		}
