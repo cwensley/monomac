@@ -7056,6 +7056,22 @@ namespace MonoMac.AppKit {
 	
 		[Export ("outlineView:namesOfPromisedFilesDroppedAtDestination:forDraggedItems:")]
 		string [] FilesDropped (NSOutlineView outlineView, NSUrl dropDestination, NSArray items);
+		
+		// - (id <NSPasteboardWriting>)outlineView:(NSOutlineView *)outlineView pasteboardWriterForItem:(id)item NS_AVAILABLE_MAC(10_7);
+		[Export ("outlineView:pasteboardWriterForItem:")]
+		NSPasteboardWriting PasteboardWriterForItem (NSOutlineView outlineView, NSObject item);
+
+		// - (void)outlineView:(NSOutlineView *)outlineView draggingSession:(NSDraggingSession *)session willBeginAtPoint:(NSPoint)screenPoint forItems:(NSArray *)draggedItems NS_AVAILABLE_MAC(10_7);
+		[Export ("outlineView:draggingSession:willBeginAtPoint:forItems:")]
+		void DraggingSessionWillBegin (NSOutlineView outlineView, NSDraggingSession session, CGPoint screenPoint, NSArray draggedItems);
+
+		// - (void)outlineView:(NSOutlineView *)outlineView draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation NS_AVAILABLE_MAC(10_7);
+		[Export ("outlineView:draggingSession:endedAtPoint:operation:")]
+		void DraggingSessionEnded (NSOutlineView outlineView, NSDraggingSession session, CGPoint screenPoint, NSDragOperation operation);
+
+		// - (void)outlineView:(NSOutlineView *)outlineView updateDraggingItemsForDrag:(id <NSDraggingInfo>)draggingInfo NS_AVAILABLE_MAC(10_7);
+		[Export ("outlineView:updateDraggingItemsForDrag:")]
+		void UpdateDraggingItemsForDrag (NSOutlineView outlineView, NSDraggingInfo draggingInfo);
 	}
 	
 
