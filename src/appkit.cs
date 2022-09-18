@@ -16639,4 +16639,19 @@ namespace MonoMac.AppKit {
 		void ChangeMode (NSEvent withEvent);
 	}
 
+	[Mac (10,15)]
+	[BaseType (typeof (NSToolbarItem))]
+	interface NSMenuToolbarItem
+	{
+		[DesignatedInitializer]
+		[Export ("initWithItemIdentifier:")]
+		IntPtr Constructor (string itemIdentifier);
+
+		[Export ("menu", ArgumentSemantic.Strong)]
+		NSMenu Menu { get; set; }
+
+		[Export ("showsIndicator")]
+		bool ShowsIndicator { get; set; }
+	}
+
 }
