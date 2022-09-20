@@ -5457,6 +5457,7 @@ namespace MonoMac.AppKit {
 		NSGraphicsContext FromBitmap (NSBitmapImageRep bitmapRep);
 	
 		[Static, Export ("graphicsContextWithGraphicsPort:flipped:")]
+		[Deprecated (PlatformName.MacOSX, 10, 14, message: "Use 'FromCGContext' instead.")]
 		NSGraphicsContext FromGraphicsPort (IntPtr graphicsPort, bool initialFlippedState);
 	
 		[Static, Export ("currentContext")]
@@ -5491,6 +5492,7 @@ namespace MonoMac.AppKit {
 
 		// keep signature in sync with 'graphicsContextWithGraphicsPort:flipped:'
 		[Export ("graphicsPort")]
+		[Deprecated (PlatformName.MacOSX, 10, 14, message: "Use 'CGContext' instead.")]
 		IntPtr GraphicsPortHandle {get; }
 	
 		[Export ("isFlipped")]
@@ -5513,6 +5515,14 @@ namespace MonoMac.AppKit {
 
 		[Export ("CIContext")]
 		MonoMac.CoreImage.CIContext CIContext { get; } 
+		
+		[Mac (10,10)]
+		[Export ("CGContext")]
+		CGContext CGContext { get; }
+
+		[Mac (10,10)]
+		[Static, Export ("graphicsContextWithCGContext:flipped:")]
+		NSGraphicsContext FromCGContext (CGContext graphicsPort, bool initialFlippedState);
 	}
 
 	[BaseType (typeof (NSGraphicsContext))]
