@@ -308,6 +308,16 @@ namespace MonoMac.AppKit {
 	public enum NSAlertStyle : nuint {
 		Warning, Informational, Critical
 	}
+	
+	[Mac (10,9)]
+	public enum NSModalResponse : long {
+		OK = 1,
+		Cancel = 0,
+		Stop = -1000,
+		Abort = -1001,
+		Continue = -1002
+	}
+	
 #endregion
 
 #region NSEvent
@@ -626,19 +636,24 @@ namespace MonoMac.AppKit {
 #region NSWindow
 	[Flags]
 	public enum NSWindowStyle : nuint {
-		Borderless	       = 0,
-		Titled		       = 1 << 0,
-		Closable	       = 1 << 1,
-		Miniaturizable	       = 1 << 2,
-		Resizable	       = 1 << 3,
-		Utility		       = 1 << 4,
-		DocModal	       = 1 << 6,
-		NonactivatingPanel     = 1 << 7,
-		TexturedBackground     = 1 << 8,
-		Unscaled	       = 1 << 11,
-		UnifiedTitleAndToolbar = 1 << 12,
-		Hud		       = 1 << 13,
-		FullScreenWindow       = 1 << 14
+		Borderless	       					= 0 << 0,
+		Titled		       					= 1 << 0,
+		Closable	       					= 1 << 1,
+		Miniaturizable	      				= 1 << 2,
+		Resizable	       					= 1 << 3,
+		Utility		       					= 1 << 4,
+		DocModal	       					= 1 << 6,
+		NonactivatingPanel     				= 1 << 7,
+		[Deprecated (PlatformName.MacOSX, 11, 0, message: "Don't use 'TexturedBackground' anymore.")]
+		TexturedBackground     				= 1 << 8,
+#if !NET
+		[Deprecated (PlatformName.MacOSX, 10, 9, message: "Don't use, this value has no effect.")]
+		Unscaled	       					= 1 << 11,
+#endif
+		UnifiedTitleAndToolbar 				= 1 << 12,
+		Hud		       						= 1 << 13,
+		FullScreenWindow       				= 1 << 14,
+		[Mac (10,10)] FullSizeContentView   = 1 << 15 
 	}
 
 	public enum NSWindowSharingType : nuint {
@@ -1794,6 +1809,23 @@ namespace MonoMac.AppKit {
 		ContainerBreak = 1 << 5,
 	}
 	
+	public enum NSWindowTitleVisibility : long {
+		Visible = 0,
+		Hidden = 1,
+	}
+	
+	[Flags]
+	public enum NSWindowOcclusionState  : ulong {
+		Visible = 1 << 1
+	}
+
+	[Mac (10, 12)]
+	public enum NSDisplayGamut : long
+	{
+		Srgb = 1,
+		P3,
+	}
+	
 	public enum NSStatusItemLength {
 		Variable = -1,
 		Square = -2
@@ -1836,6 +1868,27 @@ namespace MonoMac.AppKit {
         Disabled,
         Rollover,
     }
+
+	[Mac (11,0)]
+	// [Native]
+	public enum NSTitlebarSeparatorStyle : long
+	{
+		Automatic,
+		None,
+		Line,
+		Shadow,
+	}
+
+	[Mac (11,0)]
+	// [Native]
+	public enum NSWindowToolbarStyle : long
+	{
+		Automatic,
+		Expanded,
+		Preference,
+		Unified,
+		UnifiedCompact,
+	}
 
     [Mac(10, 13)]
     //[Native]

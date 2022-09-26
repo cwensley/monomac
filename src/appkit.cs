@@ -14783,6 +14783,9 @@ namespace MonoMac.AppKit {
 		NSColorSpace OldColorSpace { get; }
 	}
 	
+	
+	public delegate void NSWindowTrackEventsMatchingCompletionHandler (NSEvent evt, ref bool stop);
+	
 	//64 bit reviewed
 	[BaseType (typeof (NSResponder), Delegates=new string [] { "Delegate" }, Events=new Type [] { typeof (NSWindowDelegate)})]
 	public partial interface NSWindow : NSAnimatablePropertyContainer, NSUserInterfaceItemIdentification, NSAppearanceCustomization {
@@ -15514,6 +15517,131 @@ namespace MonoMac.AppKit {
 		[Mac (10, 7), Field ("NSWindowDidChangeBackingPropertiesNotification")]
 		[Notification (typeof (NSWindowBackingPropertiesEventArgs))]
 		NSString DidChangeBackingPropertiesNotification { get; }
+		
+		// 10.10
+		[Mac (10,10)]
+		[Export ("titleVisibility")]
+		NSWindowTitleVisibility TitleVisibility { get; set; }
+
+		[Mac (10,10)]
+		[Export ("titlebarAppearsTransparent")]
+		bool TitlebarAppearsTransparent { get; set; }
+
+		[Mac (10,10)]
+		[Export ("contentLayoutRect")]
+		CGRect ContentLayoutRect { get; }
+
+		[Mac (10,10)]
+		[Export ("contentLayoutGuide")]
+		NSObject ContentLayoutGuide { get; }
+
+		[Mac (10,10)]
+		[Export ("titlebarAccessoryViewControllers", ArgumentSemantic.Copy)]
+		// Header says this is a r/w property, but it fails at runtime.
+		//  -[NSWindow setTitlebarAccessoryViewControllers:]: unrecognized selector sent to instance 0x6180001e0f00
+		NSTitlebarAccessoryViewController [] TitlebarAccessoryViewControllers { get; }
+
+		[Mac (10,10)]
+		[Export ("addTitlebarAccessoryViewController:")]
+		void AddTitlebarAccessoryViewController (NSTitlebarAccessoryViewController childViewController);
+
+		[Mac (10,10)]
+		[Export ("insertTitlebarAccessoryViewController:atIndex:")]
+		void InsertTitlebarAccessoryViewController (NSTitlebarAccessoryViewController childViewController, nint index);
+
+		[Mac (10,10)]
+		[Export ("removeTitlebarAccessoryViewControllerAtIndex:")]
+		void RemoveTitlebarAccessoryViewControllerAtIndex (nint index);
+
+		[Mac (10,10)]
+		[Static, Export ("windowWithContentViewController:")]
+		NSWindow GetWindowWithContentViewController (NSViewController contentViewController);
+
+		[Mac (10,10)]
+		[Export ("contentViewController", ArgumentSemantic.Strong)]
+		NSViewController ContentViewController { get; set; }
+
+		[Mac (10,10)]
+		[Export ("trackEventsMatchingMask:timeout:mode:handler:")]
+		void TrackEventsMatching (NSEventMask mask, double timeout, string mode, NSWindowTrackEventsMatchingCompletionHandler trackingHandler);
+
+		[Mac (10,9)]
+		[Export ("sheets", ArgumentSemantic.Copy)]
+		NSWindow [] Sheets { get; }
+
+		[Mac (10,9)]
+		[Export ("sheetParent", ArgumentSemantic.Retain)]
+		NSWindow SheetParent { get; }
+
+		[Mac (10,9)]
+		[Export ("occlusionState")]
+		NSWindowOcclusionState OcclusionState { get; }
+
+		[Mac (10,9)]
+		[Export ("beginSheet:completionHandler:")]
+		void BeginSheet (NSWindow sheetWindow, Action<nint> completionHandler);
+
+		[Mac (10,9)]
+		[Export ("beginCriticalSheet:completionHandler:")]
+		void BeginCriticalSheet (NSWindow sheetWindow, Action<nint> completionHandler);
+
+		[Mac (10,9)]
+		[Export ("endSheet:")]
+		void EndSheet (NSWindow sheetWindow);
+
+		[Mac (10,9)]
+		[Export ("endSheet:returnCode:")]
+		void EndSheet (NSWindow sheetWindow, NSModalResponse returnCode);
+		
+		[Mac (10,11)]
+		[Export ("minFullScreenContentSize", ArgumentSemantic.Assign)]
+		CGSize MinFullScreenContentSize { get; set; }
+
+		[Mac (10,11)]
+		[Export ("maxFullScreenContentSize", ArgumentSemantic.Assign)]
+		CGSize MaxFullScreenContentSize { get; set; }
+
+		[Mac (10,11)]
+		[Export ("performWindowDragWithEvent:")]
+		void PerformWindowDrag(NSEvent theEvent);
+
+		[Mac (10,12)]
+		[Export ("canRepresentDisplayGamut:")]
+		bool CanRepresentDisplayGamut (NSDisplayGamut displayGamut);
+
+		[Mac (10,12)]
+		[Export ("convertPointToScreen:")]
+		CGPoint ConvertPointToScreen (CGPoint point);
+
+		[Mac (10,12)]
+		[Export ("convertPointFromScreen:")]
+		CGPoint ConvertPointFromScreen (CGPoint point);
+
+		[Mac (10,14)]
+		[Export ("convertPointToBacking:")]
+		CGPoint ConvertPointToBacking (CGPoint point);
+
+		[Mac (10,14)]
+		[Export ("convertPointFromBacking:")]
+		CGPoint ConvertPointFromBacking (CGPoint point);
+
+		[Mac (10, 14)]
+		[NullAllowed]
+		[Export ("appearanceSource", ArgumentSemantic.Weak)]
+		NSAppearanceCustomization AppearanceSource { get; set; }
+
+		[Mac (11, 0)]
+		[Export ("subtitle")]
+		string Subtitle { get; set; }
+
+		[Mac (11, 0)]
+		[Export ("toolbarStyle", ArgumentSemantic.Assign)]
+		NSWindowToolbarStyle ToolbarStyle { get; set; }
+
+		[Mac (11, 0)]
+		[Export ("titlebarSeparatorStyle", ArgumentSemantic.Assign)]
+		NSTitlebarSeparatorStyle TitlebarSeparatorStyle { get; set; }
+		
 
 		[Mac (10, 12)]
 		[Static]
@@ -15574,6 +15702,39 @@ namespace MonoMac.AppKit {
 		// [Mavericks]
 		// [Export ("appearance")]
 		// NSAppearance Appearance { get; [Export ("setAppearance:")] set; }
+	}
+
+	[Mac (10,10)]
+	[BaseType (typeof (NSViewController))]
+	public interface NSTitlebarAccessoryViewController : NSAnimationDelegate, NSAnimatablePropertyContainer {
+		[Export ("initWithNibName:bundle:")]
+		IntPtr Constructor ([NullAllowed] string nibNameOrNull, [NullAllowed] NSBundle nibBundleOrNull);
+
+		[Export ("layoutAttribute")]
+		NSLayoutAttribute LayoutAttribute { get; set; }
+
+		[Export ("fullScreenMinHeight")]
+		nfloat FullScreenMinHeight { get; set; }
+
+		// [RequiresSuper]
+		[Export ("viewWillAppear")]
+		void ViewWillAppear ();
+
+		// [RequiresSuper]
+		[Export ("viewDidAppear")]
+		void ViewDidAppear ();
+
+		// [RequiresSuper]
+		[Export ("viewDidDisappear")]
+		void ViewDidDisappear ();
+
+		[Mac (10,12)]
+		[Export ("hidden")]
+		bool IsHidden { [Bind ("isHidden")] get; set; }
+
+		[Mac (11,0)]
+		[Export ("automaticallyAdjustsSize")]
+		bool AutomaticallyAdjustsSize { get; set; }
 	}
 
 	public delegate void NSWindowCompletionHandler (NSWindow window, NSError error);
