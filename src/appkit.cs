@@ -10299,6 +10299,57 @@ namespace MonoMac.AppKit {
 
 		[Lion, Export ("verticalScrollElasticity")]
 		NSScrollElasticity VerticalScrollElasticity { get; set; }
+		
+		[Export ("allowsMagnification")]
+		bool AllowsMagnification { get; set; }
+
+		[Export ("magnification")]
+		nfloat Magnification { get; set; }
+
+		[Export ("maxMagnification")]
+		nfloat MaxMagnification { get; set; }
+
+		[Export ("minMagnification")]
+		nfloat MinMagnification { get; set; }
+
+		[Export ("magnifyToFitRect:")]
+		void MagnifyToFitRect (CGRect rect);
+
+		[Export ("setMagnification:centeredAtPoint:")]
+		void SetMagnification (nfloat magnification, CGPoint centeredAtPoint);
+
+		[Notification, Field ("NSScrollViewWillStartLiveMagnifyNotification")]
+		NSString WillStartLiveMagnifyNotification { get; }
+
+		[Notification, Field ("NSScrollViewDidEndLiveMagnifyNotification")]
+		NSString DidEndLiveMagnifyNotification { get; }
+		
+		[Notification, Field ("NSScrollViewWillStartLiveScrollNotification")]
+		NSString WillStartLiveScrollNotification { get; }
+
+		[Mac (10,9), Notification, Field ("NSScrollViewDidLiveScrollNotification")]
+		NSString DidLiveScrollNotification { get; }
+
+		[Mac (10,9), Notification, Field ("NSScrollViewDidEndLiveScrollNotification")]
+		NSString DidEndLiveScrollNotification { get; }
+
+		[Mac (10,10)]
+		[Export ("automaticallyAdjustsContentInsets")]
+		bool AutomaticallyAdjustsContentInsets { get; set; }
+
+		// @property NSEdgeInsets contentInsets __attribute__((availability(macosx, introduced=10_10)));
+		[Mac (10, 10)]
+		[Export ("contentInsets", ArgumentSemantic.Assign)]
+		NSEdgeInsets ContentInsets { get; set; }
+
+		// @property NSEdgeInsets scrollerInsets __attribute__((availability(macosx, introduced=10_10)));
+		[Mac (10, 10)]
+		[Export ("scrollerInsets", ArgumentSemantic.Assign)]
+		NSEdgeInsets ScrollerInsets { get; set; }
+
+		[Mac (10,9)]
+		[Export ("addFloatingSubview:forAxis:")]
+		void AddFloatingSubview (NSView view, NSEventGestureAxis axis);
 	}
 
 	[BaseType (typeof (NSTextField))]
@@ -12078,24 +12129,173 @@ namespace MonoMac.AppKit {
 		[Lion, Export ("convertSizeToLayer:")]
 		CGSize ConvertSizeToLayer (CGSize aSize);
 		
-		[Mavericks, Export ("canDrawSubviewsIntoLayer")]
-		bool CanDrawSubviewsIntoLayer { get; set; }
+		[Export ("viewDidChangeBackingProperties")]
+		void DidChangeBackingProperties ();
 
 		[Mac (10,10)]
-		[Export ("gestureRecognizers")]//, ArgumentSemantic.Copy)]
+		[Export ("allowsVibrancy")]
+		bool AllowsVibrancy { get; }
+
+		[Mac (10,10)]
+		[Export ("gestureRecognizers", ArgumentSemantic.Copy)]
 		NSGestureRecognizer [] GestureRecognizers { get; set; }
 
 		[Mac (10,10)]
-		[Export ("addGestureRecognizer:")][PostGet("GestureRecognizers")]
+		[Export ("addGestureRecognizer:")]
 		void AddGestureRecognizer (NSGestureRecognizer gestureRecognizer);
 
 		[Mac (10,10)]
-		[Export ("removeGestureRecognizer:")][PostGet("GestureRecognizers")]
+		[Export ("removeGestureRecognizer:")]
 		void RemoveGestureRecognizer (NSGestureRecognizer gestureRecognizer);
+
+		[Export ("prepareForReuse")]
+		void PrepareForReuse ();
+
+		[Mac (10,9)]
+		[Static, Export ("isCompatibleWithResponsiveScrolling")]
+		bool IsCompatibleWithResponsiveScrolling { get; }
+
+		[Mac (10,9)]
+		[Export ("prepareContentInRect:")]
+		void PrepareContentInRect (CGRect rect);
 		
-		[Mac (10, 7)]
-		[Export ("viewDidChangeBackingProperties")]
-		void DidChangeBackingProperties ();
+		[Mac (10,9)]
+		[Export ("canDrawSubviewsIntoLayer")]
+		bool CanDrawSubviewsIntoLayer { get; set; }
+
+		[Mac (10,9)]
+		[Export ("layerUsesCoreImageFilters")]
+		bool LayerUsesCoreImageFilters { get; set; }
+
+		[Mac (10,9)] // NS_AVAILABLE_MAC(10,8); but the 10.8 headers do not contain this member, nor can the dontlink tests find it in 10.8.
+		[Export ("userInterfaceLayoutDirection")]
+		NSUserInterfaceLayoutDirection UserInterfaceLayoutDirection { get; set; }
+
+		[Mac (10,9)]
+		[Export ("preparedContentRect")]
+		CGRect PreparedContentRect { get; set; }
+
+		// [Mac (10,11)]
+		// [Export ("pressureConfiguration", ArgumentSemantic.Strong)]
+		// NSPressureConfiguration PressureConfiguration { get; set; }
+
+		[Mac (10,11)]
+		[Export ("willOpenMenu:withEvent:")]
+		void WillOpenMenu (NSMenu menu, NSEvent theEvent);
+
+		[Mac (10,11)]
+		[Export ("didCloseMenu:withEvent:")]
+		void DidCloseMenu (NSMenu menu, [NullAllowed] NSEvent theEvent);
+
+		// NSConstraintBasedLayoutCoreMethods
+
+		// [Mac (10,11)]
+		// [Export ("leadingAnchor", ArgumentSemantic.Strong)]
+		// NSLayoutXAxisAnchor LeadingAnchor { get; }
+
+		// [Mac (10,11)]
+		// [Export ("trailingAnchor", ArgumentSemantic.Strong)]
+		// NSLayoutXAxisAnchor TrailingAnchor { get; }
+
+		// [Mac (10,11)]
+		// [Export ("leftAnchor", ArgumentSemantic.Strong)]
+		// NSLayoutXAxisAnchor LeftAnchor { get; }
+
+		// [Mac (10,11)]
+		// [Export ("rightAnchor", ArgumentSemantic.Strong)]
+		// NSLayoutXAxisAnchor RightAnchor { get; }
+
+		// [Mac (10,11)]
+		// [Export ("topAnchor", ArgumentSemantic.Strong)]
+		// NSLayoutYAxisAnchor TopAnchor { get; }
+
+		// [Mac (10,11)]
+		// [Export ("bottomAnchor", ArgumentSemantic.Strong)]
+		// NSLayoutYAxisAnchor BottomAnchor { get; }
+
+		// [Mac (10,11)]
+		// [Export ("widthAnchor", ArgumentSemantic.Strong)]
+		// NSLayoutDimension WidthAnchor { get; }
+
+		// [Mac (10,11)]
+		// [Export ("heightAnchor", ArgumentSemantic.Strong)]
+		// NSLayoutDimension HeightAnchor { get; }
+
+		// [Mac (10,11)]
+		// [Export ("centerXAnchor", ArgumentSemantic.Strong)]
+		// NSLayoutXAxisAnchor CenterXAnchor { get; }
+
+		// [Mac (10,11)]
+		// [Export ("centerYAnchor", ArgumentSemantic.Strong)]
+		// NSLayoutYAxisAnchor CenterYAnchor { get; }
+
+		// [Mac (10,11)]
+		// [Export ("firstBaselineAnchor", ArgumentSemantic.Strong)]
+		// NSLayoutYAxisAnchor FirstBaselineAnchor { get; }
+
+		// [Mac (10,11)]
+		// [Export ("lastBaselineAnchor", ArgumentSemantic.Strong)]
+		// NSLayoutYAxisAnchor LastBaselineAnchor { get; }
+
+		[Mac (10,11)]
+		[Export ("firstBaselineOffsetFromTop")]
+		nfloat FirstBaselineOffsetFromTop { get; }
+
+		[Mac (10,11)]
+		[Export ("lastBaselineOffsetFromBottom")]
+		nfloat LastBaselineOffsetFromBottom { get; }
+
+		[Mac (10,11)]
+		[Field ("NSViewNoIntrinsicMetric")]
+		nfloat NoIntrinsicMetric { get; }
+
+		// [Mac (10,11)]
+		// [Export ("addLayoutGuide:")]
+		// void AddLayoutGuide (NSLayoutGuide guide);
+
+		// [Mac (10,11)]
+		// [Export ("removeLayoutGuide:")]
+		// void RemoveLayoutGuide (NSLayoutGuide guide);
+
+		// [Mac (10,11)]
+		// [Export ("layoutGuides", ArgumentSemantic.Copy)]
+		// NSLayoutGuide[] LayoutGuides { get; }
+
+		[Mac (10,14)]
+		[Export ("viewDidChangeEffectiveAppearance")]
+		void ViewDidChangeEffectiveAppearance ();
+
+		[Internal]
+		[Export ("sortSubviewsUsingFunction:context:")]
+		void SortSubviews (IntPtr function_pointer, IntPtr context);
+
+		[Mac (10, 15)]
+		[Export ("horizontalContentSizeConstraintActive")]
+		bool HorizontalContentSizeConstraintActive { [Bind ("isHorizontalContentSizeConstraintActive")] get; set; }
+
+		[Mac (10, 15)]
+		[Export ("verticalContentSizeConstraintActive")]
+		bool VerticalContentSizeConstraintActive { [Bind ("isVerticalContentSizeConstraintActive")] get; set; }
+
+		[Mac (11, 0)]
+		[Export ("safeAreaInsets")]
+		NSEdgeInsets SafeAreaInsets { get; }
+
+		[Mac (11, 0)]
+		[Export ("additionalSafeAreaInsets", ArgumentSemantic.Assign)]
+		NSEdgeInsets AdditionalSafeAreaInsets { get; set; }
+
+		// [Mac (11, 0)]
+		// [Export ("safeAreaLayoutGuide", ArgumentSemantic.Strong)]
+		// NSLayoutGuide SafeAreaLayoutGuide { get; }
+
+		[Mac (11, 0)]
+		[Export ("safeAreaRect")]
+		CGRect SafeAreaRect { get; }
+
+		// [Mac (11, 0)]
+		// [Export ("layoutMarginsGuide", ArgumentSemantic.Strong)]
+		// NSLayoutGuide LayoutMarginsGuide { get; }
 	}
 
 	//64 bit reviewed
@@ -12645,6 +12845,54 @@ namespace MonoMac.AppKit {
 
 		[Field ("NSTableViewRowViewKey")]
 		NSString RowViewKey { get; }
+
+		[Export ("registerNib:forIdentifier:")]
+		void RegisterNib ([NullAllowed] NSNib nib, string identifier);
+
+		[Export ("didAddRowView:forRow:")]
+		void RowViewAdded (NSTableRowView rowView, nint row);
+
+		[Export ("didRemoveRowView:forRow:")]
+		void RowViewRemoved (NSTableRowView rowView, nint row);
+
+		[Export ("registeredNibsByIdentifier", ArgumentSemantic.Copy)]
+		NSDictionary RegisteredNibsByIdentifier { get; }
+
+		[Mac (10,10)]
+		[Export ("usesStaticContents")]
+		bool UsesStaticContents { get; set; }		
+
+		[Mac (10,11)]
+		[Export ("hideRowsAtIndexes:withAnimation:")]
+		void HideRows (NSIndexSet indexes, NSTableViewAnimation rowAnimation);
+
+		[Mac (10,11)]
+		[Export ("unhideRowsAtIndexes:withAnimation:")]
+		void UnhideRows (NSIndexSet indexes, NSTableViewAnimation rowAnimation);
+
+		[Mac (10,11)]
+		[Export ("hiddenRowIndexes", ArgumentSemantic.Copy)]
+		NSIndexSet HiddenRowIndexes { get; }
+
+		[Mac (10,11)]
+		[Export ("rowActionsVisible")]
+		bool RowActionsVisible { get; set; }
+
+		[Mac (10,12)]
+		[Export ("userInterfaceLayoutDirection")]
+		NSUserInterfaceLayoutDirection UserInterfaceLayoutDirection { get; set; }
+
+		[Mac (10, 13)]
+		[Export ("usesAutomaticRowHeights")]
+		bool UsesAutomaticRowHeights { get; set; }
+
+		[Mac (11, 0)]
+		[Export ("style", ArgumentSemantic.Assign)]
+		NSTableViewStyle Style { get; set; }
+
+		[Mac (11, 0)]
+		[Export ("effectiveStyle")]
+		NSTableViewStyle EffectiveStyle { get; }
 	} 
 
 	//64 bit reviewed

@@ -1869,6 +1869,17 @@ namespace MonoMac.AppKit {
         Rollover,
     }
 
+	// [NoMacCatalyst]
+	[Mac (11, 0)]
+	// [Native]
+	public enum NSTableViewStyle : long {
+		Automatic,
+		FullWidth,
+		Inset,
+		SourceList,
+		Plain,
+	}
+
 	[Mac (11,0)]
 	// [Native]
 	public enum NSTitlebarSeparatorStyle : long
