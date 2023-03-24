@@ -28,5 +28,7 @@ namespace MonoMac.ObjCRuntime
 		}
 
 		public string NativeName { get; set; }
+ 		public string ConvertToNative { get; set; }
+ 		public string ConvertToManaged { get; set; }
 	}
 }

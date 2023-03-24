@@ -745,7 +745,7 @@ namespace MonoMac.AppKit {
 		[Lion, Export ("application:didRegisterForRemoteNotificationsWithDeviceToken:"), EventArgs ("NSData")]
 		void RegisteredForRemoteNotifications (NSApplication application, NSData deviceToken);
 
-		[Lion, Export ("application:didFailToRegisterForRemoteNotificationsWithError:"), EventArgs ("NSError")]
+		[Lion, Export ("application:didFailToRegisterForRemoteNotificationsWithError:"), EventArgs ("NSError", true)]
 		void FailedToRegisterForRemoteNotifications (NSApplication application, NSError error);
 
 		[Lion, Export ("application:didReceiveRemoteNotification:"), EventArgs ("NSDictionary")]

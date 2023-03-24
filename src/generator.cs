@@ -788,6 +788,11 @@ public class Generator
 			returnformat = "return {0} != null ? {0}.Handle : IntPtr.Zero;";
 			delegateReturn = $"return Runtime.GetNSObject<{FormatType(null, mi.ReturnType)}>({{0}});";
 		}
+		else if (GetNativeEnumToNativeExpression(mi.ReturnType, out var preExpression, out var postExpression, out var nativeType))
+		{
+			returntype = nativeType;
+			returnformat = "return " + preExpression + "{0}" + postExpression + ";";
+		}
 		else
 		{
 			returntype = FormatType(mi.DeclaringType, mi.ReturnType);
@@ -854,6 +859,12 @@ public class Generator
 				continue;
 			}
 
+			if (GetNativeEnumToManagedExpression (pi.ParameterType, out var preExpression, out var postExpression, out var nativeType))
+			{
+				pars.AppendFormat("{0} {1}", nativeType, pi.Name);
+				invoke.Append (preExpression).Append (pi.Name).Append (postExpression);
+				continue;
+			}
 			if (pi.ParameterType == typeof(string[]))
 			{
 				pars.AppendFormat("IntPtr {0}", pi.Name);
@@ -956,6 +967,9 @@ public class Generator
 				return String.Format("{0} == null ? IntPtr.Zero : {0}.Handle", pi.Name);
 			return pi.Name + ".Handle";
 		}
+
+		if (GetNativeEnumToNativeExpression (pi.ParameterType, out var preExpression, out var postExpression, out var nativeType))
+			return preExpression + pi.Name + postExpression;
 
 		if (pi.ParameterType.IsEnum)
 		{
@@ -1212,6 +1226,97 @@ public class Generator
 			   need_stret ? "void" : ParameterGetMarshalType(mi, true), method_name, b.ToString(),
 			   need_stret ? (HasAttribute(mi, typeof(AlignAttribute)) ? "IntPtr" : "out " + FormatType(MessagingType, mi.ReturnType)) + " retval, " : "");
 
+	}
+
+	// Returns two strings that are used to convert from a native (nint/nuint) value to a managed ([Native]) enum value
+	// nativeType: nint/nuint
+	bool GetNativeEnumToManagedExpression(Type enumType, out string preExpression, out string postExpression, out string nativeType, StringBuilder postproc = null)
+	{
+		preExpression = null;
+		postExpression = null;
+		nativeType = null;
+
+		if (!enumType.IsEnum)
+			return false;
+
+		var attrib = enumType.GetCustomAttribute<NativeAttribute>();
+		if (attrib is null)
+			return false;
+
+		var renderedEnumType = RenderType(enumType);
+		var underlyingEnumType = enumType.GetEnumUnderlyingType();
+		var underlyingTypeName = RenderType(underlyingEnumType);
+		string intermediateType;
+		if (typeof(System.Int64) == underlyingEnumType)
+		{
+			nativeType = "long";
+			intermediateType = "long";
+		}
+		else if (typeof(System.UInt64) == underlyingEnumType)
+		{
+			nativeType = "ulong";
+			intermediateType = "ulong";
+		}
+		else
+		{
+			throw new BindingException(1029, $"Underlying type of {enumType} is not valid");
+		}
+
+		if (!string.IsNullOrEmpty(attrib.ConvertToManaged))
+		{
+			preExpression = attrib.ConvertToManaged + " ((" + intermediateType + ") ";
+			postExpression = ")";
+		}
+		else
+		{
+			preExpression = "(" + renderedEnumType + ") (" + RenderType(underlyingEnumType) + ") ";
+			postExpression = string.Empty;
+		}
+
+		return true;
+	}
+
+	// Returns two strings that are used to convert from a managed enum value to a native nint/nuint.
+	// nativeType: nint/nuint
+	bool GetNativeEnumToNativeExpression(Type enumType, out string preExpression, out string postExpression, out string nativeType)
+	{
+		preExpression = null;
+		postExpression = null;
+		nativeType = null;
+
+		if (!enumType.IsEnum)
+			return false;
+
+		var attrib = enumType.GetCustomAttribute<NativeAttribute>();
+		if (attrib is null)
+			return false;
+
+		var underlyingEnumType = enumType.GetEnumUnderlyingType();
+		if (typeof(System.Int64) == underlyingEnumType)
+		{
+			nativeType = "long";
+		}
+		else if (typeof(System.UInt64) == underlyingEnumType)
+		{
+			nativeType = "ulong";
+		}
+		else
+		{
+			throw new BindingException(1029, $"Underlying type of {enumType} is not valid");
+		}
+
+		if (!string.IsNullOrEmpty(attrib.ConvertToNative))
+		{
+			preExpression = "(" + nativeType + ") " + attrib.ConvertToNative + " (";
+			postExpression = ")";
+		}
+		else
+		{
+			preExpression = "(" + nativeType + ") (" + RenderType(underlyingEnumType) + ") ";
+			postExpression = string.Empty;
+		}
+
+		return true;
 	}
 
 	void DeclareInvoker(MethodInfo mi)
@@ -2089,6 +2194,7 @@ public class Generator
 		"System.Threading.Tasks",
 #if MONOMAC
 		"MonoMac",
+		"MonoMac.AppKit",
 		"MonoMac.CoreFoundation",
 		"MonoMac.Foundation",
 		"MonoMac.ObjCRuntime",

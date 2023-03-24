@@ -247,6 +247,7 @@
     
     <CoreSource Include="Constants.cs" />
     <CoreSource Include="AppKit/Enums.cs" />
+    <CoreSource Include="AppKit/EnumsConversions.cs" />
     <CoreSource Include="AppKit/Defs.cs" />
     <CoreSource Include="Foundation/EnumDesktop.cs" />
     <CoreSource Include="Foundation/NSObject.cs" />

@@ -913,6 +913,7 @@ namespace MonoMac.AppKit {
 		All = nuint.MaxValue
 	}
 
+	[Native(ConvertToNative = "NSTextAlignmentConversions.ToNative", ConvertToManaged = "NSTextAlignmentConversions.ToManaged")]
 	public enum NSTextAlignment : nuint {
 		Left, Right, Center, Justified, Natural
 	}
