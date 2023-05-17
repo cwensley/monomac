@@ -7026,6 +7026,15 @@ namespace MonoMac.AppKit {
 
 		[Export ("outlineViewSelectionDidChange:")]
 		void SelectionDidChange (NSNotification notification);
+		
+		[Lion]
+		[Export ("outlineView:didAddRowView:forRow:"), EventArgs ("NSTableViewRow")]
+		void DidAddRowView (NSOutlineView outlineView, NSTableRowView rowView, nint row);
+
+		[Lion]
+		[Export ("outlineView:didRemoveRowView:forRow:"), EventArgs ("NSTableViewRow")]
+		void DidRemoveRowView (NSOutlineView outlineView, NSTableRowView rowView, nint row);
+
 	}
 	
 	[BaseType (typeof (NSObject))]
