@@ -131,6 +131,28 @@ namespace MonoMac.CoreGraphics {
 		public nfloat Height { get { return Size.Height; } set { Size.Height = value; } }
 
         public bool IsEmpty => Size.IsEmpty;
+
+		
+		public bool Contains(nfloat x, nfloat y)
+		{
+			if (x >= Left && x < Right && y >= Top)
+			{
+			return y < Bottom;
+			}
+			return false;
+		}
+
+  		public bool Contains(CGPoint point) => Contains(point.X, point.Y);
+
+		public bool Contains(CGRect rect)
+		{
+			if (X <= rect.X && Right >= rect.Right && Y <= rect.Y)
+			{
+				return Bottom >= rect.Bottom;
+			}
+			return false;
+		}
+		
     }
 }
 #endif
