@@ -8774,6 +8774,17 @@ namespace MonoMac.AppKit {
 		[Introduced (PlatformName.MacOSX, 10, 6)]
 		NSString NSPasteboardTypeFindPanelSearchOptions { get; }
 		
+		[Field ("NSPasteboardTypeTextFinderOptions")]
+		NSString PasteboardTypeTextFinderOptions { get; }
+
+		[Mac (10, 13)]
+		[Field ("NSPasteboardTypeURL")]
+		NSString NSPasteboardTypeUrl { get; }
+
+		[Mac (10, 13)]
+		[Field ("NSPasteboardTypeFileURL")]
+		NSString NSPasteboardTypeFileUrl { get; }
+		
 
 		// Pasteboard names: for NSPasteboard.FromName()
 
