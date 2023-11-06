@@ -1814,7 +1814,7 @@ namespace MonoMac.AppKit {
 		[Export ("mouseExited:")]
 		void MouseExited (NSEvent theEvent);
 	
-		[Export ("backgroundColor")]
+		[Export ("backgroundColor"), NullAllowed]
 		NSColor BackgroundColor { get; set; }
 
 		[Export ("attributedTitle")]
