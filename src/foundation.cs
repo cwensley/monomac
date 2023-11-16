@@ -4363,6 +4363,11 @@ namespace MonoMac.Foundation
 		[Export ("debugDescription")]
 		string DebugDescription { get; }
 
+		// [Abstract]
+		[EditorBrowsable (EditorBrowsableState.Advanced)]
+		[Export ("class")]
+		Class Class { get; }
+
 		//
 		// Extra Perform methods, with selectors
 		//

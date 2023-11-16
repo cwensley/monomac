@@ -9812,7 +9812,7 @@ namespace MonoMac.AppKit {
 		[Export ("nextResponder")][NullAllowed]
 		NSResponder NextResponder { get; set; }
 
-		[Export ("menu")]
+		[Export ("menu")][NullAllowed]
 		NSMenu Menu { get; set; }
 
 		[Lion, Export ("encodeRestorableStateWithCoder:")]
@@ -16003,6 +16003,41 @@ namespace MonoMac.AppKit {
 		[Mac (11,0)]
 		[Export ("automaticallyAdjustsSize")]
 		bool AutomaticallyAdjustsSize { get; set; }
+	}
+	
+	[Mac (10,10)]
+	// [NoMacCatalyst]
+	[BaseType (typeof (NSView))]
+	interface NSVisualEffectView {
+		[Export ("initWithFrame:")]
+		IntPtr Constructor (CGRect frameRect);
+
+		[Export ("material")]
+		NSVisualEffectMaterial Material { get; set; }
+
+		[Export ("interiorBackgroundStyle")]
+		NSBackgroundStyle InteriorBackgroundStyle { get; }
+
+		[Export ("blendingMode")]
+		NSVisualEffectBlendingMode BlendingMode { get; set; }
+
+		[Export ("state")]
+		NSVisualEffectState State { get; set; }
+
+		[Export ("maskImage", ArgumentSemantic.Retain)]
+		NSImage MaskImage { get; set; }
+
+		// [RequiresSuper]
+		[Export ("viewDidMoveToWindow")]
+		void ViewDidMove ();
+
+		// [RequiresSuper]
+		[Export ("viewWillMoveToWindow:")]
+		void ViewWillMove (NSWindow newWindow);
+
+		[Mac (10, 12)]
+		[Export ("emphasized")]
+		bool Emphasized { [Bind ("isEmphasized")] get; set; }
 	}
 
 	public delegate void NSWindowCompletionHandler (NSWindow window, NSError error);

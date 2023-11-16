@@ -1820,6 +1820,68 @@ namespace MonoMac.AppKit {
 		Visible = 1 << 1
 	}
 
+#region NSVisualEffectView
+	// [NoMacCatalyst]
+	[Native]
+	public enum NSVisualEffectMaterial : long {
+		// [Advice ("Use a specific material instead.")]
+		AppearanceBased,
+		// [Advice ("Use a semantic material instead.")]
+		Light,
+		// [Advice ("Use a semantic material instead.")]
+		Dark,
+		Titlebar,
+		Selection,
+		[Mac (10,11)]
+		Menu,
+		[Mac (10,11)]
+		Popover,
+		[Mac (10,11)]
+		Sidebar,
+		[Mac (10,11)]
+		// [Advice ("Use a semantic material instead.")]
+		MediumLight,
+		[Mac (10,11)]
+		// [Advice ("Use a semantic material instead.")]
+		UltraDark,
+		[Mac (10,14)]
+		HeaderView = 10,
+		[Mac (10,14)]
+		Sheet = 11,
+		[Mac (10,14)]
+		WindowBackground = 12,
+		[Mac (10,14)]
+		HudWindow = 13,
+		[Mac (10,14)]
+		FullScreenUI = 15,
+		[Mac (10,14)]
+		ToolTip = 17,
+		[Mac (10,14)]
+		ContentBackground = 18,
+		[Mac (10,14)]
+		UnderWindowBackground = 21,
+		[Mac (10,14)]
+		UnderPageBackground = 22,
+	}
+
+	// [NoMacCatalyst]
+	[Native]
+	public enum NSVisualEffectBlendingMode : long {
+		BehindWindow,
+		WithinWindow
+	}
+
+	// [NoMacCatalyst]
+	[Native]
+	public enum NSVisualEffectState : long {
+		FollowsWindowActiveState,
+		Active,
+		Inactive
+	}
+#endregion
+
+
+
 	[Mac (10, 12)]
 	public enum NSDisplayGamut : long
 	{
