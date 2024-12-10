@@ -851,18 +851,19 @@ public class Generator
 
 			invokePars.Append($"{FormatType(null, pi.ParameterType)} {pi.Name}");
 
-			if (pi.ParameterType.IsValueType)
-			{
-				pars.AppendFormat("{0} {1}", FormatType(null, pi.ParameterType), pi.Name);
-				invoke.AppendFormat("{0}", pi.Name);
-				invokeBlock.Append(pi.Name);
-				continue;
-			}
 
 			if (GetNativeEnumToManagedExpression (pi.ParameterType, out var preExpression, out var postExpression, out var nativeType))
 			{
 				pars.AppendFormat("{0} {1}", nativeType, pi.Name);
 				invoke.Append (preExpression).Append (pi.Name).Append (postExpression);
+				invokeBlock.Append($"({nativeType}) {pi.Name}");
+				continue;
+			}
+			if (pi.ParameterType.IsValueType)
+			{
+				pars.AppendFormat("{0} {1}", FormatType(null, pi.ParameterType), pi.Name);
+				invoke.AppendFormat("{0}", pi.Name);
+				invokeBlock.Append(pi.Name);
 				continue;
 			}
 			if (pi.ParameterType == typeof(string[]))
@@ -2297,7 +2298,12 @@ public class Generator
 				MarshalInfo mai = new MarshalInfo(mi);
 				MarshalType mt;
 
-				if (mi.ReturnType.IsEnum)
+				if (GetNativeEnumToManagedExpression(mai.Type, out var preExpression, out var postExpression, out var nativeType))
+				{
+					cast_a = preExpression;
+					cast_b = postExpression;
+				}
+				else if (mi.ReturnType.IsEnum)
 				{
 					cast_a = "(" + FormatType(mi.DeclaringType, mi.ReturnType) + ") ";
 					cast_b = "";
