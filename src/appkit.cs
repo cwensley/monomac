@@ -14089,6 +14089,9 @@ namespace MonoMac.AppKit {
 		[Export ("insertText:")]
 		void InsertText (NSObject insertString);
 
+		[Export("insertText:replacementRange:")]
+		void InsertText (NSObject text, NSRange replacementRange);
+
 		[Export ("setConstrainedFrameSize:")]
 		void SetConstrainedFrameSize (CGSize desiredSize);
 

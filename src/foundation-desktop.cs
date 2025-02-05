@@ -542,6 +542,12 @@ namespace MonoMac.Foundation {
 		// Fields
 		[Field ("NSTaskDidTerminateNotification")]
 		NSString NSTaskDidTerminateNotification { get; }
+		
+		[Static]
+		[Export ("launchedTaskWithExecutableURL:arguments:error:terminationHandler:")]
+		[return: NullAllowed]
+		NSTask LaunchFromUrl (NSUrl url, string [] arguments, [NullAllowed] out NSError error, [NullAllowed] Action<NSTask> terminationHandler);
+		
 	}
 
 	[BaseType (typeof (NSObject))]
