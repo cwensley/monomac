@@ -294,6 +294,10 @@ namespace MonoMac.AppKit {
 		[Export ("beginSheetModalForWindow:modalDelegate:didEndSelector:contextInfo:")]
 		void BeginSheet ([NullAllowed] NSWindow  window, [NullAllowed] NSObject modalDelegate, [NullAllowed] Selector didEndSelector, IntPtr contextInfo);
 	
+		[Mac (10,10)]
+		[Export ("beginSheetModalForWindow:completionHandler:")]
+		void BeginSheet (NSWindow sheetWindow, Action<NSModalResponse> completionHandler);
+
 		[Export ("window")]
 		NSPanel Window  { get; }
 	
