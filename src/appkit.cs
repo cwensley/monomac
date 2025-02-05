@@ -2837,8 +2837,8 @@ namespace MonoMac.AppKit {
 		NSColor QuaternaryLabelColor { get; }
 
 		[Mac (10, 10)]
-		[Static, Export ("linkColor", ArgumentSemantic.Strong)]
-		NSColor LinkColor { get; }
+		[Static, Export ("linkColor")]
+		NSColor Link { get; }
 		
 		[Mac (10,12)]
 		[Static]
