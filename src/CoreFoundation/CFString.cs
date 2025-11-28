@@ -33,192 +33,294 @@
 //
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 using MonoMac.ObjCRuntime;
 using MonoMac.Foundation;
 
-namespace MonoMac.CoreFoundation {
+#nullable enable
 
+namespace MonoMac.CoreFoundation {
+	/// <summary>Represents a range from two integers: location and length.</summary>
+	///     <remarks>To be added.</remarks>
+	[SupportedOSPlatform ("ios")]
+	[SupportedOSPlatform ("maccatalyst")]
+	[SupportedOSPlatform ("macos")]
+	[SupportedOSPlatform ("tvos")]
 	[StructLayout (LayoutKind.Sequential)]
 	public struct CFRange {
-		IntPtr loc; // defined as 'long' in native code
-		IntPtr len; // defined as 'long' in native code
+		nint loc; // defined as 'long' in native code
+		nint len; // defined as 'long' in native code
 
+		/// <summary>To be added.</summary>
+		///         <value>To be added.</value>
+		///         <remarks>To be added.</remarks>
 		public int Location {
-			get { return loc.ToInt32 (); }
+			get { return (int) loc; }
 		}
-		
+
+		/// <summary>To be added.</summary>
+		///         <value>To be added.</value>
+		///         <remarks>To be added.</remarks>
 		public int Length {
-			get { return len.ToInt32 (); }
+			get { return (int) len; }
 		}
-		
+
+		/// <summary>To be added.</summary>
+		///         <value>To be added.</value>
+		///         <remarks>To be added.</remarks>
 		public long LongLocation {
-			get { return loc.ToInt64 (); }
+			get { return (long) loc; }
 		}
-		
+
+		/// <summary>To be added.</summary>
+		///         <value>To be added.</value>
+		///         <remarks>To be added.</remarks>
 		public long LongLength {
-			get { return len.ToInt64 (); }
+			get { return (long) len; }
 		}
 
+		/// <param name="loc">To be added.</param>
+		///         <param name="len">To be added.</param>
+		///         <summary>To be added.</summary>
+		///         <remarks>To be added.</remarks>
 		public CFRange (int loc, int len)
-			: this ((long) loc, (long) len)
 		{
+			this.loc = loc;
+			this.len = len;
 		}
 
+		/// <param name="l">To be added.</param>
+		///         <param name="len">To be added.</param>
+		///         <summary>To be added.</summary>
+		///         <remarks>To be added.</remarks>
 		public CFRange (long l, long len)
 		{
-			this.loc = new IntPtr (l);
-			this.len = new IntPtr (len);
+			this.loc = (nint) l;
+			this.len = (nint) len;
 		}
-		
+
+		// public CFRange (nint l, nint len)
+		// {
+		// 	this.loc = l;
+		// 	this.len = len;
+		// }
+
+		/// <summary>To be added.</summary>
+		///         <returns>To be added.</returns>
+		///         <remarks>To be added.</remarks>
 		public override string ToString ()
 		{
 			return string.Format ("CFRange [Location: {0} Length: {1}]", loc, len);
 		}
 	}
 
-	public static class CFObject {
+	// nothing is exposed publicly
+	/// <summary>Base class for CoreFoundation objects.</summary>
+	///     <remarks>To be added.</remarks>
+	internal static class CFObject {
+
 		[DllImport (Constants.CoreFoundationLibrary)]
 		internal extern static void CFRelease (IntPtr obj);
 
 		[DllImport (Constants.CoreFoundationLibrary)]
 		internal extern static IntPtr CFRetain (IntPtr obj);
+
+		/// <summary>Does nothing if <paramref name="obj" /> is IntPtr.Zero, otherwise calls CFRelease.</summary>
+		internal static void SafeRelease (IntPtr obj)
+		{
+			if (obj == IntPtr.Zero)
+				return;
+			CFRelease (obj);
+		}
+
+		/// <summary>Does nothing if <paramref name="obj" /> is IntPtr.Zero, otherwise calls CFRetain.</summary>
+		internal static IntPtr SafeRetain (IntPtr obj)
+		{
+			if (obj == IntPtr.Zero)
+				return obj;
+			return CFRetain (obj);
+		}
 	}
-	
-	public class CFString : INativeObject, IDisposable {
-		internal IntPtr handle;
-		internal string str;
-		
-		
-		[DllImport (Constants.CoreFoundationLibrary, CharSet=CharSet.Unicode)]
-		extern static IntPtr CFStringCreateWithCharacters (IntPtr allocator, string str, int count);
 
-		[DllImport (Constants.CoreFoundationLibrary, CharSet=CharSet.Unicode)]
-		extern static int CFStringGetLength (IntPtr handle);
+	/// <summary>String class used by C-only Cocoa APIs.</summary>
+	///     <remarks>Use this class for creating strings that must be passed to methods in the low-level MonoTouch.CoreGraphics API.</remarks>
+	[SupportedOSPlatform ("ios")]
+	[SupportedOSPlatform ("maccatalyst")]
+	[SupportedOSPlatform ("macos")]
+	[SupportedOSPlatform ("tvos")]
+	public class CFString
+		: NativeObject
+	{
+		internal string? str;
 
-		[DllImport (Constants.CoreFoundationLibrary, CharSet=CharSet.Unicode)]
-		extern static IntPtr CFStringGetCharactersPtr (IntPtr handle);
+		/// <summary>To be added.</summary>
+		///         <remarks>To be added.</remarks>
+		protected CFString () { }
 
-		[DllImport (Constants.CoreFoundationLibrary, CharSet=CharSet.Unicode)]
-		extern static IntPtr CFStringGetCharacters (IntPtr handle, CFRange range, IntPtr buffer);
-		
+		[DllImport (Constants.CoreFoundationLibrary, CharSet = CharSet.Unicode)]
+		extern static IntPtr CFStringCreateWithCharacters (IntPtr allocator, IntPtr str, nint count);
+
+		[DllImport (Constants.CoreFoundationLibrary, CharSet = CharSet.Unicode)]
+		extern static nint CFStringGetLength (IntPtr handle);
+
+		[DllImport (Constants.CoreFoundationLibrary, CharSet = CharSet.Unicode)]
+		extern static unsafe char* CFStringGetCharactersPtr (IntPtr handle);
+
+		[DllImport (Constants.CoreFoundationLibrary, CharSet = CharSet.Unicode)]
+		extern static unsafe IntPtr CFStringGetCharacters (IntPtr handle, CFRange range, char* buffer);
+
+		public static NativeHandle CreateNative (string? value)
+		{
+			if (value is null)
+				return NativeHandle.Zero;
+
+			using var valuePtr = new TransientString (value, TransientString.Encoding.Unicode);
+			return CFStringCreateWithCharacters (IntPtr.Zero, valuePtr, value.Length);
+		}
+
+		public static void ReleaseNative (NativeHandle handle)
+		{
+			if (handle != NativeHandle.Zero)
+				CFObject.CFRelease (handle);
+		}
+
+		/// <summary>Creates a <see cref="CFString" /> from a C# string.</summary>
+		/// <param name="str">The managed string to initialize the new <see cref="CFString" /> with.</param>
 		public CFString (string str)
 		{
-			if (str == null)
-				throw new ArgumentNullException ("str");
-			
-			handle = CFStringCreateWithCharacters (IntPtr.Zero, str, str.Length);
+			if (str is null)
+				throw new ArgumentNullException (nameof (str));
+			// ObjCRuntime.ThrowHelper.ThrowArgumentNullException (nameof (str));
+
+
+			using var strPtr = new TransientString(str, TransientString.Encoding.Unicode);
+			InitializeHandle (CFStringCreateWithCharacters (IntPtr.Zero, strPtr, str.Length));
 			this.str = str;
 		}
 
-		~CFString ()
-		{
-			Dispose (false);
-		}
+		/// <summary>Type identifier for the CoreFoundation.CFString type.</summary>
+		///         <returns>To be added.</returns>
+		///         <remarks>
+		///           <para>The returned token is the CoreFoundation type identifier (CFType) that has been assigned to this class.</para>
+		///           <para>This can be used to determine type identity between different CoreFoundation objects.</para>
+		///           <para>You can retrieve the type of a CoreFoundation object by invoking the <see cref="CoreFoundation.CFType.GetTypeID(System.IntPtr)" /> on the native handle of the object</para>
+		///           <example>
+		///             <code lang="csharp lang-csharp"><![CDATA[bool isCFString = (CFType.GetTypeID (foo.Handle) == CFString.GetTypeID ());]]></code>
+		///           </example>
+		///         </remarks>
+		[DllImport (Constants.CoreFoundationLibrary, EntryPoint = "CFStringGetTypeID")]
+		public extern static nint GetTypeID ();
 
-		public IntPtr Handle {
-			get {
-				return handle;
-			}
-		}
-
-		[DllImport (Constants.CoreTextLibrary, EntryPoint="CFStringGetTypeID")]
-		public extern static int GetTypeID ();
-		
-		public void Dispose ()
-		{
-			Dispose (true);
-			GC.SuppressFinalize (this);
-		}
-
-		public virtual void Dispose (bool disposing)
-		{
-			str = null;
-			if (handle != IntPtr.Zero){
-				CFObject.CFRelease (handle);
-				handle = IntPtr.Zero;
-			}
-		}
-		
-		public CFString (IntPtr handle)
-			: this (handle, false)
-		{
-		}
-		
 		[Preserve (Conditional = true)]
-		internal CFString (IntPtr handle, bool owns)
+		internal CFString (NativeHandle handle, bool owns)
+			: base (handle, owns)
 		{
-			this.handle = handle;
-			if (!owns)
-				CFObject.CFRetain (handle);
 		}
 
-		internal static string FetchString (IntPtr handle)
+		// to be used when an API like CF*Get* returns a CFString
+		public static string? FromHandle (NativeHandle handle)
 		{
 			if (handle == IntPtr.Zero)
 				return null;
-			
-			string str;
-			
-			int l = CFStringGetLength (handle);
-			IntPtr u = CFStringGetCharactersPtr (handle);
-			IntPtr buffer = IntPtr.Zero;
-			if (u == IntPtr.Zero){
-				CFRange r = new CFRange (0, l);
-				buffer = Marshal.AllocCoTaskMem (l * 2);
-				CFStringGetCharacters (handle, r, buffer);
-				u = buffer;
-			}
-			unsafe {
-				str = new string ((char *) u, 0, l);
-			}
-			
-			if (buffer != IntPtr.Zero)
-				Marshal.FreeCoTaskMem (buffer);
 
+			int l = (int) CFStringGetLength (handle);
+			if (l == 0)
+				return String.Empty;
+
+			string str;
+			bool allocate_memory = false;
+			CFRange r = new CFRange (0, l);
+			unsafe {
+				// this returns non-null only if the string can be represented as unicode
+				char* u = CFStringGetCharactersPtr (handle);
+				if (u is null) {
+					// alloc short string on the stack, otherwise use the heap
+					allocate_memory = l > 128;
+					// var m = allocate_memory ? (char*) Marshal.AllocHGlobal (l * 2) : stackalloc char [l];
+					// this ^ won't compile so...
+					if (allocate_memory) {
+						u = (char*) Marshal.AllocHGlobal (l * 2);
+					} else {
+						// `u = stackalloc char [l];` won't compile either, even with cast
+						char* u2 = stackalloc char [l];
+						u = u2;
+					}
+					CFStringGetCharacters (handle, r, u);
+				}
+				str = new string (u, 0, l);
+				if (allocate_memory)
+					Marshal.FreeHGlobal ((IntPtr) u);
+			}
 			return str;
 		}
-		
-		public static implicit operator string (CFString x)
+
+		// to be used when an API like CF*Copy* returns a CFString
+		public static string? FromHandle (NativeHandle handle, bool releaseHandle)
 		{
-			if (x.str == null)
-				x.str = FetchString (x.handle);
-			
+			var s = FromHandle (handle);
+			if (releaseHandle && (handle != IntPtr.Zero))
+				CFObject.CFRelease (handle);
+			return s;
+		}
+
+		public static implicit operator string? (CFString? x)
+		{
+			if (x is null)
+				return null;
+
+			if (x.str is null) {
+				x.str = FromHandle (x.Handle);
+				GC.KeepAlive (x);
+			}
+
 			return x.str;
 		}
 
-		public static implicit operator CFString (string s)
+		// [return: NotNullIfNotNull ("s")]
+		public static implicit operator CFString? (string? s)
 		{
+			if (s is null)
+				return null;
+
 			return new CFString (s);
 		}
 
+		/// <summary>String length.</summary>
+		///         <value>To be added.</value>
+		///         <remarks>To be added.</remarks>
 		public int Length {
 			get {
-				if (str != null)
+				if (str is not null)
 					return str.Length;
 				else
-					return CFStringGetLength (handle);
+					return (int) CFStringGetLength (Handle);
 			}
 		}
 
-		[DllImport (Constants.CoreFoundationLibrary, CharSet=CharSet.Unicode)]
-		extern static char CFStringGetCharacterAtIndex (IntPtr handle, int p);
-		
-		public char this [int p] {
+		[DllImport (Constants.CoreFoundationLibrary)]
+		extern static ushort CFStringGetCharacterAtIndex (IntPtr handle, nint p);
+
+		public char this [nint p] {
 			get {
-				if (str != null)
-					return str [p];
+				if (str is not null)
+					return str [(int) p];
 				else
-					return CFStringGetCharacterAtIndex (handle, p);
+					return (char) CFStringGetCharacterAtIndex (Handle, p);
 			}
 		}
-		
+
+		/// <summary>To be added.</summary>
+		///         <returns>To be added.</returns>
+		///         <remarks>To be added.</remarks>
 		public override string ToString ()
 		{
-			if (str != null)
-				return str;
-			return FetchString (handle);
+			if (str is null)
+				str = FromHandle (Handle);
+			return str ?? base.ToString ()!;
 		}
+// #endif // !COREBUILD
 	}
 }

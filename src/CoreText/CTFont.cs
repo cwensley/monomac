@@ -1872,8 +1872,8 @@ namespace MonoMac.CoreText {
 		{
 			var cfArrayRef = CTFontCopySupportedLanguages (handle);
 			if (cfArrayRef == IntPtr.Zero)
-				return new string [0];
-			var languages = NSArray.ArrayFromHandle<string> (cfArrayRef, CFString.FetchString);
+				return new string[0];
+			var languages = NSArray.ArrayFromHandle<string> (cfArrayRef, CFString.FromHandle);
 			CFObject.CFRelease (cfArrayRef);
 			return languages;
 		}

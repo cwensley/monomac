@@ -143,7 +143,7 @@ namespace MonoMac.CoreText {
 		public string GlyphName {
 			get {
 				var cfStringRef = CTGlyphInfoGetGlyphName (handle);
-				return CFString.FetchString (cfStringRef);
+				return CFString.FromHandle (cfStringRef);
 			}
 		}
 

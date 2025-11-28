@@ -107,9 +107,7 @@ namespace MonoMac.CoreFoundation {
 		
 		public override string ToString ()
 		{
-			using (var str = new CFString (CFURLGetString (handle))) {
-				return str.ToString ();
-			}
+			return CFString.FromHandle (CFURLGetString (handle));
 		}
 		
 		[DllImport (Constants.CoreFoundationLibrary)]

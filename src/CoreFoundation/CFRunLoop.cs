@@ -161,16 +161,15 @@ namespace MonoMac.CoreFoundation {
 		static void Schedule (IntPtr info, IntPtr runLoop, IntPtr mode)
 		{
 			var source = GCHandle.FromIntPtr (info).Target as CFRunLoopSourceCustom;
-
-			var loop = new CFRunLoop (runLoop);
-			var mstring = new CFString (mode);
-
-			try {
-				source.OnSchedule (loop, (string)mstring);
-			} finally {
-				loop.Dispose ();
-				mstring.Dispose ();
+			if (source is null)
+				return;
+#if !COREBUILD
+			using (var loop = new CFRunLoop(runLoop, false))
+			using (var mstring = new NSString(mode))
+			{
+				source.OnSchedule(loop, mstring);
 			}
+#endif
 		}
 
 		protected abstract void OnSchedule (CFRunLoop loop, string mode);
@@ -179,17 +178,17 @@ namespace MonoMac.CoreFoundation {
 		[MonoPInvokeCallback (typeof(CancelCallback))]
 		static void Cancel (IntPtr info, IntPtr runLoop, IntPtr mode)
 		{
+#if !COREBUILD
 			var source = GCHandle.FromIntPtr (info).Target as CFRunLoopSourceCustom;
+			if (source is null)
+				return;
 
-			var loop = new CFRunLoop (runLoop);
-			var mstring = new CFString (mode);
-
-			try {
-				source.OnCancel (loop, (string)mstring);
-			} finally {
-				loop.Dispose ();
-				mstring.Dispose ();
+			using (var loop = new CFRunLoop(runLoop, false))
+			using (var mstring = new NSString(mode))
+			{
+				source.OnCancel(loop, mstring);
 			}
+#endif
 		}
 
 		protected abstract void OnCancel (CFRunLoop loop, string mode);

@@ -491,22 +491,25 @@ namespace Mono.Options
 			this.option = optionName;
 		}
 
+#pragma warning disable SYSLIB0051 // Type or member is obsolete
 		protected OptionException (SerializationInfo info, StreamingContext context)
 			: base (info, context)
 		{
 			this.option = info.GetString ("OptionName");
 		}
 
-		public string OptionName {
-			get {return this.option;}
-		}
-
 		//[SecurityPermission (SecurityAction.LinkDemand, SerializationFormatter = true)]
+		[Obsolete]
 		public override void GetObjectData (SerializationInfo info, StreamingContext context)
 		{
 			base.GetObjectData (info, context);
 			info.AddValue ("OptionName", option);
 		}
+#pragma warning restore SYSLIB0051 // Type or member is obsolete
+		public string OptionName {
+			get {return this.option;}
+		}
+
 	}
 
 	public delegate void OptionAction<TKey, TValue> (TKey key, TValue value);

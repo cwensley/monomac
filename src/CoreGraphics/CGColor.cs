@@ -78,9 +78,9 @@ namespace MonoMac.CoreGraphics {
 				throw new ArgumentNullException ("components");
 			if (colorspace == null)
 				throw new ArgumentNullException ("colorspace");
-			if (colorspace.handle == IntPtr.Zero)
+			if (colorspace.Handle == IntPtr.Zero)
 				throw new ObjectDisposedException ("colorspace");
-			handle = CGColorCreate (colorspace.handle, components);
+			handle = CGColorCreate (colorspace.GetHandle(), components);
 		}
 
 		[DllImport(Constants.CoreGraphicsLibrary)]
@@ -110,7 +110,7 @@ namespace MonoMac.CoreGraphics {
 				throw new ArgumentNullException ("name");
 			
 			using (var s = new CFString (name)){
-				handle = CGColorGetConstantColor (s.handle);
+				handle = CGColorGetConstantColor (s.GetHandle());
 				if (handle == IntPtr.Zero)
 					throw new ArgumentException ("name");
 			}
@@ -122,14 +122,14 @@ namespace MonoMac.CoreGraphics {
 		{
 			if (colorspace == null)
 				throw new ArgumentNullException ("colorspace");
-			if (colorspace.handle == IntPtr.Zero)
+			if (colorspace.Handle == IntPtr.Zero)
 				throw new ObjectDisposedException ("colorspace");
 			if (pattern == null)
 				throw new ArgumentNullException ("pattern");
 			if (components == null)
 				throw new ArgumentNullException ("components");
 
-			handle = CGColorCreateWithPattern (colorspace.handle, pattern.handle, components);
+			handle = CGColorCreateWithPattern (colorspace.GetHandle(), pattern.handle, components);
 			if (handle == IntPtr.Zero)
 				throw new ArgumentException ();
 		}
@@ -210,7 +210,7 @@ namespace MonoMac.CoreGraphics {
 		extern static IntPtr CGColorGetColorSpace(IntPtr color);
 		public CGColorSpace ColorSpace {
 			get {
-				return new CGColorSpace (CGColorGetColorSpace (handle));
+				return new CGColorSpace (CGColorGetColorSpace (handle), false);
 			}
 		}
 		

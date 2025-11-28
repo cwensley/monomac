@@ -5,7 +5,6 @@ namespace MonoMac.ObjCRuntime {
 		IntPtr Handle { get; }
 	}
 
-#if !COREBUILD
 	public static class NativeObjectExtensions {
 
 		// help to avoid the (too common pattern)
@@ -24,5 +23,4 @@ namespace MonoMac.ObjCRuntime {
 			return self.Handle;
 		}
 	}
-#endif
 }

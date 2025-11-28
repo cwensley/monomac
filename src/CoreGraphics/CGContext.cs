@@ -376,7 +376,7 @@ namespace MonoMac.CoreGraphics {
 		extern static void CGContextAddPath(IntPtr context, IntPtr path_ref);
 		public void AddPath (CGPath path)
 		{
-			CGContextAddPath (handle, path.handle);
+			CGContextAddPath (handle, path.GetHandle());
 		}
 
 		[DllImport (Constants.CoreGraphicsLibrary)]
@@ -517,7 +517,7 @@ namespace MonoMac.CoreGraphics {
 		extern static void CGContextClipToMask(IntPtr c, CGRect rect, IntPtr mask);
 		public void ClipToMask (CGRect rect, CGImage mask)
 		{
-			CGContextClipToMask (handle, rect, mask.handle);
+			CGContextClipToMask (handle, rect, mask.GetHandle());
 		}
 
 		[DllImport (Constants.CoreGraphicsLibrary)]
@@ -545,40 +545,40 @@ namespace MonoMac.CoreGraphics {
 		extern static void CGContextSetFillColorWithColor(IntPtr c, IntPtr color);
 		public void SetFillColor (CGColor color)
 		{
-			CGContextSetFillColorWithColor (handle, color.handle);
+			CGContextSetFillColorWithColor (handle, color.GetHandle());
 		}
 		
 		[Advice ("Use SetFillColor() instead.")]
 		public void SetFillColorWithColor (CGColor color)
 		{
-			CGContextSetFillColorWithColor (handle, color.handle);
+			CGContextSetFillColorWithColor (handle, color.GetHandle());
 		}
 		
 		[DllImport (Constants.CoreGraphicsLibrary)]
 		extern static void CGContextSetStrokeColorWithColor(IntPtr c, IntPtr color);
 		public void SetStrokeColor (CGColor color)
 		{
-			CGContextSetStrokeColorWithColor (handle, color.handle);
+			CGContextSetStrokeColorWithColor (handle, color.GetHandle());
 		}
 		
 		[Advice ("Use SetStrokeColor() instead.")]
 		public void SetStrokeColorWithColor (CGColor color)
 		{
-			CGContextSetStrokeColorWithColor (handle, color.handle);
+			CGContextSetStrokeColorWithColor (handle, color.GetHandle());
 		}
 		
 		[DllImport (Constants.CoreGraphicsLibrary)]
 		extern static void CGContextSetFillColorSpace(IntPtr context, IntPtr space);
 		public void SetFillColorSpace (CGColorSpace space)
 		{
-			CGContextSetFillColorSpace (handle, space.handle);
+			CGContextSetFillColorSpace (handle, space.GetHandle());
 		}
 
 		[DllImport (Constants.CoreGraphicsLibrary)]
 		extern static void CGContextSetStrokeColorSpace(IntPtr context, IntPtr space);
 		public void SetStrokeColorSpace (CGColorSpace space)
 		{
-			CGContextSetStrokeColorSpace (handle, space.handle);
+			CGContextSetStrokeColorSpace (handle, space.GetHandle());
 		}
 
 		[DllImport (Constants.CoreGraphicsLibrary)]
@@ -605,7 +605,7 @@ namespace MonoMac.CoreGraphics {
 		{
 			if (components == null)
 				throw new ArgumentNullException ("components");
-			CGContextSetFillPattern (handle, pattern.handle, components);
+			CGContextSetFillPattern (handle, pattern.GetHandle(), components);
 		}
 		
 		[DllImport (Constants.CoreGraphicsLibrary)]
@@ -614,7 +614,7 @@ namespace MonoMac.CoreGraphics {
 		{
 			if (components == null)
 				throw new ArgumentNullException ("components");
-			CGContextSetStrokePattern (handle, pattern.handle, components);
+			CGContextSetStrokePattern (handle, pattern.GetHandle(), components);
 		}
 
 		[DllImport (Constants.CoreGraphicsLibrary)]
@@ -713,14 +713,14 @@ namespace MonoMac.CoreGraphics {
 		extern static void CGContextDrawImage(IntPtr c, CGRect rect, IntPtr image);
 		public void DrawImage (CGRect rect, CGImage image)
 		{
-			CGContextDrawImage (handle, rect, image.handle);
+			CGContextDrawImage (handle, rect, image.GetHandle());
 		}
 
 		[DllImport (Constants.CoreGraphicsLibrary)]
 		extern static void CGContextDrawTiledImage(IntPtr c, CGRect rect, IntPtr image);
 		public void DrawTiledImage (CGRect rect, CGImage image)
 		{
-			CGContextDrawTiledImage (handle, rect, image.handle);
+			CGContextDrawTiledImage (handle, rect, image.GetHandle());
 		}
 		
 		[DllImport (Constants.CoreGraphicsLibrary)]
@@ -742,7 +742,7 @@ namespace MonoMac.CoreGraphics {
 		extern static void CGContextSetShadowWithColor(IntPtr context, CGSize offset, nfloat blur, IntPtr color);
 		public void SetShadowWithColor (CGSize offset, nfloat blur, CGColor color)
 		{
-			CGContextSetShadowWithColor (handle, offset, blur, color.handle);
+			CGContextSetShadowWithColor (handle, offset, blur, color.GetHandle());
 		}
 		
 		[DllImport (Constants.CoreGraphicsLibrary)]
@@ -756,7 +756,7 @@ namespace MonoMac.CoreGraphics {
 		extern static void CGContextDrawLinearGradient(IntPtr context, IntPtr gradient, CGPoint startPoint, CGPoint endPoint, CGGradientDrawingOptions options);
 		public void DrawLinearGradient (CGGradient gradient, CGPoint startPoint, CGPoint endPoint, CGGradientDrawingOptions options)
 		{
-			CGContextDrawLinearGradient (handle, gradient.handle, startPoint, endPoint, options);
+			CGContextDrawLinearGradient (handle, gradient.GetHandle(), startPoint, endPoint, options);
 		}
 			
 		[DllImport (Constants.CoreGraphicsLibrary)]
@@ -764,7 +764,7 @@ namespace MonoMac.CoreGraphics {
 								CGPoint endCenter, nfloat endRadius, CGGradientDrawingOptions options);
 		public void DrawRadialGradient (CGGradient gradient, CGPoint startCenter, nfloat startRadius, CGPoint endCenter, nfloat endRadius, CGGradientDrawingOptions options)
 		{
-			CGContextDrawRadialGradient (handle, gradient.handle, startCenter, startRadius, endCenter, endRadius, options);
+			CGContextDrawRadialGradient (handle, gradient.GetHandle(), startCenter, startRadius, endCenter, endRadius, options);
 		}
 		
 #if !COREBUILD
@@ -772,7 +772,7 @@ namespace MonoMac.CoreGraphics {
 		extern static void CGContextDrawShading(IntPtr context, IntPtr shading);
 		public void DrawShading (CGShading shading)
 		{
-			CGContextDrawShading (handle, shading.handle);
+			CGContextDrawShading (handle, shading.GetHandle());
 		}
 #endif		
 
@@ -822,7 +822,7 @@ namespace MonoMac.CoreGraphics {
 		extern static void CGContextSetFont(IntPtr c, IntPtr font);
 		public void SetFont (CGFont font)
 		{
-			CGContextSetFont (handle, font.handle);
+			CGContextSetFont (handle, font.GetHandle());
 		}
 			
 		[DllImport (Constants.CoreGraphicsLibrary)]
@@ -974,7 +974,7 @@ namespace MonoMac.CoreGraphics {
 		extern static void CGContextDrawPDFPage(IntPtr c, IntPtr page);
 		public void DrawPDFPage (CGPDFPage page)
 		{
-			CGContextDrawPDFPage (handle, page.handle);
+			CGContextDrawPDFPage (handle, page.GetHandle());
 		}
 
 		[DllImport (Constants.CoreGraphicsLibrary)]
@@ -1099,7 +1099,7 @@ namespace MonoMac.CoreGraphics {
 		{
 			if (layer == null)
 				throw new ArgumentNullException ("layer");
-			CGContextDrawLayerInRect (handle, rect, layer.Handle);
+			CGContextDrawLayerInRect (handle, rect, layer.GetHandle());
 		}
 
 		[DllImport (Constants.CoreGraphicsLibrary)]
@@ -1109,7 +1109,7 @@ namespace MonoMac.CoreGraphics {
 		{
 			if (layer == null)
 				throw new ArgumentNullException ("layer");
-			CGContextDrawLayerAtPoint (handle, point, layer.Handle);
+			CGContextDrawLayerAtPoint (handle, point, layer.GetHandle());
 		}
 
 		[DllImport (Constants.CoreGraphicsLibrary)]
@@ -1173,14 +1173,14 @@ namespace MonoMac.CoreGraphics {
 		
 		public void BeginTransparencyLayer (NSDictionary auxiliaryInfo = null)
 		{
-			CGContextBeginTransparencyLayer (handle, auxiliaryInfo == null ? IntPtr.Zero : auxiliaryInfo.Handle);
+			CGContextBeginTransparencyLayer (handle, auxiliaryInfo.GetHandle());
 		}
 
 		[DllImport (Constants.CoreGraphicsLibrary)]
 		extern static IntPtr CGContextBeginTransparencyLayerWithRect (IntPtr context, CGRect rect, IntPtr dictionary);
 		public void BeginTransparencyLayer (CGRect rectangle, NSDictionary auxiliaryInfo = null)
 		{
-			CGContextBeginTransparencyLayerWithRect (handle, rectangle, auxiliaryInfo == null ? IntPtr.Zero : auxiliaryInfo.Handle);
+			CGContextBeginTransparencyLayerWithRect (handle, rectangle, auxiliaryInfo.GetHandle());
 		}
 
 		public void BeginTransparencyLayer (CGRect rectangle)

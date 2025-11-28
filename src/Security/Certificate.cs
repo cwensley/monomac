@@ -119,8 +119,7 @@ namespace MonoMac.Security {
 					throw new ObjectDisposedException ("SecCertificate");
 				
 				IntPtr cfstr = SecCertificateCopySubjectSummary (handle);
-				string ret = CFString.FetchString (cfstr);
-				CFObject.CFRelease (cfstr);
+				string ret = CFString.FromHandle (cfstr, releaseHandle: true);
 				return ret;
 			}
 		}

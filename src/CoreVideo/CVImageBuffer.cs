@@ -186,7 +186,7 @@ namespace MonoMac.CoreVideo {
 		
 		public CGColorSpace ColorSpace {
 			get {
-				return new CGColorSpace (CVImageBufferGetColorSpace (handle));
+				return new CGColorSpace (CVImageBufferGetColorSpace (handle), false);
 			}
 		}
 	}

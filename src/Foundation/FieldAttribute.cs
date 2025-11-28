@@ -29,7 +29,7 @@
 using System;
 
 namespace MonoMac.Foundation {
-	[AttributeUsage (AttributeTargets.Property)]
+	[AttributeUsage (AttributeTargets.Property | AttributeTargets.Field)]
 	public class FieldAttribute : Attribute {
 		public FieldAttribute (string symbolName) {
 			SymbolName = symbolName;

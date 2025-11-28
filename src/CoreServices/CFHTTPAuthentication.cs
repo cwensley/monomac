@@ -146,8 +146,7 @@ namespace MonoMac.CoreServices {
 			var ptr = CFHTTPAuthenticationCopyMethod (Handle);
 			if (ptr == IntPtr.Zero)
 				return null;
-			using (var method = new CFString (ptr))
-				return method;
+			return CFString.FromHandle (ptr, true);
 		}
 	}
 }

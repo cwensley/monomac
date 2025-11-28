@@ -90,7 +90,7 @@ namespace MonoMac.CoreGraphics {
 			if (components == null)
 				throw new ArgumentNullException ("components");
 
-			handle = CGGradientCreateWithColorComponents (colorspace.handle, components, locations, new IntPtr(components.Length / (colorspace.Components+1)));
+			handle = CGGradientCreateWithColorComponents (colorspace.GetHandle(), components, locations, new IntPtr(components.Length / (colorspace.Components+1)));
 		}
 
 		public CGGradient (CGColorSpace colorspace, nfloat [] components)
@@ -99,7 +99,7 @@ namespace MonoMac.CoreGraphics {
 				throw new ArgumentNullException ("colorspace");
 			if (components == null)
 				throw new ArgumentNullException ("components");
-			handle = CGGradientCreateWithColorComponents (colorspace.handle, components, null, new IntPtr(components.Length / (colorspace.Components+1)));
+			handle = CGGradientCreateWithColorComponents (colorspace.GetHandle(), components, null, new IntPtr(components.Length / (colorspace.Components+1)));
 		}
 #if !COREBUILD
 		[DllImport(Constants.CoreGraphicsLibrary)]
@@ -110,9 +110,9 @@ namespace MonoMac.CoreGraphics {
 			if (colors == null)
 				throw new ArgumentNullException ("colors");
 			
-			IntPtr csh = colorspace == null ? IntPtr.Zero : colorspace.handle;
+			IntPtr csh = colorspace == null ? IntPtr.Zero : colorspace.GetHandle();
 			using (var array = CFArray.FromNativeObjects (colors))
-				handle = CGGradientCreateWithColors (csh, array.Handle, locations);
+				handle = CGGradientCreateWithColors (csh, array.GetHandle(), locations);
 		}
 
 		public CGGradient (CGColorSpace colorspace, CGColor [] colors)
@@ -120,9 +120,9 @@ namespace MonoMac.CoreGraphics {
 			if (colors == null)
 				throw new ArgumentNullException ("colors");
 			
-			IntPtr csh = colorspace == null ? IntPtr.Zero : colorspace.handle;
+			IntPtr csh = colorspace == null ? IntPtr.Zero : colorspace.GetHandle();
 			using (var array = CFArray.FromNativeObjects (colors))
-				handle = CGGradientCreateWithColors (csh, array.Handle, null);
+				handle = CGGradientCreateWithColors (csh, array.GetHandle(), null);
 		}
 #endif
 	}

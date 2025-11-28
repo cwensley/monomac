@@ -17,9 +17,8 @@ namespace MonoMac.CoreFoundation {
 		{
 			if (handle == IntPtr.Zero)
 				throw new ArgumentNullException ("handle");
-			
-			using (var s = new CFString (CFCopyDescription (handle)))
-				return s.ToString ();
+
+			return CFString.FromHandle(CFCopyDescription(handle));
 		}
 		
 	}

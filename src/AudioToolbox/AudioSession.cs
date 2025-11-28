@@ -425,7 +425,7 @@ namespace MonoMac.AudioToolbox {
 		[Obsolete ("Deprecated in iOS 5.0. Use InputRoute or OutputRoute instead")]
 		static public string AudioRoute {
 			get {
-				return CFString.FetchString (GetIntPtr (AudioSessionProperty.AudioRoute));
+				return CFString.FromHandle (GetIntPtr (AudioSessionProperty.AudioRoute));
 			}
 		}
 
@@ -450,7 +450,7 @@ namespace MonoMac.AudioToolbox {
 				for (int i = 0; i < res.Length; ++i) {
 					var dict = array.GetValue (i);
 					var n = new NSNumber (CFDictionary.GetValue (dict, id.Handle));
-					var desc = CFString.FetchString (CFDictionary.GetValue (dict, description.Handle));
+					var desc = CFString.FromHandle (CFDictionary.GetValue (dict, description.Handle));
 
 					res [i] = new AccessoryInfo ((int) n, desc);
 					id.Dispose ();

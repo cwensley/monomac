@@ -88,7 +88,7 @@ namespace MonoMac.CoreGraphics {
 		{
 			if (provider == null)
 				throw new ArgumentNullException ("provider");
-			return new CGFont (CGFontCreateWithDataProvider (provider.Handle), true);
+			return new CGFont (CGFontCreateWithDataProvider (provider.GetHandle()), true);
 		}
 
 		[DllImport (Constants.CoreGraphicsLibrary)]
@@ -96,7 +96,7 @@ namespace MonoMac.CoreGraphics {
 		public static CGFont CreateWithFontName (string name)
 		{
 			using (CFString s = name){
-				return new CGFont (CGFontCreateWithFontName (s.handle), true);
+				return new CGFont (CGFontCreateWithFontName (s.GetHandle()), true);
 			}
 		}
 		
@@ -221,7 +221,7 @@ namespace MonoMac.CoreGraphics {
 		public ushort GetGlyphWithGlyphName (string s)
 		{
 			using (var cs = new CFString (s)){
-				return CGFontGetGlyphWithGlyphName (handle, cs.handle);
+				return CGFontGetGlyphWithGlyphName (handle, cs.GetHandle());
 			}
 		}
 		

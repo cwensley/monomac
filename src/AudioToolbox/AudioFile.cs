@@ -198,7 +198,7 @@ namespace MonoMac.AudioToolbox {
 
 		public string Name {
 			get {
-				return CFString.FetchString (Name_cfstringref);
+				return CFString.FromHandle (Name_cfstringref);
 			}
 		}
 	}
@@ -337,7 +337,7 @@ namespace MonoMac.AudioToolbox {
 
 		public string Name {
 			get {
-				return CFString.FetchString (NameWeak);
+				return CFString.FromHandle (NameWeak);
 			}
 		}
 

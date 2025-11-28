@@ -135,10 +135,7 @@ namespace MonoMac.CoreFoundation {
 
 		static string ToString (IntPtr cfStringRef, bool release)
 		{
-			var r = CFString.FetchString (cfStringRef);
-			if (release && (cfStringRef != IntPtr.Zero))
-				CFObject.CFRelease (cfStringRef);
-			return r;
+			return CFString.FromHandle (cfStringRef, releaseHandle: release);
 		}
 
 		[DllImport (Constants.CoreFoundationLibrary)]

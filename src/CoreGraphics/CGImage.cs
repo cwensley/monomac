@@ -161,7 +161,7 @@ namespace MonoMac.CoreGraphics {
 
 			handle = CGImageCreate (new IntPtr(width), new IntPtr(height), new IntPtr(bitsPerComponent),
 			                        new IntPtr(bitsPerPixel), new IntPtr(bytesPerRow),
-						colorSpace.Handle, bitmapFlags, provider == null ? IntPtr.Zero : provider.Handle,
+						colorSpace.GetHandle(), bitmapFlags, provider.GetHandle(),
 						decode,
 						shouldInterpolate, intent);
 		}
@@ -185,7 +185,7 @@ namespace MonoMac.CoreGraphics {
 
 			handle = CGImageCreate (new IntPtr(width), new IntPtr(height), new IntPtr(bitsPerComponent),
 			                        new IntPtr(bitsPerPixel), new IntPtr(bytesPerRow),
-						colorSpace.Handle, (CGBitmapFlags) alphaInfo, provider == null ? IntPtr.Zero : provider.Handle,
+						colorSpace.GetHandle(), (CGBitmapFlags) alphaInfo, provider.GetHandle(),
 						decode,
 						shouldInterpolate, intent);
 		}
@@ -222,7 +222,7 @@ namespace MonoMac.CoreGraphics {
 			if (provider == null)
 				throw new ArgumentNullException ("provider");
 			
-			var handle = CGImageCreateWithJPEGDataProvider (provider.Handle, decode, shouldInterpolate, intent);
+			var handle = CGImageCreateWithJPEGDataProvider (provider.GetHandle(), decode, shouldInterpolate, intent);
 			if (handle == IntPtr.Zero)
 				return null;
 
@@ -239,7 +239,7 @@ namespace MonoMac.CoreGraphics {
 			if (provider == null)
 				throw new ArgumentNullException ("provider");
 			
-			var handle = CGImageCreateWithPNGDataProvider (provider.Handle, decode, shouldInterpolate, intent);
+			var handle = CGImageCreateWithPNGDataProvider (provider.GetHandle(), decode, shouldInterpolate, intent);
 			if (handle == IntPtr.Zero)
 				return null;
 
@@ -264,7 +264,7 @@ namespace MonoMac.CoreGraphics {
 				throw new ArgumentNullException ("provider");
 
 			var handle = CGImageMaskCreate (new IntPtr(width), new IntPtr(height), new IntPtr(bitsPerComponent),
-			                                new IntPtr(bitsPerPixel), new IntPtr(bytesPerRow), provider.Handle, decode, shouldInterpolate);
+			                                new IntPtr(bitsPerPixel), new IntPtr(bytesPerRow), provider.GetHandle(), decode, shouldInterpolate);
 			if (handle == IntPtr.Zero)
 				return null;
 
@@ -275,7 +275,7 @@ namespace MonoMac.CoreGraphics {
 		extern static IntPtr CGImageCreateWithMaskingColors(IntPtr image, nfloat [] components);
 		public CGImage WithMaskingColors (nfloat[] components)
 		{
-			int N = 2*ColorSpace.Components;
+			long N = 2*ColorSpace.Components;
 			if (components == null)
 				throw new ArgumentNullException ("components");
 			if (components.Length != N)
@@ -294,7 +294,7 @@ namespace MonoMac.CoreGraphics {
 		extern static IntPtr CGImageCreateCopyWithColorSpace(IntPtr image, IntPtr space);
 		public CGImage WithColorSpace (CGColorSpace cs)
 		{
-			return new CGImage (CGImageCreateCopyWithColorSpace (handle, cs.handle), true);
+			return new CGImage (CGImageCreateCopyWithColorSpace (handle, cs.GetHandle()), true);
 		}
 
 		[DllImport (Constants.CoreGraphicsLibrary)]
@@ -308,7 +308,7 @@ namespace MonoMac.CoreGraphics {
 		extern static IntPtr CGImageCreateWithMask(IntPtr image, IntPtr mask);
 		public CGImage WithMask (CGImage mask)
 		{
-			return new CGImage (CGImageCreateWithMask (handle, mask.handle), true);
+			return new CGImage (CGImageCreateWithMask (handle, mask.GetHandle()), true);
 		}
 		
 		[DllImport (Constants.CoreGraphicsLibrary)]
@@ -363,7 +363,7 @@ namespace MonoMac.CoreGraphics {
 		extern static IntPtr CGImageGetColorSpace(IntPtr image);
 		public CGColorSpace ColorSpace {
 			get {
-				return new CGColorSpace (CGImageGetColorSpace (handle));
+				return new CGColorSpace (CGImageGetColorSpace (handle), false);
 			}
 		}
 

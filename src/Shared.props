@@ -166,6 +166,7 @@
     <SharedCoreSource Include="CoreFoundation/CFRunLoop.cs" />
     <SharedCoreSource Include="CoreFoundation/Dispatch.cs" />
     <SharedCoreSource Include="CoreFoundation/DispatchQueueSynchronizationContext.cs" />
+    <SharedCoreSource Include="CoreFoundation/NativeObject.cs" />
     <SharedCoreSource Include="CoreFoundation/CFData.cs" />
     <SharedCoreSource Include="CoreFoundation/CFDataBuffer.cs" />
     <SharedCoreSource Include="CoreFoundation/CFIndex.cs" />
@@ -232,11 +233,13 @@
     <SharedCoreSource Include="ObjCRuntime/AlphaAttribute.cs" />
     <SharedCoreSource Include="ObjCRuntime/Blocks.cs" />
     <SharedCoreSource Include="ObjCRuntime/Dlfcn.cs" />
+    <SharedCoreSource Include="ObjCRuntime/DisposableObject.cs" />
     <SharedCoreSource Include="ObjCRuntime/INativeObject.cs" />
-    <SharedCoreSource Include="ObjCRuntime/LionAttribute.cs" />
+    <SharedCoreSource Include="ObjCRuntime/PlatformAvailability.cs" />
     <SharedCoreSource Include="ObjCRuntime/SinceAttribute.cs" />
     <SharedCoreSource Include="ObjCRuntime/ThreadSafeAttribute.cs" />
     <SharedCoreSource Include="ObjCRuntime/TypeConverter.cs" />
+    <SharedCoreSource Include="ObjCRuntime/TransientString.cs" />
     <SharedCoreSource Include="ObjCRuntime/BlockProxyAttribute.cs" />
     <SharedCoreSource Include="MonoNativeFunctionWrapperAttribute.cs" />
     <SharedCoreSource Include="MonoPInvokeCallbackAttribute.cs" />
@@ -375,6 +378,7 @@
     <SharedApis Include="foundation.cs" />
     <SharedApis Include="coreanimation.cs" />
     <SharedApis Include="coredata.cs" />
+    <SharedApis Include="coregraphics.cs" />
     <SharedApis Include="coreimage.cs" />
     <SharedApis Include="coremidi.cs" />
     <SharedApis Include="corelocation.cs" />

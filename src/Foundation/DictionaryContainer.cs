@@ -56,7 +56,7 @@ namespace MonoMac.Foundation {
 			if (key == null)
 				throw new ArgumentNullException ("key");
 
-			var value = CFDictionary.GetValue (Dictionary.Handle, key.Handle);
+			var value = CFDictionary.GetValue (Dictionary.GetHandle(), key.GetHandle());
 			if (value == IntPtr.Zero)
 				return null;
 
@@ -68,7 +68,7 @@ namespace MonoMac.Foundation {
 			if (key == null)
 				throw new ArgumentNullException ("key");
 
-			var value = CFDictionary.GetValue (Dictionary.Handle, key.Handle);
+			var value = CFDictionary.GetValue (Dictionary.GetHandle(), key.GetHandle());
 			if (value == IntPtr.Zero)
 				return null;
 
@@ -140,7 +140,7 @@ namespace MonoMac.Foundation {
 			if (key == null)
 				throw new ArgumentNullException ("key");
 
-			var value = CFDictionary.GetValue (Dictionary.Handle, key.Handle);
+			var value = CFDictionary.GetValue (Dictionary.GetHandle(), key.GetHandle());
 			if (value == IntPtr.Zero)
 				return null;
 
@@ -176,7 +176,7 @@ namespace MonoMac.Foundation {
 			if (!Dictionary.TryGetValue (key, out value))
 				return null;
 			
-			return CFString.FetchString (value.Handle);
+			return CFString.FromHandle (value.GetHandle());
 		}
 
 		protected string GetStringValue (string key)
@@ -185,7 +185,7 @@ namespace MonoMac.Foundation {
 				throw new ArgumentNullException ("key");
 
 			using (var str = new CFString (key)) {
-				return CFString.FetchString (CFDictionary.GetValue (Dictionary.Handle, str.handle));
+				return CFString.FromHandle (CFDictionary.GetValue (Dictionary.GetHandle(), str.GetHandle()));
 			}
 		}		
 
@@ -225,7 +225,7 @@ namespace MonoMac.Foundation {
 				return;			
 			}
 
-			CFMutableDictionary.SetValue (Dictionary.Handle, key.Handle, CFArray.FromNativeObjects (values).Handle);
+			CFMutableDictionary.SetValue (Dictionary.GetHandle(), key.GetHandle(), CFArray.FromNativeObjects (values).GetHandle());
 		}
 
 		#region Sets CFBoolean value
@@ -240,7 +240,7 @@ namespace MonoMac.Foundation {
 				return;
 			}
 
-			CFMutableDictionary.SetValue (Dictionary.Handle, key.Handle, value.Value ? CFBoolean.True.Handle : CFBoolean.False.Handle);			
+			CFMutableDictionary.SetValue (Dictionary.GetHandle(), key.GetHandle(), value.Value ? CFBoolean.True.GetHandle() : CFBoolean.False.GetHandle());			
 		}
 
 		#endregion
@@ -340,7 +340,7 @@ namespace MonoMac.Foundation {
 			if (value == null && removeNullValue) {
 				RemoveValue (key);
 			} else {
-				CFMutableDictionary.SetValue (Dictionary.Handle, key.Handle, value == null ? IntPtr.Zero : value.Handle);
+				CFMutableDictionary.SetValue (Dictionary.GetHandle(), key.GetHandle(), value.GetHandle());
 			}			
 		}
 
