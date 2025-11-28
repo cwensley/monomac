@@ -39,21 +39,6 @@ using OSType = System.UInt32;
 // typedef double NSTimeInterval;
 using NSTimeInterval = System.Double;
 
-#if MAC64
-using nint = System.Int64;
-using nuint = System.UInt64;
-using nfloat = System.Double;
-#else
-using nint = System.Int32;
-using nuint = System.UInt32;
-using nfloat = System.Single;
-#if SDCOMPAT
-using CGPoint = System.Drawing.PointF;
-using CGSize = System.Drawing.SizeF;
-using CGRect = System.Drawing.RectangleF;
-#endif
-#endif
-
 namespace MonoMac.Foundation {
 	
 	[BaseType (typeof (NSObject))]

@@ -27,7 +27,6 @@ using System.Reflection;
 // using Generator = System.Object;
 #endif
 using System.Runtime.InteropServices;
-using nfloat = System.Double;
 
 using MonoMac.Foundation;
 

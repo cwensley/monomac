@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <EnableDefaultItems>False</EnableDefaultItems>
-    <NoWarn>3021,0219,0414,114,108</NoWarn>
+    <NoWarn>$(NoWarn);3021,0219,0414,114,108</NoWarn>
     <BaseDefines Condition="$(BaseDefines) == ''">MONOMAC;MAC64;SDCONVERT</BaseDefines>
     <IsPackable>False</IsPackable>
   </PropertyGroup>

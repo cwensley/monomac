@@ -350,7 +350,7 @@ public class BindingTouch
 
 		proj.AppendLine("<PropertyGroup>");
 		proj.AppendLine($"  <AssemblyName>{Path.GetFileNameWithoutExtension(destination)}</AssemblyName>");
-		proj.AppendLine($"  <TargetFramework>net6.0</TargetFramework>");
+		proj.AppendLine($"  <TargetFramework>net8.0</TargetFramework>");
 		proj.AppendLine($"  <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>");
 		proj.AppendLine($"  <EnableDefaultItems>false</EnableDefaultItems>");
 		proj.AppendLine($"  <SelfContained>false</SelfContained>");
@@ -406,6 +406,14 @@ public class BindingTouch
 			}
 		}
 		proj.AppendLine("</ItemGroup>");
+		
+		proj.AppendLine("<ItemGroup>");
+		proj.AppendLine("  <Using Include=\"System.IntPtr\" Alias=\"NativeHandle\" />");
+		proj.AppendLine("  <Using Include=\"System.Int64\" Alias=\"nint\" />");
+		proj.AppendLine("  <Using Include=\"System.UInt64\" Alias=\"nuint\" />");
+		proj.AppendLine("  <Using Include=\"System.Double\" Alias=\"nfloat\" />");
+		proj.AppendLine("</ItemGroup>");
+
 
 		proj.Append("</Project>");
 

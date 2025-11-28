@@ -21,21 +21,6 @@
 // Copyright 2011, 2012 Xamarin Inc
 using System;
 
-#if MAC64
-using nint = System.Int64;
-using nuint = System.UInt64;
-using nfloat = System.Double;
-#else
-using nint = System.Int32;
-using nuint = System.UInt32;
-using nfloat = System.Single;
-#if SDCOMPAT
-using CGPoint = System.Drawing.PointF;
-using CGSize = System.Drawing.SizeF;
-using CGRect = System.Drawing.RectangleF;
-#endif
-#endif
-
 namespace MonoMac.CoreData {
 
         public enum NSEntityMappingType : nuint {

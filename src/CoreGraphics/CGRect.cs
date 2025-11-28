@@ -27,16 +27,6 @@ using System.Runtime.InteropServices;
 
 #if !SDCOMPAT
 
-#if MAC64
-using nint = System.Int64;
-using nuint = System.UInt64;
-using nfloat = System.Double;
-#else
-using nint = System.Int32;
-using nuint = System.UInt32;
-using nfloat = System.Single;
-#endif
-
 namespace MonoMac.CoreGraphics {
 	[StructLayout(LayoutKind.Sequential)]
 	public struct CGRect {

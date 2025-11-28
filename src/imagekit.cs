@@ -35,21 +35,6 @@ using MonoMac.CoreImage;
 using MonoMac.CoreGraphics;
 using MonoMac.CoreAnimation;
 
-#if MAC64
-using nint = System.Int64;
-using nuint = System.UInt64;
-using nfloat = System.Double;
-#else
-using nint = System.Int32;
-using nuint = System.UInt32;
-using nfloat = System.Single;
-#if SDCOMPAT
-using CGPoint = System.Drawing.PointF;
-using CGSize = System.Drawing.SizeF;
-using CGRect = System.Drawing.RectangleF;
-#endif
-#endif
-
 namespace MonoMac.ImageKit {
 
 	[BaseType (typeof (NSView), Delegates=new string [] { "WeakDelegate" }, Events=new Type [] { typeof (IKCameraDeviceViewDelegate)})]

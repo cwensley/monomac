@@ -9,8 +9,16 @@
     <Configuration Condition="$(Configuration) == ''">Debug</Configuration>
     <BaseIntermediateOutputPath Condition="$(BaseIntermediateOutputPath) == ''">$(ArtifactsDir)obj\$(OSPlatform)\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
     <BaseOutputPath Condition="$(OutputPath) == ''">$(ArtifactsDir)bin\</BaseOutputPath>
-    
+    <LangVersion>10.0</LangVersion>
+    <NoWarn>CS8981</NoWarn>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <Using Include="System.IntPtr" Alias="NativeHandle" />
+    <Using Include="System.Int64" Alias="nint" />
+    <Using Include="System.UInt64" Alias="nuint" />
+    <Using Include="System.Double" Alias="nfloat" />
+  </ItemGroup>
   
   <Import Project="Shared.props" />
 </Project>
