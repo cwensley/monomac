@@ -2410,7 +2410,7 @@ namespace MonoMac.AppKit {
     [ThreadSafe]
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor] // -colorSpaceName not valid for the NSColor <NSColor: 0x1b94780>; need to first convert colorspace.
-	public interface NSColor
+	public partial interface NSColor
 	{
 		[Static]
 		[Export ("colorWithCalibratedWhite:alpha:")]
@@ -17119,6 +17119,20 @@ namespace MonoMac.AppKit {
 
 		[Export ("showsIndicator")]
 		bool ShowsIndicator { get; set; }
+	}
+
+	partial interface NSColor {
+		[Static, Export ("colorWithGenericGamma22White:alpha:")]
+		NSColor FromGamma22White (nfloat white, nfloat alpha);
+
+		[Static, Export ("colorWithSRGBRed:green:blue:alpha:")]
+		NSColor FromSrgb (nfloat red, nfloat green, nfloat blue, nfloat alpha);
+
+		/// <summary>To be added.</summary>
+		///         <value>To be added.</value>
+		///         <remarks>To be added.</remarks>
+		[Notification, Field ("NSSystemColorsDidChangeNotification")]
+		NSString SystemColorsChanged { get; }
 	}
 
 }
