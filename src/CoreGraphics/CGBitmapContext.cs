@@ -44,12 +44,12 @@ namespace MonoMac.CoreGraphics {
 		extern static IntPtr CGBitmapContextCreate (IntPtr data, UIntPtr width, UIntPtr height, UIntPtr bitsPerComponent, 
 				UIntPtr bytesPerRow, IntPtr colorSpace, uint bitmapInfo);
 
-		public CGBitmapContext (IntPtr data, int width, int height, int bitsPerComponent, int bytesPerRow, CGColorSpace colorSpace, CGImageAlphaInfo bitmapInfo)
+		public CGBitmapContext (IntPtr data, nint width, nint height, nint bitsPerComponent, nint bytesPerRow, CGColorSpace colorSpace, CGImageAlphaInfo bitmapInfo)
 			: base (CGBitmapContextCreate (data, (UIntPtr) width, (UIntPtr) height, (UIntPtr) bitsPerComponent, (UIntPtr) bytesPerRow, colorSpace.GetHandle(), (uint) bitmapInfo), true)
 		{
 		}
 
-		public CGBitmapContext (IntPtr data, int width, int height, int bitsPerComponent, int bytesPerRow, CGColorSpace colorSpace, CGBitmapFlags bitmapInfo)
+		public CGBitmapContext (IntPtr data, nint width, nint height, nint bitsPerComponent, nint bytesPerRow, CGColorSpace colorSpace, CGBitmapFlags bitmapInfo)
 			: base (CGBitmapContextCreate (data, (UIntPtr) width, (UIntPtr) height, (UIntPtr) bitsPerComponent, (UIntPtr) bytesPerRow, colorSpace.GetHandle(), (uint) bitmapInfo), true)
 		{
 		}
@@ -58,12 +58,12 @@ namespace MonoMac.CoreGraphics {
 		extern static IntPtr CGBitmapContextCreate (byte [] data, UIntPtr width, UIntPtr height, UIntPtr bitsPerComponent, 
 				UIntPtr bytesPerRow, IntPtr colorSpace, uint bitmapInfo);
 
-		public CGBitmapContext (byte [] data, int width, int height, int bitsPerComponent, int bytesPerRow, CGColorSpace colorSpace, CGImageAlphaInfo bitmapInfo)
+		public CGBitmapContext (byte [] data, nint width, nint height, nint bitsPerComponent, nint bytesPerRow, CGColorSpace colorSpace, CGImageAlphaInfo bitmapInfo)
 			: base (CGBitmapContextCreate (data, (UIntPtr) width, (UIntPtr) height, (UIntPtr) bitsPerComponent, (UIntPtr) bytesPerRow, colorSpace.GetHandle(), (uint) bitmapInfo), true)
 		{
 		}
 
-		public CGBitmapContext (byte [] data, int width, int height, int bitsPerComponent, int bytesPerRow, CGColorSpace colorSpace, CGBitmapFlags bitmapInfo)
+		public CGBitmapContext (byte [] data, nint width, nint height, nint bitsPerComponent, nint bytesPerRow, CGColorSpace colorSpace, CGBitmapFlags bitmapInfo)
 			: base (CGBitmapContextCreate (data, (UIntPtr) width, (UIntPtr) height, (UIntPtr) bitsPerComponent, (UIntPtr) bytesPerRow, colorSpace.GetHandle(), (uint) bitmapInfo), true)
 		{
 		}
