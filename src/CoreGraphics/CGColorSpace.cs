@@ -297,10 +297,10 @@ namespace MonoMac.CoreGraphics
 		/// <summary>Creates and returns a generic Gray color space.</summary>
 		///         <returns>To be added.</returns>
 		///         <remarks>To be added.</remarks>
-		[SupportedOSPlatform("ios")]
-		[SupportedOSPlatform ("maccatalyst")]
-		[SupportedOSPlatform ("macos")]
-		[SupportedOSPlatform ("tvos")]
+		// [SupportedOSPlatform("ios")]
+		// [SupportedOSPlatform ("maccatalyst")]
+		// [SupportedOSPlatform ("macos")]
+		// [SupportedOSPlatform ("tvos")]
 		public static CGColorSpace? CreateGenericGray ()
 		{
 			return Create (CGColorSpaceNames.GenericGray.Handle);
@@ -309,10 +309,10 @@ namespace MonoMac.CoreGraphics
 		/// <summary>Creates and returns a <see cref="CoreGraphics.CGColorSpace" /> that represents a generic RGB color space.</summary>
 		///         <returns>To be added.</returns>
 		///         <remarks>To be added.</remarks>
-		[SupportedOSPlatform ("ios")]
-		[SupportedOSPlatform ("maccatalyst")]
-		[SupportedOSPlatform ("macos")]
-		[SupportedOSPlatform ("tvos")]
+		// [SupportedOSPlatform ("ios")]
+		// [SupportedOSPlatform ("maccatalyst")]
+		// [SupportedOSPlatform ("macos")]
+		// [SupportedOSPlatform ("tvos")]
 		public static CGColorSpace? CreateGenericRgb ()
 		{
 			return Create (CGColorSpaceNames.GenericRgb.Handle);
@@ -321,10 +321,10 @@ namespace MonoMac.CoreGraphics
 		/// <summary>Creates and returns a <see cref="CoreGraphics.CGColorSpace" /> that represents a generic CMYK color space.</summary>
 		///         <returns>To be added.</returns>
 		///         <remarks>To be added.</remarks>
-		[SupportedOSPlatform ("ios")]
-		[SupportedOSPlatform ("maccatalyst")]
-		[SupportedOSPlatform ("macos")]
-		[SupportedOSPlatform ("tvos")]
+		// [SupportedOSPlatform ("ios")]
+		// [SupportedOSPlatform ("maccatalyst")]
+		// [SupportedOSPlatform ("macos")]
+		// [SupportedOSPlatform ("tvos")]
 		public static CGColorSpace? CreateGenericCmyk ()
 		{
 			return Create (CGColorSpaceNames.GenericCmyk.Handle);
@@ -333,10 +333,10 @@ namespace MonoMac.CoreGraphics
 		/// <summary>Creates and returns a <see cref="CoreGraphics.CGColorSpace" /> that represents a generic linear RGB color space.</summary>
 		///         <returns>To be added.</returns>
 		///         <remarks>To be added.</remarks>
-		[SupportedOSPlatform ("ios")]
-		[SupportedOSPlatform ("maccatalyst")]
-		[SupportedOSPlatform ("macos")]
-		[SupportedOSPlatform ("tvos")]
+		// [SupportedOSPlatform ("ios")]
+		// [SupportedOSPlatform ("maccatalyst")]
+		// [SupportedOSPlatform ("macos")]
+		// [SupportedOSPlatform ("tvos")]
 		public static CGColorSpace? CreateGenericRgbLinear ()
 		{
 			return Create (CGColorSpaceNames.GenericRgbLinear.Handle);
@@ -345,10 +345,10 @@ namespace MonoMac.CoreGraphics
 		/// <summary>Creates and returns a <see cref="CoreGraphics.CGColorSpace" /> that represents an Adobe RGB (1998) color space.</summary>
 		///         <returns>To be added.</returns>
 		///         <remarks>To be added.</remarks>
-		[SupportedOSPlatform ("ios")]
-		[SupportedOSPlatform ("maccatalyst")]
-		[SupportedOSPlatform ("macos")]
-		[SupportedOSPlatform ("tvos")]
+		// [SupportedOSPlatform ("ios")]
+		// [SupportedOSPlatform ("maccatalyst")]
+		// [SupportedOSPlatform ("macos")]
+		// [SupportedOSPlatform ("tvos")]
 		public static CGColorSpace? CreateAdobeRgb1988 ()
 		{
 			return Create (CGColorSpaceNames.AdobeRgb1998.Handle);
@@ -357,10 +357,10 @@ namespace MonoMac.CoreGraphics
 		/// <summary>Creates and returns a <see cref="CoreGraphics.CGColorSpace" /> that represents an sRGB color space.</summary>
 		///         <returns>To be added.</returns>
 		///         <remarks>To be added.</remarks>
-		[SupportedOSPlatform ("ios")]
-		[SupportedOSPlatform ("maccatalyst")]
-		[SupportedOSPlatform ("macos")]
-		[SupportedOSPlatform ("tvos")]
+		// [SupportedOSPlatform ("ios")]
+		// [SupportedOSPlatform ("maccatalyst")]
+		// [SupportedOSPlatform ("macos")]
+		// [SupportedOSPlatform ("tvos")]
 		public static CGColorSpace? CreateSrgb ()
 		{
 			return Create (CGColorSpaceNames.Srgb.Handle);
@@ -369,10 +369,10 @@ namespace MonoMac.CoreGraphics
 		/// <summary>Creates and returns a generic Gray color space with a gamma value of 2.2.</summary>
 		///         <returns>To be added.</returns>
 		///         <remarks>To be added.</remarks>
-		[SupportedOSPlatform ("ios")]
-		[SupportedOSPlatform ("maccatalyst")]
-		[SupportedOSPlatform ("macos")]
-		[SupportedOSPlatform ("tvos")]
+		// [SupportedOSPlatform ("ios")]
+		// [SupportedOSPlatform ("maccatalyst")]
+		// [SupportedOSPlatform ("macos")]
+		// [SupportedOSPlatform ("tvos")]
 		public static CGColorSpace? CreateGenericGrayGamma2_2 ()
 		{
 			return Create (CGColorSpaceNames.GenericGrayGamma2_2.Handle);
@@ -381,10 +381,10 @@ namespace MonoMac.CoreGraphics
 		/// <summary>Creates and returns a <see cref="CoreGraphics.CGColorSpace" /> that represents an device dependent CMYK color space.</summary>
 		///         <returns>To be added.</returns>
 		///         <remarks>To be added.</remarks>
-		[SupportedOSPlatform ("ios")]
-		[SupportedOSPlatform ("macos")]
-		[SupportedOSPlatform ("maccatalyst")]
-		[SupportedOSPlatform ("tvos")]
+		// [SupportedOSPlatform ("ios")]
+		// [SupportedOSPlatform ("macos")]
+		// [SupportedOSPlatform ("maccatalyst")]
+		// [SupportedOSPlatform ("tvos")]
 		public static CGColorSpace? CreateGenericXyz ()
 		{
 			return Create (CGColorSpaceNames.GenericXyz.Handle);
@@ -393,10 +393,10 @@ namespace MonoMac.CoreGraphics
 		/// <summary>Creates and returns a <see cref="CoreGraphics.CGColorSpace" /> that represents an ACEScg color space.</summary>
 		///         <returns>To be added.</returns>
 		///         <remarks>To be added.</remarks>
-		[SupportedOSPlatform ("ios")]
-		[SupportedOSPlatform ("macos")]
-		[SupportedOSPlatform ("maccatalyst")]
-		[SupportedOSPlatform ("tvos")]
+		// [SupportedOSPlatform ("ios")]
+		// [SupportedOSPlatform ("macos")]
+		// [SupportedOSPlatform ("maccatalyst")]
+		// [SupportedOSPlatform ("tvos")]
 		public static CGColorSpace? CreateAcesCGLinear ()
 		{
 			return Create (CGColorSpaceNames.AcesCGLinear.Handle);
@@ -405,10 +405,10 @@ namespace MonoMac.CoreGraphics
 		/// <summary>Creates and returns a <see cref="CoreGraphics.CGColorSpace" /> that represents an ITU-R BT.709 color space.</summary>
 		///         <returns>To be added.</returns>
 		///         <remarks>To be added.</remarks>
-		[SupportedOSPlatform ("ios")]
-		[SupportedOSPlatform ("macos")]
-		[SupportedOSPlatform ("maccatalyst")]
-		[SupportedOSPlatform ("tvos")]
+		// [SupportedOSPlatform ("ios")]
+		// [SupportedOSPlatform ("macos")]
+		// [SupportedOSPlatform ("maccatalyst")]
+		// [SupportedOSPlatform ("tvos")]
 		public static CGColorSpace? CreateItuR_709 ()
 		{
 			return Create (CGColorSpaceNames.ItuR_709.Handle);
@@ -417,10 +417,10 @@ namespace MonoMac.CoreGraphics
 		/// <summary>Creates and returns a <see cref="CoreGraphics.CGColorSpace" /> that represents an ITU-R BT.2020 color space.</summary>
 		///         <returns>To be added.</returns>
 		///         <remarks>To be added.</remarks>
-		[SupportedOSPlatform ("ios")]
-		[SupportedOSPlatform ("macos")]
-		[SupportedOSPlatform ("maccatalyst")]
-		[SupportedOSPlatform ("tvos")]
+		// [SupportedOSPlatform ("ios")]
+		// [SupportedOSPlatform ("macos")]
+		// [SupportedOSPlatform ("maccatalyst")]
+		// [SupportedOSPlatform ("tvos")]
 		public static CGColorSpace? CreateItuR_2020 ()
 		{
 			return Create (CGColorSpaceNames.ItuR_2020.Handle);
@@ -429,10 +429,10 @@ namespace MonoMac.CoreGraphics
 		/// <summary>Creates and returns a <see cref="CoreGraphics.CGColorSpace" /> that represents a ROMM RGB color space.</summary>
 		///         <returns>To be added.</returns>
 		///         <remarks>To be added.</remarks>
-		[SupportedOSPlatform ("ios")]
-		[SupportedOSPlatform ("macos")]
-		[SupportedOSPlatform ("maccatalyst")]
-		[SupportedOSPlatform ("tvos")]
+		// [SupportedOSPlatform ("ios")]
+		// [SupportedOSPlatform ("macos")]
+		// [SupportedOSPlatform ("maccatalyst")]
+		// [SupportedOSPlatform ("tvos")]
 		public static CGColorSpace? CreateRommRgb ()
 		{
 			return Create (CGColorSpaceNames.RommRgb.Handle);
