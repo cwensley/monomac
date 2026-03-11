@@ -1822,79 +1822,105 @@ namespace MonoMac.AppKit {
 	}
 
 	// 64 Bit reviewed
-	[BaseType (typeof (NSControl))]
-	public interface NSButton {
-		[Export ("initWithFrame:")]
-		IntPtr Constructor (CGRect frameRect);
+	[BaseType(typeof(NSControl))]
+	public interface NSButton
+	{
+		[Export("initWithFrame:")]
+		IntPtr Constructor(CGRect frameRect);
 
-		[Export ("title")]
-		string Title { get; set; } 
-	
-		[Export ("alternateTitle")]
+		[Export("title")]
+		string Title { get; set; }
+
+		[Export("alternateTitle")]
 		string AlternateTitle { get; set; }
-	
-		[Export ("image"), NullAllowed]
+
+		[Export("image"), NullAllowed]
 		NSImage Image { get; set; }
-	
-		[Export ("alternateImage"), NullAllowed]
-		NSImage AlternateImage  { get; set; }
-	
-		[Export ("imagePosition")]
-		NSCellImagePosition ImagePosition  { get; set; }
-	
-		[Export ("setButtonType:")]
-		void SetButtonType (NSButtonType aType);
-	
-		[Export ("state")]
+
+		[Export("alternateImage"), NullAllowed]
+		NSImage AlternateImage { get; set; }
+
+		[Export("imagePosition")]
+		NSCellImagePosition ImagePosition { get; set; }
+
+		[Export("setButtonType:")]
+		void SetButtonType(NSButtonType aType);
+
+		[Export("state")]
 		NSCellStateValue State { get; set; }
-	
-		[Export ("bordered")]
-		bool Bordered  { [Bind ("isBordered")] get; set; }
-	
-		[Export ("transparent")]
-		bool Transparent  { [Bind ("isTransparent")] get; set; }
-	
-		[Export ("setPeriodicDelay:interval:")]
-		void SetPeriodicDelay (float delay, float interval); // 32-bit
-	
-		[Export ("getPeriodicDelay:interval:")]
-		void GetPeriodicDelay (ref float delay, ref float interval); // 32-bit
-	
-		[Export ("keyEquivalent")]
-		string KeyEquivalent  { get; set; }
-	
-		[Export ("keyEquivalentModifierMask")]
-		NSEventModifierMask KeyEquivalentModifierMask  { get; set; }
-	
-		[Export ("highlight:")]
-		void Highlight (bool flag);
-	
-		[Export ("performKeyEquivalent:")]
-		bool PerformKeyEquivalent (NSEvent  key);
 
-		[Export ("setTitleWithMnemonic:")]
-		void SetTitleWithMnemonic (string mnemonic);
+		[Export("bordered")]
+		bool Bordered { [Bind("isBordered")] get; set; }
 
-		[Export ("attributedTitle")]
+		[Export("transparent")]
+		bool Transparent { [Bind("isTransparent")] get; set; }
+
+		[Export("setPeriodicDelay:interval:")]
+		void SetPeriodicDelay(float delay, float interval); // 32-bit
+
+		[Export("getPeriodicDelay:interval:")]
+		void GetPeriodicDelay(ref float delay, ref float interval); // 32-bit
+
+		[Export("keyEquivalent")]
+		string KeyEquivalent { get; set; }
+
+		[Export("keyEquivalentModifierMask")]
+		NSEventModifierMask KeyEquivalentModifierMask { get; set; }
+
+		[Export("highlight:")]
+		void Highlight(bool flag);
+
+		[Export("performKeyEquivalent:")]
+		bool PerformKeyEquivalent(NSEvent key);
+
+		[Export("setTitleWithMnemonic:")]
+		void SetTitleWithMnemonic(string mnemonic);
+
+		[Export("attributedTitle")]
 		NSAttributedString AttributedTitle { get; set; }
 
-		[Export ("attributedAlternateTitle")]
-		NSAttributedString AttributedAlternateTitle  { get; set; }
+		[Export("attributedAlternateTitle")]
+		NSAttributedString AttributedAlternateTitle { get; set; }
 
-		[Export ("bezelStyle")]
+		[Export("bezelStyle")]
 		NSBezelStyle BezelStyle { get; set; }
 
-		[Export ("allowsMixedState")]
-		bool AllowsMixedState { get; set;}
-		
-		[Export ("setNextState")]
-		void SetNextState ();
+		[Export("allowsMixedState")]
+		bool AllowsMixedState { get; set; }
 
-		[Export ("showsBorderOnlyWhileMouseInside")]
-		bool ShowsBorderOnlyWhileMouseInside ();
+		[Export("setNextState")]
+		void SetNextState();
 
-		[Export ("sound")]
+		[Export("showsBorderOnlyWhileMouseInside")]
+		bool ShowsBorderOnlyWhileMouseInside();
+
+		[Export("sound")]
 		NSSound Sound { get; set; }
+
+		[Export("springLoaded")]
+		bool IsSpringLoaded { [Bind("isSpringLoaded")] get; set; }
+
+		[Export("maxAcceleratorLevel")]
+		nint MaxAcceleratorLevel { get; set; }
+
+		[Export("imageHugsTitle")]
+		bool ImageHugsTitle { get; set; }
+
+		// [NullAllowed]
+		// [Export("symbolConfiguration", ArgumentSemantic.Copy)]
+		// NSImageSymbolConfiguration SymbolConfiguration { get; set; }
+
+		[Export("imageScaling")]
+		NSImageScale ImageScaling { get; set; }
+
+		[NullAllowed, Export("bezelColor", ArgumentSemantic.Copy)]
+		NSColor BezelColor { get; set; }
+
+		[NullAllowed, Export("contentTintColor", ArgumentSemantic.Copy)]
+		NSColor ContentTintColor { get; set; }
+
+		[Export("hasDestructiveAction")]
+		bool HasDestructiveAction { get; set; }
 	}
 	
 	[BaseType (typeof (NSImageRep))]

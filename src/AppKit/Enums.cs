@@ -212,8 +212,9 @@ namespace MonoMac.AppKit {
 		CellIsInsetButton,
 		CellAllowsMixedState,
 	}
-	
-	public enum NSCellImagePosition : nuint {
+
+	public enum NSCellImagePosition : nuint
+	{
 		NoImage,
 		ImageOnly,
 		ImageLeft,
@@ -221,6 +222,9 @@ namespace MonoMac.AppKit {
 		ImageBelow,
 		ImageAbove,
 		ImageOverlaps,
+		ImageLeading,
+		ImageTrailing
+
 	}
 	
 	public enum NSImageScale : nuint {
