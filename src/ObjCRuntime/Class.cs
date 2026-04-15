@@ -96,20 +96,23 @@ namespace MonoMac.ObjCRuntime {
 		static Dictionary<Type, IntPtr> class_lookup = new Dictionary<Type, IntPtr>();
 		
 		public static IntPtr GetHandle (Type type) {
-			IntPtr handle;
-			if (class_lookup.TryGetValue(type, out handle))
+			lock (lock_obj)
+			{
+				IntPtr handle;
+				if (class_lookup.TryGetValue(type, out handle))
+					return handle;
+
+				RegisterAttribute attr = (RegisterAttribute)Attribute.GetCustomAttribute(type, typeof(RegisterAttribute), false);
+				string name = attr == null ? type.FullName : attr.Name ?? type.FullName;
+				bool is_wrapper = attr == null ? false : attr.IsWrapper;
+				handle = objc_getClass(name);
+
+				if (handle == IntPtr.Zero)
+					handle = Class.Register(type, name, is_wrapper);
+
+				class_lookup.Add(type, handle);
 				return handle;
-		
-			RegisterAttribute attr = (RegisterAttribute) Attribute.GetCustomAttribute (type, typeof (RegisterAttribute), false);
-			string name = attr == null ? type.FullName : attr.Name ?? type.FullName;
-			bool is_wrapper = attr == null ? false : attr.IsWrapper;
-			handle = objc_getClass (name);
-			
-			if (handle == IntPtr.Zero)
-				handle = Class.Register (type, name, is_wrapper);
-			
-			class_lookup.Add(type, handle);
-			return handle;
+			}
 		}
 
 		public static bool IsCustomType (Type type) {
