@@ -365,8 +365,12 @@ namespace MonoMac.AppKit {
 	
 		[Export ("deactivate")]
 		void Deactivate ();
-	
-		[Export ("activateIgnoringOtherApps:")]
+
+		[Introduced (PlatformName.MacOSX, 10,14)]
+		[Export("activate")]
+		void Activate ();
+
+		[Export("activateIgnoringOtherApps:")]
 		void ActivateIgnoringOtherApps (bool flag);
 	
 		[Export ("hideOtherApplications:")]
