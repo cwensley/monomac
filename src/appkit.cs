@@ -5882,8 +5882,8 @@ namespace MonoMac.AppKit {
 		[Export ("action")]
 		Selector Action { get; set; }
 
-		//[Export ("state")]
-		//NSGestureRecognizerState State { get; }
+		[Export ("state")]
+		NSGestureRecognizerState State { get; }
 
 		[Export ("delegate")]//, ArgumentSemantic.Weak)]
 		[NullAllowed]
@@ -8431,7 +8431,48 @@ namespace MonoMac.AppKit {
 		IntPtr Constructor (CGRect contentRect, NSWindowStyle aStyle, NSBackingStore bufferingType, bool deferCreation);
 	}
 
-	[BaseType (typeof (NSObject))]
+	[NoMacCatalyst]
+	[BaseType (typeof (NSGestureRecognizer))]
+	interface NSPanGestureRecognizer { //}: NSCoding {
+		[Export ("initWithTarget:action:")]
+		NativeHandle Constructor (NSObject target, Selector action);
+
+		[Export ("buttonMask")]
+		nuint ButtonMask { get; set; }
+
+		[Export ("translationInView:")]
+		CGPoint TranslationInView (NSView view);
+
+		[Export ("setTranslation:inView:")]
+		void SetTranslation (CGPoint translation, NSView view);
+
+		[Export ("velocityInView:")]
+		CGPoint VelocityInView (NSView view);
+
+		[Export ("numberOfTouchesRequired")]
+		nint NumberOfTouchesRequired { get; set; }
+	}
+
+	[NoMacCatalyst]
+	[BaseType (typeof (NSGestureRecognizer))]
+	interface NSPressGestureRecognizer {
+		[Export ("initWithTarget:action:")]
+		NativeHandle Constructor (NSObject target, Selector action);
+
+		[Export ("buttonMask")]
+		nuint ButtonMask { get; set; }
+
+		[Export ("minimumPressDuration")]
+		double MinimumPressDuration { get; set; }
+
+		[Export ("allowableMovement")]
+		nfloat AllowableMovement { get; set; }
+
+		[Export ("numberOfTouchesRequired")]
+		nint NumberOfTouchesRequired { get; set; }
+	}
+
+	[BaseType(typeof(NSObject))]
 	public interface NSParagraphStyle {
 		[Static]
 		[Export ("defaultParagraphStyle")]

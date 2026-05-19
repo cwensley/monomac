@@ -882,14 +882,37 @@ namespace MonoMac.AppKit {
 	public enum NSBezierPathElement {
 		MoveTo, LineTo, CurveTo, ClosePath
 	}
-#endregion
+	#endregion
 
-#region NSRulerView
-	public enum NSRulerOrientation {
+	#region NSRulerView
+	public enum NSRulerOrientation
+	{
 		Horizontal, Vertical
 	}
 #endregion
 	
+	#region NSGestureRecognizer
+	[NoMacCatalyst]
+	[Native]
+	public enum NSGestureRecognizerState : long {
+		/// <summary>To be added.</summary>
+		Possible,
+		/// <summary>To be added.</summary>
+		Began,
+		/// <summary>To be added.</summary>
+		Changed,
+		/// <summary>To be added.</summary>
+		Ended,
+		/// <summary>To be added.</summary>
+		Cancelled,
+		/// <summary>To be added.</summary>
+		Failed,
+		/// <summary>To be added.</summary>
+		Recognized = NSGestureRecognizerState.Ended,
+	}
+	#endregion
+
+
 	[Flags]
 	public enum NSDragOperation : nuint {
 		None,
