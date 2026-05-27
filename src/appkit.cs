@@ -8358,6 +8358,19 @@ namespace MonoMac.AppKit {
 		nfloat Magnification { get; set; }
 	}
 
+	//[Mac (10,10)]
+	[BaseType (typeof (NSGestureRecognizer))]
+	public interface NSRotationGestureRecognizer {
+		[Export ("initWithTarget:action:")]
+		IntPtr Constructor (NSObject target, Selector action);
+
+		[Export ("rotation")]
+		nfloat Rotation { get; set; }
+
+		[Export ("rotationInDegrees")]
+		nfloat RotationInDegrees { get; set; }
+	}
+
 
 	[Model]
 	[BaseType (typeof (NSObject))]
