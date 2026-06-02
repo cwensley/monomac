@@ -2269,10 +2269,28 @@ namespace MonoMac.Foundation
 		[Export ("count")]
 		nuint Count { get; }
 
+		[Internal]
+		[Sealed]
+		[Export ("member:")]
+		IntPtr _LookupMember (IntPtr probe);
+
+		[Export("member:")]
+		NSObject LookupMember(NSObject probe);
+		
+		[Internal]
+		[Sealed]
 		[Export ("anyObject")]
+		IntPtr _AnyObject { get; }
+
+		[Export("anyObject")]
 		NSObject AnyObject { get; }
 
+		[Internal]
+		[Sealed]
 		[Export ("containsObject:")]
+		bool _Contains (NativeHandle id);
+
+		[Export("containsObject:")]
 		bool Contains (NSObject id);
 
 		[Export ("allObjects")][Internal]
@@ -2291,14 +2309,21 @@ namespace MonoMac.Foundation
 		[Since (4,0)]
 		void Enumerate (NSSetEnumerator enumerator);
 
-		[Export ("setByAddingObjectsFromSet:"), Internal]
+		[Internal]
+		[Sealed]
+		[Export ("setByAddingObjectsFromSet:")]
+		NativeHandle _SetByAddingObjectsFromSet (NativeHandle other);
+
+		[Export("setByAddingObjectsFromSet:"), Internal]
 		NSSet SetByAddingObjectsFromSet (NSSet other);
 
 		[Export ("intersectsSet:")]
 		bool IntersectsSet (NSSet other);
 	}
 
-	[BaseType (typeof (NSObject))]
+	public interface NSSet<TKey> : NSSet { }
+
+	[BaseType(typeof(NSObject))]
 	public interface NSSortDescriptor {
 		[Export ("initWithKey:ascending:")]
 		IntPtr Constructor (string key, bool ascending);
@@ -3684,20 +3709,38 @@ namespace MonoMac.Foundation
 		[Export ("initWithCapacity:")]
 		IntPtr Constructor (nuint capacity);
 
+		[Internal]
+		[Sealed]
 		[Export ("addObject:")]
+		void _Add (IntPtr obj);
+
+		[Export("addObject:")]
 		void Add (NSObject nso);
 
+		[Internal]
+		[Sealed]
 		[Export ("removeObject:")]
+		void _Remove (IntPtr nso);
+
+		[Export("removeObject:")]
 		void Remove (NSObject nso);
 
 		[Export ("removeAllObjects")]
 		void RemoveAll ();
 
+		[Internal]
+		[Sealed]
 		[Export ("addObjectsFromArray:")]
+		void _AddObjects (IntPtr objects);
+
+		[Export("addObjectsFromArray:")]
 		void AddObjects (NSObject [] objects);
 
 		[Internal, Export ("minusSet:")]
 		void MinusSet (NSSet other);
+
+		[Internal, Export ("unionSet:")]
+		void UnionSet (NSSet other);
 	}
 	
 	[BaseType (typeof (NSUrlRequest), Name="NSMutableURLRequest")]

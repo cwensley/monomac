@@ -5865,12 +5865,34 @@ namespace MonoMac.AppKit {
 		bool IsSwipeTrackingFromScrollEventsEnabled { get; }
 
 		[Lion]
-		[Export ("trackSwipeEventWithOptions:dampenAmountThresholdMin:max:usingHandler:")]
-		void TrackSwipeEvent (NSEventSwipeTrackingOptions options, nfloat minDampenThreshold, nfloat maxDampenThreshold, NSEventTrackHandler trackingHandler);
+		[Export("trackSwipeEventWithOptions:dampenAmountThresholdMin:max:usingHandler:")]
+		void TrackSwipeEvent(NSEventSwipeTrackingOptions options, nfloat minDampenThreshold, nfloat maxDampenThreshold, NSEventTrackHandler trackingHandler);
+		
+		[Export ("stage")]
+		nint Stage { get; }
+
+		[Export ("stageTransition")]
+		nfloat StageTransition { get; }
+
+		[Export ("associatedEventsMask")]
+		NSEventMask AssociatedEventsMask { get; }
+
+		[Export ("allTouches")]
+		NSSet<NSTouch> AllTouches { get; }
+
+		[Export ("touchesForView:")]
+		NSSet<NSTouch> GetTouches (NSView view);
+
+		[Export ("coalescedTouchesForTouch:")]
+		NSTouch [] GetCoalescedTouches (NSTouch touch);
+
+		[Export ("charactersByApplyingModifiers:")]
+		[return: NullAllowed]
+		string GetCharacters (NSEventModifierFlags modifiers);
 	}
 
 	//[Mac (10,10)]
-	[BaseType (typeof (NSObject), Delegates=new string [] {"WeakDelegate"}, Events=new Type[] {typeof (NSGestureRecognizerDelegate)})]
+	[BaseType(typeof(NSObject), Delegates = new string[] { "WeakDelegate" }, Events = new Type[] { typeof(NSGestureRecognizerDelegate) })]
 	public interface NSGestureRecognizer { //: NSCoding {
 		[Export ("initWithTarget:action:")]
 		IntPtr Constructor ([NullAllowed] NSObject target, [NullAllowed] Selector action);
@@ -5883,7 +5905,7 @@ namespace MonoMac.AppKit {
 		Selector Action { get; set; }
 
 		[Export ("state")]
-		NSGestureRecognizerState State { get; }
+		NSGestureRecognizerState State { get; [Advice ("Only subclasses of 'NSGestureRecognizer' can set this property.")] set; }
 
 		[Export ("delegate")]//, ArgumentSemantic.Weak)]
 		[NullAllowed]
@@ -5990,6 +6012,7 @@ namespace MonoMac.AppKit {
 		[Export ("pressureConfiguration", ArgumentSemantic.Strong)]
 		NSPressureConfiguration PressureConfiguration { get; set; }
 
+		*/
 		[Mac (10,12,2)]
 		[Export ("touchesBeganWithEvent:")]
 		void TouchesBegan (NSEvent touchEvent);
@@ -6005,7 +6028,23 @@ namespace MonoMac.AppKit {
 		[Mac (10,12,2)]
 		[Export ("touchesCancelledWithEvent:")]
 		void TouchesCancelled (NSEvent touchEvent);
-		*/
+	}
+
+	[NoMacCatalyst]
+	[Category]
+	[BaseType (typeof (NSGestureRecognizer))]
+	interface NSGestureRecognizer_NSTouchBar {
+		/// <summary>To be added.</summary>
+		/// <returns>To be added.</returns>
+		/// <remarks>To be added.</remarks>
+		[Export ("allowedTouchTypes", ArgumentSemantic.Assign)]
+		NSTouchTypeMask GetAllowedTouchTypes ();
+
+		/// <param name="types">To be added.</param>
+		/// <summary>To be added.</summary>
+		/// <remarks>To be added.</remarks>
+		[Export ("setAllowedTouchTypes:", ArgumentSemantic.Assign)]
+		void SetAllowedTouchTypes (NSTouchTypeMask types);
 	}
 
 	//[Mac (10,10)]

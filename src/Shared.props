@@ -105,6 +105,8 @@
     <SharedSource Include="Foundation/NSDictionary.cs" />
     <SharedSource Include="Foundation/NSError.cs" />
     <SharedSource Include="Foundation/NSErrorException.cs" />
+    <SharedSource Include="Foundation/NSFastEnumerationState.cs" />
+    <SharedSource Include="Foundation/NSFastEnumerator.cs" />
     <SharedSource Include="Foundation/NSFileManager.cs" />
     <SharedSource Include="Foundation/NSHttpCookie.cs" />
     <SharedSource Include="Foundation/NSHttpCookieStorage.cs" />
@@ -118,6 +120,7 @@
     <SharedSource Include="Foundation/NSMutableData.cs" />
     <SharedSource Include="Foundation/NSMutableDictionary.cs" />
     <SharedSource Include="Foundation/NSMutableSet.cs" />
+    <SharedSource Include="Foundation/NSMutableSet_1.cs" />
     <SharedSource Include="Foundation/NSMutableUrlRequest.cs" />
     <SharedSource Include="Foundation/NSNotificationCenter.cs" />
     <SharedSource Include="Foundation/NSNumber.cs" />
@@ -128,6 +131,7 @@
     <SharedSource Include="Foundation/NSRunLoop.cs" />
     <SharedSource Include="Foundation/NSSearchPath.cs" />
     <SharedSource Include="Foundation/NSSet.cs" />
+    <SharedSource Include="Foundation/NSSet_1.cs" />
     <SharedSource Include="Foundation/NSStream.cs" />
     <SharedSource Include="Foundation/NSString2.cs" />
     <SharedSource Include="Foundation/NSThread.cs" />

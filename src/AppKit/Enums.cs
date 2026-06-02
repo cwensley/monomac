@@ -1977,13 +1977,49 @@ namespace MonoMac.AppKit {
 		UnifiedCompact,
 	}
 
-    [Mac(10, 13)]
-    //[Native]
-    public enum NSSegmentDistribution : long
-    {
-        Fit = 0,
-        Fill,
-        FillEqually,
-        FillProportionally,
-    }
+	[Mac(10, 13)]
+	//[Native]
+	public enum NSSegmentDistribution : long
+	{
+		Fit = 0,
+		Fill,
+		FillEqually,
+		FillProportionally,
+	}
+
+	[Flags]
+	// [Native]
+	// [NoMacCatalyst]
+	public enum NSEventModifierFlags : ulong
+	{
+		CapsLock = 1uL << 16,
+		Shift = 1uL << 17,
+		Control = 1uL << 18,
+		Option = 1uL << 19,
+		Command = 1uL << 20,
+		NumericPad = 1uL << 21,
+		Help = 1uL << 22,
+		Function = 1uL << 23,
+		DeviceIndependentFlagsMask = 0xffff0000L,
+	}
+	
+	[NoMacCatalyst]
+	// [Native]
+	public enum NSTouchType : long {
+		/// <summary>To be added.</summary>
+		Direct,
+		/// <summary>To be added.</summary>
+		Indirect,
+	}
+
+	[NoMacCatalyst]
+	// [Native]
+	[Flags]
+	public enum NSTouchTypeMask : ulong {
+		/// <summary>To be added.</summary>
+		Direct = (1 << (int) NSTouchType.Direct),
+		/// <summary>To be added.</summary>
+		Indirect = (1 << (int) NSTouchType.Indirect),
+	}
+	
 }

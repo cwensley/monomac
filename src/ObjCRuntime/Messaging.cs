@@ -28,7 +28,7 @@ using MonoMac.CoreGraphics;
 
 namespace MonoMac.ObjCRuntime {
 	public static partial class Messaging {
-		const string LIBOBJC_DYLIB = "/usr/lib/libobjc.dylib";
+		internal const string LIBOBJC_DYLIB = "/usr/lib/libobjc.dylib";
 
 		[DllImport (LIBOBJC_DYLIB, EntryPoint="objc_msgSend")]
 		public extern static uint uint_objc_msgSend (IntPtr receiver, IntPtr selector);

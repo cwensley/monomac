@@ -78,23 +78,45 @@ namespace MonoMac.Foundation {
 			return FromObjects (items.Length, items);
 		}
 
-		public static NSArray FromObjects (int count, params object [] items)
+		public static NSArray FromObjects(int count, params object[] items)
 		{
 			if (items == null)
-				return new NSArray (true);
+				return new NSArray(true);
 
 			if (count > items.Length)
+				throw new ArgumentException("count is larger than the number of items", "count");
+
+			NSObject[] nsoa = new NSObject[count];
+			for (int i = 0; i < count; i++)
+			{
+				var k = NSObject.FromObject(items[i]);
+				if (k == null)
+					throw new ArgumentException(String.Format("Do not know how to marshal object of type '{0}' to an NSObject", items[i].GetType()));
+				nsoa[i] = k;
+			}
+			return FromNSObjects(nsoa);
+		}
+		
+		internal static NSArray From<T> (T [] items, long count = -1)
+		{
+			if ((items is null) || (count == 0))
+				return new NSArray ();
+
+			if (count == -1)
+				count = items.Length;
+			else if (count > items.Length)
 				throw new ArgumentException ("count is larger than the number of items", "count");
 
 			NSObject [] nsoa = new NSObject [count];
-			for (int i = 0; i < count; i++){
+			for (nint i = 0; i < count; i++) {
 				var k = NSObject.FromObject (items [i]);
-				if (k == null)
+				if (k is null)
 					throw new ArgumentException (String.Format ("Do not know how to marshal object of type '{0}' to an NSObject", items [i].GetType ()));
 				nsoa [i] = k;
 			}
 			return FromNSObjects (nsoa);
 		}
+		
 
 		public static NSArray FromObjects (IntPtr array, int count)
 		{
