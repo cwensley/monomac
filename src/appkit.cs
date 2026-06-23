@@ -11060,7 +11060,7 @@ namespace MonoMac.AppKit {
 		NSRange CheckGrammar (string stringToCheck, int startingOffset, string language, bool wrapFlag, nint documentTag, NSDictionary[] details );
 
 		[Export ("checkString:range:types:options:inSpellDocumentWithTag:orthography:wordCount:")]
-		NSTextCheckingResult [] CheckString (string stringToCheck, NSRange range, NSTextCheckingTypes checkingTypes, NSDictionary options, nint tag, out NSOrthography orthography, out nint wordCount);
+		NSTextCheckingResult [] CheckString (string stringToCheck, NSRange range, NSTextCheckingTypes checkingTypes, [NullAllowed] NSDictionary options, nint tag, out NSOrthography orthography, out nint wordCount);
 
 		//FIXME:
 		//[Export ("requestCheckingOfString:range:types:options:inSpellDocumentWithTag:completionHandler:nintsequenceNumber,NSArray*results,NSOrthography*orthography,nintwordCount))completionHandler")]

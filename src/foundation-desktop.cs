@@ -285,6 +285,10 @@ namespace MonoMac.Foundation {
 		[Export ("range")]
 		NSRange Range { get;  }
 
+		[NullAllowed]
+		[Export ("replacementString")]
+		string ReplacementString { get;  }
+
 	}
 
 	[BaseType (typeof (NSObject))]
