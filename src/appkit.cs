@@ -14171,9 +14171,97 @@ namespace MonoMac.AppKit {
 		NSTextTabType TabStopType { get; }
 	}
 
+	[NoMacCatalyst]
+	[Protocol]
+	public interface NSTextInput {
+		/// <param name="insertString">To be added.</param>
+		/// <summary>To be added.</summary>
+		/// <remarks>To be added.</remarks>
+		[Abstract]
+		[Deprecated (PlatformName.MacOSX, 10, 6)]
+		[Export ("insertText:")]
+		void InsertText (NSObject insertString);
+
+		// The doCommandBySelector: conflicts with NSTextViewDelegate in generated code
+		// It's also deprecated in NSTextInput, and why we're not adding it here
+
+		/// <param name="string">To be added.</param>
+		/// <param name="selRange">To be added.</param>
+		/// <summary>To be added.</summary>
+		/// <remarks>To be added.</remarks>
+		[Abstract]
+		[Export ("setMarkedText:selectedRange:")]
+		void SetMarkedText (NSObject @string, NSRange selRange);
+
+		/// <summary>To be added.</summary>
+		/// <remarks>To be added.</remarks>
+		[Abstract]
+		[Export ("unmarkText")]
+		void UnmarkText ();
+
+		/// <summary>To be added.</summary>
+		/// <value>To be added.</value>
+		/// <remarks>To be added.</remarks>
+		[Abstract]
+		[Export ("hasMarkedText")]
+		bool HasMarkedText { get; }
+
+		/// <summary>To be added.</summary>
+		/// <value>To be added.</value>
+		/// <remarks>To be added.</remarks>
+		[Abstract]
+		[Export ("conversationIdentifier")]
+		nint ConversationIdentifier { get; }
+
+		/// <param name="range">To be added.</param>
+		/// <summary>To be added.</summary>
+		/// <returns>To be added.</returns>
+		/// <remarks>To be added.</remarks>
+		[Abstract]
+		[Export ("attributedSubstringFromRange:")]
+		NSAttributedString GetAttributedSubstring (NSRange range);
+
+		/// <summary>To be added.</summary>
+		/// <value>To be added.</value>
+		/// <remarks>To be added.</remarks>
+		[Abstract]
+		[Export ("markedRange")]
+		NSRange MarkedRange { get; }
+
+		/// <summary>To be added.</summary>
+		/// <value>To be added.</value>
+		/// <remarks>To be added.</remarks>
+		[Abstract]
+		[Export ("selectedRange")]
+		NSRange SelectedRange { get; }
+
+		/// <param name="range">To be added.</param>
+		/// <summary>To be added.</summary>
+		/// <returns>To be added.</returns>
+		/// <remarks>To be added.</remarks>
+		[Abstract]
+		[Export ("firstRectForCharacterRange:")]
+		CGRect GetFirstRectForCharacterRange (NSRange range);
+
+		/// <param name="point">To be added.</param>
+		/// <summary>To be added.</summary>
+		/// <returns>To be added.</returns>
+		/// <remarks>To be added.</remarks>
+		[Abstract]
+		[Export ("characterIndexForPoint:")]
+		nuint GetCharacterIndex (CGPoint point);
+
+		/// <summary>To be added.</summary>
+		/// <value>To be added.</value>
+		/// <remarks>To be added.</remarks>
+		[Abstract]
+		[Export ("validAttributesForMarkedText")]
+		NSString [] ValidAttributesForMarkedText { get; }
+	}
+
 	//64 bit reviewed
-	[BaseType (typeof (NSText), Delegates=new string [] { "Delegate" }, Events=new Type [] { typeof (NSTextViewDelegate)})]
-	public partial interface NSTextView : NSDraggingSource {
+	[BaseType(typeof(NSText), Delegates = new string[] { "Delegate" }, Events = new Type[] { typeof(NSTextViewDelegate) })]
+	public partial interface NSTextView : NSDraggingSource, NSTextInput, NSTextInputClient {
 		[Export ("initWithFrame:textContainer:")]
 		IntPtr Constructor (CGRect frameRect, NSTextContainer container);
 
@@ -14194,12 +14282,6 @@ namespace MonoMac.AppKit {
 
 		[Export ("textStorage")]
 		NSTextStorage TextStorage { get; }
-
-		[Export ("insertText:")]
-		void InsertText (NSObject insertString);
-
-		[Export("insertText:replacementRange:")]
-		void InsertText (NSObject text, NSRange replacementRange);
 
 		[Export ("setConstrainedFrameSize:")]
 		void SetConstrainedFrameSize (CGSize desiredSize);
@@ -14654,8 +14736,102 @@ namespace MonoMac.AppKit {
 		NSTextCheckingTypes EnabledTextCheckingTypes { get; set; }
 	}
 
+	[NoMacCatalyst]
+	[BaseType (typeof (NSObject))]
+	[Protocol, Model]
+	public interface NSTextInputClient {
+		[Abstract]
+		[Export ("insertText:replacementRange:")]
+		void InsertText (NSObject text, NSRange replacementRange);
+
+		[Abstract]
+		[Export ("setMarkedText:selectedRange:replacementRange:")]
+		void SetMarkedText (NSObject text, NSRange selectedRange, NSRange replacementRange);
+
+		// monomac doesn't collapse same definitions from multiple interfaces yet
+		// [Abstract]
+		// [Export ("unmarkText")]
+		// void UnmarkText ();
+
+		// [Abstract]
+		// [Export ("selectedRange")]
+		// NSRange SelectedRange { get; }
+
+		// [Abstract]
+		// [Export ("markedRange")]
+		// NSRange MarkedRange { get; }
+
+		// [Abstract]
+		// [Export ("hasMarkedText")]
+		// bool HasMarkedText { get; }
+
+		[Abstract]
+		[return: NullAllowed]
+		[Export ("attributedSubstringForProposedRange:actualRange:")]
+		NSAttributedString GetAttributedSubstring (NSRange proposedRange, out NSRange actualRange);
+
+		// [Abstract]
+		// [Export ("validAttributesForMarkedText")]
+		// NSString [] ValidAttributesForMarkedText { get; }
+
+		[Abstract]
+		[Export ("firstRectForCharacterRange:actualRange:")]
+		CGRect GetFirstRect (NSRange characterRange, out NSRange actualRange);
+
+		// [Abstract]
+		// [Export ("characterIndexForPoint:")]
+		// nuint GetCharacterIndex (CGPoint point);
+
+		[Export ("attributedString")]
+		NSAttributedString AttributedString { get; }
+
+		/// <param name="point">To be added.</param>
+		/// <summary>To be added.</summary>
+		/// <returns>To be added.</returns>
+		/// <remarks>To be added.</remarks>
+		[Export ("fractionOfDistanceThroughGlyphForPoint:")]
+		nfloat GetFractionOfDistanceThroughGlyph (CGPoint point);
+
+		/// <param name="charIndex">To be added.</param>
+		/// <summary>To be added.</summary>
+		/// <returns>To be added.</returns>
+		/// <remarks>To be added.</remarks>
+		[Export ("baselineDeltaForCharacterAtIndex:")]
+		nfloat GetBaselineDelta (nuint charIndex);
+
+		[Export ("windowLevel")]
+		NSWindowLevel WindowLevel { get; }
+
+		/// <param name="charIndex">To be added.</param>
+		/// <summary>To be added.</summary>
+		/// <returns>To be added.</returns>
+		/// <remarks>To be added.</remarks>
+		[Export ("drawsVerticallyForCharacterAtIndex:")]
+		bool DrawsVertically (nuint charIndex);
+
+		[Mac (14, 0)]
+		[Export ("unionRectInVisibleSelectedRange")]
+		CGRect UnionRectInVisibleSelectedRange { get; }
+
+		[Mac (14, 0)]
+		[Export ("documentVisibleRect")]
+		CGRect DocumentVisibleRect { get; }
+
+		// [Mac (14, 0)]
+		// [Export ("preferredTextAccessoryPlacement")]
+		// NSTextCursorAccessoryPlacement PreferredTextAccessoryPlacement { get; }
+
+		[Mac (15, 0)]
+		[Export ("supportsAdaptiveImageGlyph")]
+		bool SupportsAdaptiveImageGlyph { get; }
+
+		// [Mac (15, 0)]
+		// [Export ("insertAdaptiveImageGlyph:replacementRange:")]
+		// void InsertAdaptiveImageGlyph (NSAdaptiveImageGlyph adaptiveImageGlyph, NSRange replacementRange);
+	}
+
 	//64 bit reviewed
-	[BaseType (typeof (NSTextDelegate))]
+	[BaseType(typeof(NSTextDelegate))]
 	[Model]
 	public partial interface NSTextViewDelegate {
 		[Export ("textView:clickedOnLink:atIndex:"), DelegateName ("NSTextViewLink"), DefaultValue (false)]

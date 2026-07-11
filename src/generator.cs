@@ -801,6 +801,9 @@ public class Generator
 		var parameters = mi.GetParameters();
 		foreach (var pi in parameters)
 		{
+			// Every use of the name below is a bare C# identifier, so escape keywords.
+			var name = EscapeKeyword(pi.Name);
+
 			if (pi != parameters[0])
 			{
 				invokePars.Append(", ");
@@ -811,19 +814,19 @@ public class Generator
 
 			if (IsWrappedType(pi.ParameterType))
 			{
-				pars.AppendFormat("IntPtr {0}", pi.Name);
-				invoke.AppendFormat("Runtime.GetNSObject<{1}> ({0})", pi.Name, pi.ParameterType);
-				invokeBlock.Append($"{pi.Name}.GetHandle()");
-				invokePars.Append($"{FormatType(null, pi.ParameterType)} {pi.Name}");
+				pars.AppendFormat("IntPtr {0}", name);
+				invoke.AppendFormat("Runtime.GetNSObject<{1}> ({0})", name, pi.ParameterType);
+				invokeBlock.Append($"{name}.GetHandle()");
+				invokePars.Append($"{FormatType(null, pi.ParameterType)} {name}");
 				continue;
 			}
 
 			if (pi.ParameterType.IsSubclassOf(typeof(INativeObject)))
 			{
-				pars.AppendFormat("IntPtr {0}", pi.Name);
-				invoke.AppendFormat("new {0} ({1})", pi.ParameterType, pi.Name);
-				invokeBlock.Append($"{pi.Name}.GetHandle()");
-				invokePars.Append($"{FormatType(null, pi.ParameterType)} {pi.Name}");
+				pars.AppendFormat("IntPtr {0}", name);
+				invoke.AppendFormat("new {0} ({1})", pi.ParameterType, name);
+				invokeBlock.Append($"{name}.GetHandle()");
+				invokePars.Append($"{FormatType(null, pi.ParameterType)} {name}");
 				continue;
 			}
 
@@ -832,7 +835,7 @@ public class Generator
 				var nt = pi.ParameterType.GetElementType();
 				if (pi.IsOut)
 				{
-					clear.AppendFormat("{0} = {1};", pi.Name, nt.IsValueType ? "default (" + FormatType(null, nt) + ")" : "null");
+					clear.AppendFormat("{0} = {1};", name, nt.IsValueType ? "default (" + FormatType(null, nt) + ")" : "null");
 				}
 				if (nt.IsValueType)
 				{
@@ -840,59 +843,59 @@ public class Generator
 					if (nt == typeof(bool))
 						marshal = "[System.Runtime.InteropServices.MarshalAs (System.Runtime.InteropServices.UnmanagedType.I1)] ";
 					var outorref = pi.IsOut ? "out" : "ref";
-					pars.AppendFormat("{3}{0} {1} {2}", outorref, FormatType(null, nt), pi.Name, marshal);
-					invoke.AppendFormat("{0} {1}", outorref, pi.Name);
-					invokeBlock.Append($"{outorref} {pi.Name}");
-					invokePars.Append($"{outorref} {FormatType(null, pi.ParameterType).TrimEnd('&')} {pi.Name}");
+					pars.AppendFormat("{3}{0} {1} {2}", outorref, FormatType(null, nt), name, marshal);
+					invoke.AppendFormat("{0} {1}", outorref, name);
+					invokeBlock.Append($"{outorref} {name}");
+					invokePars.Append($"{outorref} {FormatType(null, pi.ParameterType).TrimEnd('&')} {name}");
 
 					continue;
 				}
 			}
 
-			invokePars.Append($"{FormatType(null, pi.ParameterType)} {pi.Name}");
+			invokePars.Append($"{FormatType(null, pi.ParameterType)} {name}");
 
 
 			if (GetNativeEnumToManagedExpression (pi.ParameterType, out var preExpression, out var postExpression, out var nativeType))
 			{
-				pars.AppendFormat("{0} {1}", nativeType, pi.Name);
-				invoke.Append (preExpression).Append (pi.Name).Append (postExpression);
-				invokeBlock.Append($"({nativeType}) {pi.Name}");
+				pars.AppendFormat("{0} {1}", nativeType, name);
+				invoke.Append (preExpression).Append (name).Append (postExpression);
+				invokeBlock.Append($"({nativeType}) {name}");
 				continue;
 			}
 			if (pi.ParameterType.IsValueType)
 			{
-				pars.AppendFormat("{0} {1}", FormatType(null, pi.ParameterType), pi.Name);
-				invoke.AppendFormat("{0}", pi.Name);
-				invokeBlock.Append(pi.Name);
+				pars.AppendFormat("{0} {1}", FormatType(null, pi.ParameterType), name);
+				invoke.AppendFormat("{0}", name);
+				invokeBlock.Append(name);
 				continue;
 			}
 			if (pi.ParameterType == typeof(string[]))
 			{
-				pars.AppendFormat("IntPtr {0}", pi.Name);
-				invoke.AppendFormat("NSArray.StringArrayFromHandle ({0})", pi.Name);
-				invokeBlock.Append($"NSArray.FromStrings({pi.Name}).GetHandle()");
+				pars.AppendFormat("IntPtr {0}", name);
+				invoke.AppendFormat("NSArray.StringArrayFromHandle ({0})", name);
+				invokeBlock.Append($"NSArray.FromStrings({name}).GetHandle()");
 				continue;
 			}
 			if (pi.ParameterType == typeof(string))
 			{
-				pars.AppendFormat("IntPtr {0}", pi.Name);
-				invoke.AppendFormat("NSString.FromHandle ({0})", pi.Name);
-				invokeBlock.Append($"NSString.CreateNative({pi.Name})");
+				pars.AppendFormat("IntPtr {0}", name);
+				invoke.AppendFormat("NSString.FromHandle ({0})", name);
+				invokeBlock.Append($"NSString.CreateNative({name})");
 				continue;
 			}
 			if (pi.ParameterType == SampleBufferType)
 			{
-				pars.AppendFormat("IntPtr {0}", pi.Name);
-				invoke.AppendFormat("new CMSampleBuffer ({0}, false)", pi.Name);
-				invokeBlock.Append($"{pi.Name}.GetHandle()");
+				pars.AppendFormat("IntPtr {0}", name);
+				invoke.AppendFormat("new CMSampleBuffer ({0}, false)", name);
+				invokeBlock.Append($"{name}.GetHandle()");
 				continue;
 			}
 
 			if (pi.ParameterType == typeof(string[]))
 			{
-				pars.AppendFormat("string [] {0}", pi.Name);
-				invoke.AppendFormat("{0}", pi.Name);
-				invokeBlock.Append(pi.Name);
+				pars.AppendFormat("string [] {0}", name);
+				invoke.AppendFormat("{0}", name);
+				invokeBlock.Append(name);
 				continue;
 			}
 
@@ -901,9 +904,9 @@ public class Generator
 				Type et = pi.ParameterType.GetElementType();
 				if (IsWrappedType(et))
 				{
-					pars.AppendFormat("IntPtr {0}", pi.Name);
-					invoke.AppendFormat("NSArray.ArrayFromHandle<{0}> ({1})", FormatType(null, et), pi.Name);
-					invokeBlock.Append($"NSArray.FromObjects({pi.Name}).GetHandle()");
+					pars.AppendFormat("IntPtr {0}", name);
+					invoke.AppendFormat("NSArray.ArrayFromHandle<{0}> ({1})", FormatType(null, et), name);
+					invokeBlock.Append($"NSArray.FromObjects({name}).GetHandle()");
 					continue;
 				}
 			}
@@ -914,9 +917,9 @@ public class Generator
 				{
 					delegate_types[pi.ParameterType.FullName] = pi.ParameterType.GetMethod("Invoke");
 				}
-				pars.AppendFormat("IntPtr {0}", pi.Name);
-				invoke.AppendFormat("({0}) Marshal.GetDelegateForFunctionPointer ({1}, typeof ({0}))", pi.ParameterType, pi.Name);
-				invokeBlock.Append(pi.Name);
+				pars.AppendFormat("IntPtr {0}", name);
+				invoke.AppendFormat("({0}) Marshal.GetDelegateForFunctionPointer ({1}, typeof ({0}))", pi.ParameterType, name);
+				invokeBlock.Append(name);
 				continue;
 			}
 
@@ -957,6 +960,11 @@ public class Generator
 	//
 	public string MarshalParameter(MethodInfo mi, ParameterInfo pi, bool null_allowed_override)
 	{
+		// The escaped name is used wherever the parameter is referenced as a bare
+		// identifier; derived temp names (nsa_, ns, _s, block_ptr_, ...Ptr) embed the
+		// raw name and remain valid identifiers, so they keep pi.Name.
+		var name = EscapeKeyword(pi.Name);
+
 		if (pi.ParameterType.IsByRef && pi.ParameterType.GetElementType().IsValueType == false)
 		{
 			return pi.Name + "Ptr";
@@ -965,26 +973,26 @@ public class Generator
 		if (IsWrappedType(pi.ParameterType))
 		{
 			if (null_allowed_override || HasAttribute(pi, typeof(NullAllowedAttribute)))
-				return String.Format("{0} == null ? IntPtr.Zero : {0}.Handle", pi.Name);
-			return pi.Name + ".Handle";
+				return String.Format("{0} == null ? IntPtr.Zero : {0}.Handle", name);
+			return name + ".Handle";
 		}
 
 		if (GetNativeEnumToNativeExpression (pi.ParameterType, out var preExpression, out var postExpression, out var nativeType))
-			return preExpression + pi.Name + postExpression;
+			return preExpression + name + postExpression;
 
 		if (pi.ParameterType.IsEnum)
 		{
-			return "(" + PrimitiveType(pi.ParameterType) + ")" + pi.Name;
+			return "(" + PrimitiveType(pi.ParameterType) + ")" + name;
 		}
 
 		if (IsNativeType(pi.ParameterType))
-			return pi.Name;
+			return name;
 
 		if (pi.ParameterType == typeof(string))
 		{
 			var mai = new MarshalInfo(mi, pi);
 			if (mai.PlainString)
-				return pi.Name;
+				return name;
 			else
 			{
 				bool allow_null = null_allowed_override || HasAttribute(pi, typeof(NullAllowedAttribute));
@@ -1011,14 +1019,14 @@ public class Generator
 		}
 
 		if (pi.ParameterType.IsValueType)
-			return pi.Name;
+			return name;
 
 		MarshalType mt;
 		if (LookupMarshal(pi.ParameterType, out mt))
 		{
-			string access = String.Format(mt.ParameterMarshal, pi.Name);
+			string access = String.Format(mt.ParameterMarshal, name);
 			if (null_allowed_override || HasAttribute(pi, typeof(NullAllowedAttribute)))
-				return String.Format("{0} == null ? IntPtr.Zero : {1}", pi.Name, access);
+				return String.Format("{0} == null ? IntPtr.Zero : {1}", name, access);
 			return access;
 		}
 
@@ -1036,7 +1044,7 @@ public class Generator
 		//
 		if (pi.ParameterType.IsByRef && pi.ParameterType.GetElementType().IsValueType)
 		{
-			return "out " + pi.Name;
+			return "out " + name;
 		}
 
 		if (pi.ParameterType.IsSubclassOf(typeof(Delegate)))
@@ -1047,8 +1055,8 @@ public class Generator
 		if (pi.ParameterType.IsSubclassOf(typeof(DictionaryContainerType)))
 		{
 			if (null_allowed_override || HasAttribute(pi, typeof(NullAllowedAttribute)))
-				return String.Format("{0} == null ? IntPtr.Zero : {0}.Dictionary.Handle", pi.Name);
-			return pi.Name + ".Dictionary.Handle";
+				return String.Format("{0} == null ? IntPtr.Zero : {0}.Dictionary.Handle", name);
+			return name + ".Dictionary.Handle";
 		}
 
 		throw new BindingException(1002, true, "Unknown kind {0} in method '{1}.{2}'", pi, mi.DeclaringType.FullName, mi.Name);
@@ -2067,6 +2075,28 @@ public class Generator
 		return name;
 	}
 
+	static readonly HashSet<string> csharp_keywords = new HashSet<string>(StringComparer.Ordinal)
+	{
+		"abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char",
+		"checked", "class", "const", "continue", "decimal", "default", "delegate",
+		"do", "double", "else", "enum", "event", "explicit", "extern", "false",
+		"finally", "fixed", "float", "for", "foreach", "goto", "if", "implicit", "in",
+		"int", "interface", "internal", "is", "lock", "long", "namespace", "new",
+		"null", "object", "operator", "out", "override", "params", "private",
+		"protected", "public", "readonly", "ref", "return", "sbyte", "sealed", "short",
+		"sizeof", "stackalloc", "static", "string", "struct", "switch", "this", "throw",
+		"true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort",
+		"using", "virtual", "void", "volatile", "while"
+	};
+
+	// Escapes a parameter/identifier name that collides with a C# reserved keyword
+	// (e.g. a binding declares a parameter as `@string`; reflection reports the name
+	// as `string`, which must be emitted as `@string` to compile).
+	public static string EscapeKeyword(string name)
+	{
+		return name != null && csharp_keywords.Contains(name) ? "@" + name : name;
+	}
+
 	public string FormatType(Type usedIn, Type type)
 	{
 		if (type == typeof(void))
@@ -2176,7 +2206,7 @@ public class Generator
 			}
 			sb.Append(FormatType(mi.DeclaringType, parType));
 			sb.Append(" ");
-			sb.Append(pi.Name);
+			sb.Append(EscapeKeyword(pi.Name));
 		}
 		sb.Append(")");
 		return sb.ToString();
@@ -2266,7 +2296,7 @@ public class Generator
 						}
 					}
 					else
-						target_name = pi.Name;
+						target_name = EscapeKeyword(pi.Name);
 					break;
 				}
 			}
@@ -2463,23 +2493,25 @@ public class Generator
 	//
 	public string GenerateMarshalString(bool probe_null, bool must_copy)
 	{
+		// {0} = raw parameter name (used to build derived temp names); {1} = escaped
+		// name (used wherever the parameter itself is referenced).
 		if (must_copy)
 		{
 #if false
 			if (probe_null)
-				return "var ns{0} = {0} == null ? null : new NSString ({0});\n";
+				return "var ns{0} = {1} == null ? null : new NSString ({1});\n";
 			else
-				return "var ns{0} = new NSString ({0});\n";
+				return "var ns{0} = new NSString ({1});\n";
 #else
-			return "var ns{0} = NSString.CreateNative ({0});\n";
+			return "var ns{0} = NSString.CreateNative ({1});\n";
 #endif
 		}
 		return
-			CoreMessagingNS + ".NSStringStruct _s{0}; Console.WriteLine (\"" + CurrentMethod + ": Marshalling: {{0}}\", {0}); \n" +
+			CoreMessagingNS + ".NSStringStruct _s{0}; Console.WriteLine (\"" + CurrentMethod + ": Marshalling: {{0}}\", {1}); \n" +
 			"_s{0}.ClassPtr = " + CoreMessagingNS + ".NSStringStruct.ReferencePtr;\n" +
 			"_s{0}.Flags = 0x010007d1; // RefCount=1, Unicode, InlineContents = 0, DontFreeContents\n" +
 			"_s{0}.UnicodePtr = _p{0};\n" +
-			"_s{0}.Length = " + (probe_null ? "{0} == null ? 0 : {0}.Length;" : "{0}.Length;\n");
+			"_s{0}.Length = " + (probe_null ? "{1} == null ? 0 : {1}.Length;" : "{1}.Length;\n");
 	}
 
 	public string GenerateDisposeString(bool probe_null, bool must_copy)
@@ -2591,8 +2623,8 @@ public class Generator
 			{
 				bool probe_null = null_allowed_override || HasAttribute(pi, typeof(NullAllowedAttribute));
 
-				convs.AppendFormat(GenerateMarshalString(probe_null, !mai.ZeroCopyStringMarshal), pi.Name);
-				disposes.AppendFormat(GenerateDisposeString(probe_null, !mai.ZeroCopyStringMarshal), pi.Name);
+				convs.AppendFormat(GenerateMarshalString(probe_null, !mai.ZeroCopyStringMarshal), pi.Name, EscapeKeyword(pi.Name));
+				disposes.AppendFormat(GenerateDisposeString(probe_null, !mai.ZeroCopyStringMarshal), pi.Name, EscapeKeyword(pi.Name));
 			}
 			else if (mai.Type.IsArray)
 			{
@@ -2601,12 +2633,12 @@ public class Generator
 				{
 					if (null_allowed_override || HasAttribute(pi, typeof(NullAllowedAttribute)))
 					{
-						convs.AppendFormat("var nsa_{0} = {0} == null ? null : NSArray.FromStrings ({0});\n", pi.Name);
+						convs.AppendFormat("var nsa_{0} = {1} == null ? null : NSArray.FromStrings ({1});\n", pi.Name, EscapeKeyword(pi.Name));
 						disposes.AppendFormat("if (nsa_{0} != null)\n\tnsa_{0}.Dispose ();\n", pi.Name);
 					}
 					else
 					{
-						convs.AppendFormat("var nsa_{0} = NSArray.FromStrings ({0});\n", pi.Name);
+						convs.AppendFormat("var nsa_{0} = NSArray.FromStrings ({1});\n", pi.Name, EscapeKeyword(pi.Name));
 						disposes.AppendFormat("nsa_{0}.Dispose ();\n", pi.Name);
 					}
 				}
@@ -2614,12 +2646,12 @@ public class Generator
 				{
 					if (null_allowed_override || HasAttribute(pi, typeof(NullAllowedAttribute)))
 					{
-						convs.AppendFormat("var nsa_{0} = {0} == null ? null : NSArray.FromNSObjects ({0});\n", pi.Name);
+						convs.AppendFormat("var nsa_{0} = {1} == null ? null : NSArray.FromNSObjects ({1});\n", pi.Name, EscapeKeyword(pi.Name));
 						disposes.AppendFormat("if (nsa_{0} != null)\n\tnsa_{0}.Dispose ();\n", pi.Name);
 					}
 					else
 					{
-						convs.AppendFormat("var nsa_{0} = NSArray.FromNSObjects ({0});\n", pi.Name);
+						convs.AppendFormat("var nsa_{0} = NSArray.FromNSObjects ({1});\n", pi.Name, EscapeKeyword(pi.Name));
 						disposes.AppendFormat("nsa_{0}.Dispose ();\n", pi.Name);
 					}
 				}
@@ -2634,14 +2666,14 @@ public class Generator
 				convs.AppendFormat("BlockLiteral block_{0};\n", pi.Name);
 				if (null_allowed)
 				{
-					convs.AppendFormat("if ({0} == null){{\n", pi.Name);
+					convs.AppendFormat("if ({0} == null){{\n", EscapeKeyword(pi.Name));
 					convs.AppendFormat("\tblock_ptr_{0} = null;\n", pi.Name);
 					convs.AppendFormat("}} else {{\n");
 					extra = "\t";
 				}
 				convs.AppendFormat(extra + "block_{0} = new BlockLiteral ();\n", pi.Name);
 				convs.AppendFormat(extra + "block_ptr_{0} = &block_{0};\n", pi.Name);
-				convs.AppendFormat(extra + "block_{0}.SetupBlock (Trampolines.{1}.Handler, {0});\n", pi.Name, trampoline_name);
+				convs.AppendFormat(extra + "block_{0}.SetupBlock (Trampolines.{1}.Handler, {2});\n", pi.Name, trampoline_name, EscapeKeyword(pi.Name));
 				if (null_allowed)
 					convs.AppendFormat("}}");
 
@@ -2670,11 +2702,11 @@ public class Generator
 				byRefPostProcessing.AppendLine();
 				if (mai.Type.GetElementType() == typeof(string))
 				{
-					byRefPostProcessing.AppendFormat("{0} = {0}Value != IntPtr.Zero ? NSString.FromHandle ({0}Value) : null;", pi.Name, mai.Type.Name.Replace("&", ""));
+					byRefPostProcessing.AppendFormat("{1} = {0}Value != IntPtr.Zero ? NSString.FromHandle ({0}Value) : null;", pi.Name, EscapeKeyword(pi.Name));
 				}
 				else
 				{
-					byRefPostProcessing.AppendFormat("{0} = {0}Value != IntPtr.Zero ? Runtime.GetNSObject<{1}>({0}Value) : null;", pi.Name, mai.Type.Name.Replace("&", ""));
+					byRefPostProcessing.AppendFormat("{1} = {2}Value != IntPtr.Zero ? Runtime.GetNSObject<{0}>({2}Value) : null;", mai.Type.Name.Replace("&", ""), EscapeKeyword(pi.Name), pi.Name);
 				}
 				byRefPostProcessing.AppendLine();
 				byRefPostProcessing.AppendFormat("Marshal.FreeHGlobal({0}Ptr);", pi.Name);
@@ -2683,7 +2715,7 @@ public class Generator
 			// Insert parameter checking
 			else if (!null_allowed_override && ParameterNeedsNullCheck(pi, mi))
 			{
-				print("if ({0} == null)", pi.Name);
+				print("if ({0} == null)", EscapeKeyword(pi.Name));
 				print("\tthrow new ArgumentNullException (\"{0}\");", pi.Name);
 			}
 		}
@@ -2695,25 +2727,25 @@ public class Generator
 			if (ra != null)
 			{
 				if (!string.IsNullOrEmpty(ra.WrapName))
-					print("__mt_{0}_var = {1};", ra.WrapName, pi.Name);
+					print("__mt_{0}_var = {1};", ra.WrapName, EscapeKeyword(pi.Name));
 				else
-					print("__mt_{1}_{2} = {2};", pi.ParameterType, mi.Name, pi.Name);
+					print("__mt_{1}_{2} = {3};", pi.ParameterType, mi.Name, pi.Name, EscapeKeyword(pi.Name));
 			}
 			RetainListAttribute[] lattr = (RetainListAttribute[])pi.GetCustomAttributes(typeof(RetainListAttribute), true);
 			var rla = lattr.Length > 0 ? lattr[0] : null;
 			if (rla != null)
 			{
 				if (rla.Add)
-					print("__mt_{0}_var.Add ({1});", rla.WrapName, pi.Name);
+					print("__mt_{0}_var.Add ({1});", rla.WrapName, EscapeKeyword(pi.Name));
 				else
-					print("__mt_{0}_var.Remove ({1});", rla.WrapName, pi.Name);
+					print("__mt_{0}_var.Remove ({1});", rla.WrapName, EscapeKeyword(pi.Name));
 			}
 		}
 
 		if (stringParameters != null)
 		{
 			print("fixed (char * {0}){{",
-				   stringParameters.Select(name => "_p" + name + " = " + name).Aggregate((first, second) => first + ", " + second));
+				   stringParameters.Select(name => "_p" + name + " = " + EscapeKeyword(name)).Aggregate((first, second) => first + ", " + second));
 			indent++;
 		}
 
@@ -3276,7 +3308,7 @@ public class Generator
 			if (comma)
 				sb.Append(", ");
 			comma = true;
-			sb.Append(pi.Name);
+			sb.Append(EscapeKeyword(pi.Name));
 		}
 		return sb.ToString();
 	}
@@ -3321,7 +3353,7 @@ public class Generator
 		int nesting_level = 1;
 		if (minfo.has_nserror)
 		{
-			var var_name = minfo.async_completion_params.Last().Name;
+			var var_name = EscapeKeyword(minfo.async_completion_params.Last().Name);
 			print("if ({0} != null)", var_name);
 			print("\ttcs.SetException (new NSErrorException({0}));", var_name);
 			print("else");
@@ -3331,7 +3363,7 @@ public class Generator
 		if (minfo.is_void_async)
 			print("tcs.SetResult (true);");
 		else if (minfo.is_single_arg_async)
-			print("tcs.SetResult ({0});", minfo.async_completion_params[0].Name);
+			print("tcs.SetResult ({0});", EscapeKeyword(minfo.async_completion_params[0].Name));
 		else
 			print("tcs.SetResult (new {0} ({1}));",
 				GetAsyncTaskType(minfo),
@@ -4080,7 +4112,7 @@ public class Generator
 									{
 										if (j.ParameterType.IsByRef && j.IsOut)
 										{
-											print("{0} = null;", j.Name);
+											print("{0} = null;", EscapeKeyword(j.Name));
 										}
 									}
 
@@ -4383,7 +4415,7 @@ public class Generator
 				indent++;
 				foreach (var p in pars.Skip(minPars))
 				{
-					print("this.{0} = {1};", GetPublicParameterName(p), p.Name);
+					print("this.{0} = {1};", GetPublicParameterName(p), EscapeKeyword(p.Name));
 				}
 				indent--;
 				print("}");
@@ -4426,13 +4458,13 @@ public class Generator
 					if (comma)
 						ctor.Append(", ");
 					comma = true;
-					ctor.Append(FormatType(type, pi.ParameterType)).Append(" ").Append(pi.Name);
+					ctor.Append(FormatType(type, pi.ParameterType)).Append(" ").Append(EscapeKeyword(pi.Name));
 				}
 
 				print("\npublic {0} ({1}) {{", async_type.Item1, ctor); indent++;
 				foreach (var pi in async_type.Item2)
 				{
-					print("this.{0} = {1};", Capitalize(pi.Name), pi.Name);
+					print("this.{0} = {1};", Capitalize(pi.Name), EscapeKeyword(pi.Name));
 				}
 				indent--; print("}");
 
@@ -4486,7 +4518,7 @@ public class Generator
 	{
 		return String.Join(", ", pi.Select(p =>
 		  (p.ParameterType.IsByRef ? (removeRefTypes ? "" : (p.IsOut ? "out " : "ref ")) + RenderType(p.ParameterType.GetElementType())
-							: RenderType(p.ParameterType)) + " " + p.Name).ToArray());
+							: RenderType(p.ParameterType)) + " " + EscapeKeyword(p.Name)).ToArray());
 
 	}
 
@@ -4507,7 +4539,7 @@ public class Generator
 
 	string RenderArgs(IEnumerable<ParameterInfo> pi, bool removeRefTypes)
 	{
-		return String.Join(", ", pi.Select(p => (p.ParameterType.IsByRef ? (removeRefTypes ? "" : (p.IsOut ? "out " : "ref ")) : "") + p.Name).ToArray());
+		return String.Join(", ", pi.Select(p => (p.ParameterType.IsByRef ? (removeRefTypes ? "" : (p.IsOut ? "out " : "ref ")) : "") + EscapeKeyword(p.Name)).ToArray());
 	}
 
 	bool MustPullValuesBack(IEnumerable<ParameterInfo> parameters)
