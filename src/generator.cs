@@ -3988,6 +3988,8 @@ public class Generator
 					}
 					else
 						print("public _{0} () {{}}\n", dtype.Name);
+					// lets Runtime re-wrap the native delegate if AppKit calls it after the managed one was collected
+					print("public _{0} (IntPtr handle) : base (handle) {{}}\n", dtype.Name);
 
 
 					foreach (var mi in dtype.GatherMethods())
