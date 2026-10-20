@@ -10218,6 +10218,10 @@ namespace MonoMac.AppKit {
 
 		[Lion, Export ("backingScaleFactor")]
 		nfloat BackingScaleFactor { get; }
+
+		[Mavericks, Static]
+		[Export ("screensHaveSeparateSpaces")]
+		bool ScreensHaveSeparateSpaces ();
 	}
 
 	[BaseType (typeof (NSControl))]
