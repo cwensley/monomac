@@ -5576,7 +5576,7 @@ namespace MonoMac.AppKit {
 
 	[BaseType (typeof (NSObject))]
 	public interface NSEvent {
-		[Export ("type")]
+		[Export ("type"), ThreadSafe]
 		NSEventType Type { get; }
 
 		[Export ("modifierFlags")]
@@ -5655,11 +5655,11 @@ namespace MonoMac.AppKit {
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		NSTrackingArea TrackingArea { get; }
 
-		[Export ("subtype")]
+		[Export ("subtype"), ThreadSafe]
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		short Subtype { get; }
 
-		[Export ("data1")]
+		[Export ("data1"), ThreadSafe]
 		[DebuggerBrowsable (DebuggerBrowsableState.Never)]
 		nint Data1 { get; }
 
@@ -5674,11 +5674,11 @@ namespace MonoMac.AppKit {
 		[Export ("eventWithEventRef:")]
 		NSEvent EventWithEventRef (IntPtr cgEventRef);
 
-		[Export ("CGEvent")]
+		[Export ("CGEvent"), ThreadSafe]
 		IntPtr CGEvent { get; }
 
 		[Static]
-		[Export ("eventWithCGEvent:")]
+		[Export ("eventWithCGEvent:"), ThreadSafe]
 		NSEvent EventWithCGEvent (IntPtr cgEventPtr);
 
 		[Export ("magnification")]
@@ -5784,8 +5784,9 @@ namespace MonoMac.AppKit {
 		[Export ("enterExitEventWithType:location:modifierFlags:timestamp:windowNumber:context:eventNumber:trackingNumber:userData:")]
 		NSEvent EnterExitEvent (NSEventType type, CGPoint location, NSEventModifierMask flags, double time, nint wNum, [NullAllowed] NSGraphicsContext context, nint eNum, nint tNum, IntPtr data);
 
+		// NSEvent creation and inspection may run on a secondary thread when the event stays on that thread.
 		[Static]
-		[Export ("otherEventWithType:location:modifierFlags:timestamp:windowNumber:context:subtype:data1:data2:")]
+		[Export ("otherEventWithType:location:modifierFlags:timestamp:windowNumber:context:subtype:data1:data2:"), ThreadSafe]
 		NSEvent OtherEvent (NSEventType type, CGPoint location, NSEventModifierMask flags, double time, nint wNum, [NullAllowed] NSGraphicsContext context, short subtype, nint d1, nint d2);
 
 		[Static]
