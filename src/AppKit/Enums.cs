@@ -666,7 +666,8 @@ namespace MonoMac.AppKit {
 		IgnoresCycle = 1 << 6,
 		FullScreenPrimary = 1 << 7,
 		FullScreenAuxiliary = 1 << 8,
-		
+		FullScreenNone = 1 << 9,
+
 		[ElCapitan]
 		FullScreenAllowsTiling = 1 << 11,
 		[ElCapitan]
